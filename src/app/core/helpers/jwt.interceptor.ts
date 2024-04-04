@@ -6,10 +6,11 @@ import { AuthenticationService } from '../services/auth.service';
 import { AuthfakeauthenticationService } from '../services/authfake.service';
 
 import { environment } from '../../../environments/environment';
+import { UserService } from 'src/app/features/account/services/user.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService, private authfackservice: AuthfakeauthenticationService) { }
+    constructor(private authenticationService: AuthenticationService, private authfackservice: AuthfakeauthenticationService, private userService:UserService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (environment.defaultauth === 'firebase') {

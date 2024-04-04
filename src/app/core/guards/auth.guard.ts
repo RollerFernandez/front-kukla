@@ -5,13 +5,15 @@ import { AuthenticationService } from '../services/auth.service';
 import { AuthfakeauthenticationService } from '../services/authfake.service';
 
 import { environment } from '../../../environments/environment';
+import { UserService } from 'src/app/features/account/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard  {
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService,
-        private authFackservice: AuthfakeauthenticationService
+        private authFackservice: AuthfakeauthenticationService,
+        private userservice: UserService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -22,8 +24,11 @@ export class AuthGuard  {
                 return true;
             }
         } else {
-            const currentUser = this.authFackservice.currentUserValue;
+            const currentUser = this.userservice.currentUserValue;
+            const currentUser2 = this.authFackservice.currentUserValue;
+            
             if (currentUser) {
+                console.log("entro canActivate", currentUser);
                 // logged in so return true
                 return true;
             }

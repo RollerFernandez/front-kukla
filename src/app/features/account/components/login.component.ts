@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
-
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { catchError, first, tap } from 'rxjs/operators';
 
-import { environment } from '../../../../environments/environment';
+import { UserService } from '../services/user.service';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -21,21 +19,24 @@ import { environment } from '../../../../environments/environment';
 export class LoginComponent implements OnInit {
 
   loginForm: UntypedFormGroup;
-  submitted:any = false;
-  error:any = '';
+  submitted: any = false;
+  error: any = '';
   returnUrl: string;
 
   // set the currenr year
   year: number = new Date().getFullYear();
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService) { }
+  constructor(
+     private formBuilder: UntypedFormBuilder, 
+     private route: ActivatedRoute, 
+     private router: Router, 
+     private userService: UserService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
 
     // reset login status
@@ -54,28 +55,33 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.router.navigate(['/dashboard']);
-        })
-          .catch(error => {
+      // this.userService.login(this.f.email.value, this.f.password.value)
+      //   .pipe(
+      //     tap(() => this.router.navigate(['/dashboard'])),
+      //     catchError(error => {
+      //       this.error = error ? error : '';
+      //       return throwError(() => new Error(this.error));
+      //     }))
+      //   .subscribe(data => {
+      //     this.router.navigate(['/dashboard']);
+      //   },
+      //   error => {
+      //     this.error = error ? error : '';
+      //   });
+
+        this.userService.login(this.f.email.value, this.f.password.value)
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.router.navigate(['/dashboard']);
+          },
+          error => {
             this.error = error ? error : '';
           });
-      } else {
-        this.authFackservice.login(this.f.email.value, this.f.password.value)
-          .pipe(first())
-          .subscribe(
-            data => {
-              this.router.navigate(['/dashboard']);
-            },
-            error => {
-              this.error = error ? error : '';
-            });
-      }
+
     }
   }
 }

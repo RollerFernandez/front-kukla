@@ -14,4 +14,8 @@ export class UserProfileService {
     register(user: User) {
         return this.http.post(`/users/register`, user);
     }
+
+    login(user: User) {
+        return this.http.post(`/auth/signin`, user);
+    }
 }

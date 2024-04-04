@@ -36,6 +36,18 @@ export const MENU: MenuItem[] = [
                 link: '/dashboards/jobs',
                 parentId: 1,
             },
+            {
+                id: 7,
+                label: 'MENUITEMS.DASHBOARDS.LIST.LISTA',
+                link: '/user',
+                parentId: 1,
+            },
+            {
+                id: 8,
+                label: 'MENUITEMS.DASHBOARDS.LIST.ROL',
+                link: '/user/user-list',
+                parentId: 1,
+            },
         ]
     },
     {

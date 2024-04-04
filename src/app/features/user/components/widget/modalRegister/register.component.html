@@ -1,0 +1,102 @@
+ <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()" style="width: 100%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title mt-0">Nuevo Usuario</h5>
+          <button type="button" class="btn-close" (click)="closeModal()" aria-hidden="true" ></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label for="basicpill-firstname-input">Nombres</label>
+                <input type="text" class="form-control" formControlName="name" placeholder="Ingrese Nombres"
+                  id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">El nombre es requerido</div>
+                  <div *ngIf="f.name.errors.name">El nombre ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label for="basicpill-firstname-input">Apellidos</label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Ingrese Apellidos"
+                  id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">El Apellido es requerido</div>
+                  <div *ngIf="f.lastName.errors.name">El Apellido ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="basicpill-phoneno-input">Telefono</label>
+                <input type="text" class="form-control" formControlName="phone" placeholder="Ingrese Telefono"
+                  id="basicpill-phoneno-input" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
+                <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                  <div *ngIf="f.phone.errors.required">El Telefono es requerido</div>
+                  <div *ngIf="f.phone.errors.phone">El Telefono ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <label for="basicpill-email-input">Email</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="Ingrese Email"
+                  id="basicpill-email-input" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">El Email es requerido</div>
+                  <div *ngIf="f.email.errors.email">El Email ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label for="basicpill-firstname-input">Password</label>
+                <input type="password" class="form-control" formControlName="password" placeholder="Ingrese Password"
+                  id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">El Password es requerido</div>
+                  <div *ngIf="f.password.errors.password">El Password ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label for="basicpill-address-input">Rol</label>
+                <select class="form-select" formControlName="role"
+                  [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+                  <option selected>SELECCIONE OPCION</option>
+                  <option *ngFor="let role of roles" [value]="role.id">{{ role.description }}</option>
+                </select>
+                <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                  <div *ngIf="f.role.errors.required">Seleccione el Rol del usuario</div>
+                  <!-- <div *ngIf="f.role.errors.role">El Telefono ingresado en invalido</div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit">Guardar</button>
+          <button   class="btn btn-info" type="button" (click)="closeModal()" style="background-color: black;">Cancelar</button>
+        </div>
+
+      </div>
+    </form>
+  </div>

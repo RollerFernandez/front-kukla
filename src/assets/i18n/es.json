@@ -67,13 +67,15 @@
   },
   "MENUITEMS": {
     "MENU": {
-      "TEXT": "Menú"
+      "TEXT": "Gestión"
     },
     "DASHBOARDS": {
-      "TEXT": "Tableros",
+      "TEXT": "Usuarios",
       "BADGE": "04",
       "LIST": {
         "DEFAULT": "Defecto",
+        "LISTA": "Lista de Usuarios",
+        "ROL": "Lista de Roles",
         "SAAS": "Saas",
         "CRYPTO": "Cripto",
         "BLOG": "Blog",

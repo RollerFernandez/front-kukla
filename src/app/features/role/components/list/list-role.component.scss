@@ -1,0 +1,32 @@
+.icon {
+    // font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  /* Efecto de zoom al pasar el cursor sobre los iconos */
+  .icon:hover {
+    transform: scale(1.3);
+  }
+  .table{
+    background-color: none !important;
+  }
+  .table-light_{
+    background-color: #ec111a !important;
+    color: white;
+  }
+ 
+  .table-light {
+    opacity: 0.8;
+    --bs-table-color: #ffffff;
+    --bs-table-bg: #ec111a;
+    --bs-table-border-color: #d7dade;
+    --bs-table-striped-bg: black;
+    --bs-table-striped-color: #fff;
+    --bs-table-active-bg: black;
+    --bs-table-active-color: #fff;
+    --bs-table-hover-bg: black;
+    --bs-table-hover-color: #fff;
+    color: var(--bs-table-color);
+    border-color: var(--bs-table-border-color);
+}

@@ -1,5 +1,69 @@
 {
-  "transactions": [{
+  "users":[
+
+      {
+        "id": "1",
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "status": "active"
+      },
+      {
+        "id": "2",
+        "name": "Jane Smith",
+        "email": "janesmith@example.com",
+        "status": "active"
+      },
+      {
+        "id": "3",
+        "name": "Michael Johnson",
+        "email": "michaeljohnson@example.com",
+        "status": "inactive"
+      },
+      {
+        "id": "4",
+        "name": "Emily Davis",
+        "email": "emilydavis@example.com",
+        "status": "active"
+      },
+      {
+        "id": "5",
+        "name": "Robert Wilson",
+        "email": "robertwilson@example.com",
+        "status": "inactive"
+      },
+      {
+        "id": "6",
+        "name": "Olivia Martinez",
+        "email": "oliviamartinez@example.com",
+        "status": "active"
+      },
+      {
+        "id": "7",
+        "name": "William Taylor",
+        "email": "williamtaylor@example.com",
+        "status": "active"
+      },
+      {
+        "id": "8",
+        "name": "Ava Anderson",
+        "email": "avaanderson@example.com",
+        "status": "inactive"
+      },
+      {
+        "id": "9",
+        "name": "James Thomas",
+        "email": "jamesthomas@example.com",
+        "status": "active"
+      },
+      {
+        "id": "10",
+        "name": "Sophia Garcia",
+        "email": "sophiagarcia@example.com",
+        "status": "active"
+      }
+  ],
+  "transactions": [
+    {
       "id": "#SK2540",
       "name": "Neal Matthews",
       "date": "07 Oct, 2019",
