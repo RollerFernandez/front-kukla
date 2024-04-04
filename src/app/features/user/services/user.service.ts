@@ -19,28 +19,30 @@ export class UserService {
   register(data:any){
     const newUser = {
       name: data.name,
-      lastName: data.lastName,
+      firstSurname: data.firstSurname,
+      lastSurname: data.lastSurname,
       email: data.email,
       phone:data.phone,
       password:data.password,
       roles:[parseInt(data.role)]
   };
 
-  
+
     return this.userRepository.registrar(newUser);
   }
 
   update(id:number, data:any){
     const newUpdate = {
       name: data.name,
-      lastName: data.lastName,
+      firstSurname: data.firstSurname,
+      lastSurname: data.lastSurname,
       email: data.email,
       phone:data.phone,
       roles:[parseInt(data.role)]
   };
 
   console.log();
-  
+
     return this.userRepository.update(id,newUpdate);
   }
 
@@ -48,7 +50,7 @@ export class UserService {
     const newUpdate = {
         status: data.status
     };
-  
+
     return this.userRepository.statusUpdate(id,newUpdate);
   }
 

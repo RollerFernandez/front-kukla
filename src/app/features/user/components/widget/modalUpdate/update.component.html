@@ -1,5 +1,5 @@
  <div class="modal-dialog modal-dialog-centered">
-  
+
     <form [formGroup]="myForm" *ngIf="myForm" (ngSubmit)="onSubmit()" style="width: 100%;">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,7 +7,7 @@
         <button type="button" class="btn-close" aria-hidden="true" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
-        
+
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
@@ -20,20 +20,33 @@
               </div>
             </div>
           </div>
-  
+
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label for="basicpill-firstname-input">Apellidos</label>
-                <input type="text" class="form-control" formControlName="lastName" placeholder="Ingrese Apellidos" id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                  <div *ngIf="f.lastName.errors.required">El Apellido es requerido</div>
-                  <div *ngIf="f.lastName.errors.name">El Apellido ingresado en invalido</div>
+                <label for="basicpill-firstname-input">Apellido Paterno</label>
+                <input type="text" class="form-control" formControlName="firstSurname" placeholder="Ingrese Apellido Paterno" id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.firstSurname.errors }" />
+                <div *ngIf="submitted && f.firstSurname.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstSurname.errors.required">El Apellido es requerido</div>
+                  <div *ngIf="f.firstSurname.errors.name">El Apellido ingresado en invalido</div>
                 </div>
               </div>
             </div>
           </div>
-  
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="mb-3">
+                <label for="basicpill-firstname-input">Apellido Materno</label>
+                <input type="text" class="form-control" formControlName="lastSurname" placeholder="Ingrese Apellido Materno" id="basicpill-firstname-input" [ngClass]="{ 'is-invalid': submitted && f.lastSurname.errors }" />
+                <div *ngIf="submitted && f.lastSurname.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastSurname.errors.required">El Apellido es requerido</div>
+                  <div *ngIf="f.lastSurname.errors.name">El Apellido ingresado en invalido</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-lg-6">
               <div class="mb-3">
@@ -56,8 +69,8 @@
               </div>
             </div>
           </div>
-  
-  
+
+
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
@@ -73,13 +86,13 @@
               </div>
             </div>
           </div>
-       
+
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" type="submit">Guardar</button>
         <button class="btn btn-info" type="button" (click)="closeModal()" style="background-color: black;">Cancelar</button>
       </div>
-    
+
     </div>
   </form>
   </div>

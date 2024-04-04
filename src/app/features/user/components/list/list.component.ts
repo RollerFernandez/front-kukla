@@ -40,7 +40,8 @@ export class ListComponent implements OnInit {
     this.fetchRoles();
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstSurname: ['', Validators.required],
+      lastSurname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.min(9)]],
       password: ['', [Validators.required, Validators.min(6)]],

@@ -23,7 +23,7 @@ export class ModalRegisterComponent implements OnInit {
   submitted: any = false;
   constructor(
     private modalService: BsModalService,
-    private userService: UserService, 
+    private userService: UserService,
     private roleService: RoleService,
     private formBuilder: FormBuilder,
     public toastr:ToastrService,
@@ -36,7 +36,8 @@ export class ModalRegisterComponent implements OnInit {
     this.fetchRoles();
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstSurname: ['', Validators.required],
+      lastSurname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.min(9)]],
       password: ['', [Validators.required, Validators.min(6)]],
@@ -44,7 +45,7 @@ export class ModalRegisterComponent implements OnInit {
     });
   }
 
-  
+
   /**
    * Open modal
    * @param content modal content

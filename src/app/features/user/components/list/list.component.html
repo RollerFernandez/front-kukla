@@ -43,7 +43,7 @@
                   <td>
                     <a href="javascript: void(0);" class="text-body fw-bold">{{data.id}}</a>
                   </td>
-                  <td>{{data.name +' '+ data.lastName}}</td>
+                  <td>{{data.name +' '+ data.firstSurname + ' ' + data.lastSurname}}</td>
                   <td>
                     <i class="fab me-1"></i>
                     {{data.email}}
@@ -72,9 +72,9 @@
                     <i class="fas fa-ad as fa-pencil-alt icon" style="font-size: medium; color: #009dd6;" (click)="selectRow(data.id)"></i>
                     <i class="fas fas fa-times-circle icon" (click)="updateStatus(data)"
                       style="margin-left: 5px; font-size: large;color: #ff4108;"></i>
-                    <i class="bx bx-file-find icon" 
+                    <i class="bx bx-file-find icon"
                       style="margin-left: 5px; font-size: large;color: #34c38f;"></i>
-                     
+
                   </td>
                 </tr>
               </tbody>

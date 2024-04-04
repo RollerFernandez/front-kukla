@@ -24,7 +24,7 @@ export class ModalUpdateComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-    private userService: UserService, 
+    private userService: UserService,
     private roleService: RoleService,
     private formBuilder: FormBuilder,
     public toastr:ToastrService,
@@ -37,7 +37,8 @@ export class ModalUpdateComponent implements OnInit {
     this.userService.getUser(this.datos).subscribe(data=>{
       this.myForm = this.formBuilder.group({
         name: [data.name, Validators.required],
-        lastName: [data.lastName, Validators.required],
+        firstSurname: [data.firstSurname, Validators.required],
+        lastSurname: [data.lastSurname, Validators.required],
         email: [data.email, [Validators.required, Validators.email]],
         phone: [data.phone, [Validators.required, Validators.min(9)]],
         role:[data.userRoles[0]?.roleId, Validators.required],
