@@ -3,9 +3,6 @@ import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
-
-import { Project } from '../project.model';
-import { projectData } from '../projectdata';
 import { ProjectgridService } from './projectgrid.service';
 import { NgbdProjectGridSortableHeader, SortEvent } from './projectgrid-sortable.directive';
 
@@ -24,12 +21,12 @@ export class ProjectgridComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
-  projectData: Project[];
+  projectData: any[];
 
    // Table data
    content?: any;
    orderes?: any;
-   ordersList!: Observable<Project[]>;
+   ordersList!: Observable<any[]>;
    total: Observable<number>;
    @ViewChildren(NgbdProjectGridSortableHeader) headers!: QueryList<NgbdProjectGridSortableHeader>;
 
@@ -42,7 +39,7 @@ export class ProjectgridComponent implements OnInit {
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects Grid', active: true }];
 
-    this.projectData = projectData;
+    this.projectData = [];
   }
 
 }

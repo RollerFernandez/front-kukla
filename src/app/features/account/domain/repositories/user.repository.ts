@@ -26,11 +26,11 @@ export class UserRepository {
         return this.http.post<any>(`${environment.apiUrl}/auth/signin`, { email, password })
             .pipe(
                 map(user => {
-                    if (user.success && user.data.accessToken) {
-                        localStorage.setItem('currentUser', JSON.stringify(user.data));
-                        this.currentUserSubject.next(user.data);
+                    if (user.accessToken) {
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        this.currentUserSubject.next(user);
                     }
-                    return user.data;
+                    return user;
                 }),
                 catchError(error => {
                     console.error("Error al iniciar sesión:", error);

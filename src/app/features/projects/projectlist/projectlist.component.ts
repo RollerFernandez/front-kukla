@@ -1,31 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Project } from '../project.model';
-
-import { projectData } from '../projectdata';
+import { Project } from 'src/app/shared/models';
+import { ProjectsService } from '../services';
+import { defaultPageSize } from 'src/app/shared/base';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-projectlist',
   templateUrl: './projectlist.component.html',
   styleUrls: ['./projectlist.component.scss']
 })
-
-/**
- * Projects-list component
- */
 export class ProjectlistComponent implements OnInit {
+  breadCrumbItems: Array<{}>;
+  projects: Project[];
+  page = 1;
+  pageSize = defaultPageSize;
+  totalItems = 0;
+  constructor(private readonly projectsService: ProjectsService) { }
 
- // bread crumb items
- breadCrumbItems: Array<{}>;
+  ngOnInit(): void {
+    this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects List', active: true }];
+    this.loadProjects();
+  }
 
- projectData: Project[];
-  page: any = 1;
-  
- constructor() { }
+  changePage(event: PageChangedEvent): void {
+    this.page = event.page;
+    this.pageSize = event.itemsPerPage;
+    this.loadProjects();
+  }
 
- ngOnInit() {
-   this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects List', active: true }];
-
-   this.projectData = projectData;
- }
+  loadProjects(): void {
+    this.projectsService.getProjects({
+      pageSize: this.pageSize,
+      pageIndex: this.page - 1,
+    }).subscribe({
+      next: (page) => {
+        this.projects = page.items;
+        this.totalItems = page.total;
+      }
+    });
+  }
 }

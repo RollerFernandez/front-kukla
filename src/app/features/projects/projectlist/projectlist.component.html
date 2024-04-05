@@ -28,56 +28,21 @@
               <table class="table project-list-table align-middle table-nowrap dt-responsive nowrap w-100 table-borderless" id="projectList-table">
                 <thead class="table-light">
                   <tr>
-                    <th scope="col" style="width: 100px">#</th>
-                    <th scope="col">Projects</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Team</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Proyecto</th>
+                    <th scope="col" style="width: 100px">Estado</th>
+                    <th scope="col" style="width: 100px">Región</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let project of projectData">
+                  <tr *ngFor="let project of projects">
                     <td>
-                      <img src="{{project.image}}" alt class="avatar-sm" />
+                      <p class="text-truncate font-size-14">{{project.name}}</p>
                     </td>
                     <td>
-                      <h5 class="text-truncate font-size-14">
-                        <a href="javascript: void(0);" class="text-dark">{{project.text}}</a>
-                      </h5>
-                      <p class="text-muted mb-0">{{project.subtext}}</p>
-                    </td>
-                    <td>{{project.date}}</td>
-                    <td>
-                      <span class="badge" [ngClass]="{ 'bg-success': project.status === 'Completed',
-                    'bg-warning': project.status === 'Pending',
-                    'bg-danger': project.status === 'Delay' }">{{project.status}}</span>
+                      <p>{{project.status.description}}</p>
                     </td>
                     <td>
-                      <div class="avatar-group">
-                        <div class="avatar-group-item">
-                          <a href="javascript: void(0);" class="d-inline-block">
-                            <img src="{{project.users[0]}}" class="rounded-circle avatar-xs" alt />
-                          </a>
-                        </div>
-                        <div class="avatar-group-item" *ngIf="project.users[1]">
-                          <a href="javascript: void(0);" class="d-inline-block">
-                            <img src="{{project.users[1]}}" class="rounded-circle avatar-xs" alt />
-                          </a>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="dropdown" dropdown placement="bottom-right">
-                        <a href="javascript: void(0);" class="dropdown-toggle card-drop" dropdownToggle>
-                          <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end" *dropdownMenu>
-                          <a class="dropdown-item" href="javascript: void(0);">Action</a>
-                          <a class="dropdown-item" href="javascript: void(0);">Another action</a>
-                          <a class="dropdown-item" href="javascript: void(0);">Something else here</a>
-                        </div>
-                      </div>
+                      <p>{{project.office.region.name}}</p>
                     </td>
                   </tr>
                 </tbody>
@@ -90,7 +55,8 @@
       <div class="row">
         <div class="col-lg-12">
           <ul class="pagination pagination-rounded justify-content-center mt-2 mb-5">
-            <pagination [totalItems]="12" [(ngModel)]="page" [itemsPerPage]="7" previousText="&lsaquo;" nextText="&rsaquo;">
+            <pagination [totalItems]="totalItems" [(ngModel)]="page" [itemsPerPage]="pageSize" previousText="&lsaquo;" nextText="&rsaquo;"
+            (pageChanged)="changePage($event)">
             </pagination>
           </ul>
         </div>
