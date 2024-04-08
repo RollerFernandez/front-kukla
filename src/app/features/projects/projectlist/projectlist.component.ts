@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/shared/models';
 import { ProjectsService } from '../services';
-import { defaultPageSize } from 'src/app/shared/base';
+import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
@@ -10,15 +10,16 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
   styleUrls: ['./projectlist.component.scss']
 })
 export class ProjectlistComponent implements OnInit {
-  breadCrumbItems: Array<{}>;
   projects: Project[];
   page = 1;
   pageSize = defaultPageSize;
   totalItems = 0;
+  totalPages = 0;
+  projectStatusCode = ProjectStatusCode;
+
   constructor(private readonly projectsService: ProjectsService) { }
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects List', active: true }];
     this.loadProjects();
   }
 
@@ -36,7 +37,22 @@ export class ProjectlistComponent implements OnInit {
       next: (page) => {
         this.projects = page.items;
         this.totalItems = page.total;
+        this.totalPages = page.totalPages;
       }
     });
+  }
+
+  previousPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.loadProjects();
+    }
+  }
+
+  nextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.loadProjects();
+    }
   }
 }
