@@ -2,10 +2,10 @@
 
   <ul class="pagination justify-content-between align-items-center">
     <li class="page-item">
-      <div class="row">
-        <label class="col-md-6 col-form-label">Pagina:</label>
-        <div class="col-md-6">
-            <select class="form-select" [(ngModel)]="pageSize" (ngModelChange)="changePageSize($event)">
+      <div class="row align-items-center">
+        <label class="col-6 col-form-label font-size-10">Pagina:</label>
+        <div class="col-6">
+            <select class="form-select" style="width: fit-content;" [(ngModel)]="pageSize" (ngModelChange)="changePageSize($event)">
               <option *ngFor="let i of pageSizes" [value]="i">{{i}}</option>
             </select>
         </div>
