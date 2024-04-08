@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Project } from 'src/app/shared/models';
 import { ProjectsService } from '../services';
 import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { SortableHeaderDirective } from 'src/app/shared/ui';
 
 @Component({
   selector: 'app-projectlist',
@@ -16,6 +17,9 @@ export class ProjectlistComponent implements OnInit {
   totalItems = 0;
   totalPages = 0;
   projectStatusCode = ProjectStatusCode;
+  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
+  orderColumn = 'project.name';
+  orderDirection: 'ASC' | 'DESC' = 'ASC';
 
   constructor(private readonly projectsService: ProjectsService) { }
 
@@ -33,6 +37,8 @@ export class ProjectlistComponent implements OnInit {
     this.projectsService.getProjects({
       pageSize: this.pageSize,
       pageIndex: this.page - 1,
+      orderColumn: this.orderColumn,
+      orderDirection: this.orderDirection,
     }).subscribe({
       next: (page) => {
         this.projects = page.items;
@@ -54,5 +60,16 @@ export class ProjectlistComponent implements OnInit {
       this.page++;
       this.loadProjects();
     }
+  }
+
+  onSort(event: { column: string; direction: 'ASC' | 'DESC'; }): void {
+    this.headers.forEach(header => {
+      if (header.sortable !== event.column) {
+        header.direction = '';
+      }
+    });
+    this.orderColumn = event.column;
+    this.orderDirection = event.direction;
+    this.loadProjects();
   }
 }

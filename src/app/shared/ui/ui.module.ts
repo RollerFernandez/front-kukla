@@ -10,8 +10,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { LoaderComponent } from './loader/loader.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { SortableHeaderDirective } from './sortable-header/sortable-header.directive';
 @NgModule({
-  declarations: [PagetitleComponent,  LoaderComponent, PaginatorComponent],
+  declarations: [PagetitleComponent,  LoaderComponent, PaginatorComponent, SortableHeaderDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,6 +20,6 @@ import { PaginatorComponent } from './paginator/paginator.component';
     TimepickerModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
-  exports: [PagetitleComponent, LoaderComponent, PaginatorComponent],
+  exports: [PagetitleComponent, LoaderComponent, PaginatorComponent, SortableHeaderDirective],
 })
 export class UIModule { }

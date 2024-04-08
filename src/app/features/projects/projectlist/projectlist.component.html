@@ -11,9 +11,9 @@
               >
                 <thead class="table-light">
                   <tr>
-                    <th scope="col">Proyecto</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Región</th>
+                    <th scope="col" sortable="project.name" (sort)="onSort($event)">Proyecto</th>
+                    <th scope="col" sortable="status.description" (sort)="onSort($event)">Estado</th>
+                    <th scope="col" sortable="region.name" (sort)="onSort($event)">Región</th>
                   </tr>
                 </thead>
                 <tbody>

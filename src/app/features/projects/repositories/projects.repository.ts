@@ -13,7 +13,9 @@ export class ProjectsRepository {
   getProjects(query: PaginateQuery): Observable<Paginate<Project>> {
     const params = new HttpParams()
       .set('pageIndex', query.pageIndex)
-      .set('pageSize', query.pageSize);
+      .set('pageSize', query.pageSize)
+      .set('orderColumn', query.orderColumn)
+      .set('orderDirection', query.orderDirection)
     return this.http.get<any>(environment.apiUrl + '/projects', { params });
   }
 }
