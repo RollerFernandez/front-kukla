@@ -1,0 +1,28 @@
+<nav aria-label="General Page Navigation">
+
+  <ul class="pagination justify-content-between align-items-center">
+    <li class="page-item">
+      <div class="row">
+        <label class="col-md-6 col-form-label">Pagina:</label>
+        <div class="col-md-6">
+            <select class="form-select" [(ngModel)]="pageSize" (ngModelChange)="changePageSize($event)">
+              <option *ngFor="let i of pageSizes" [value]="i">{{i}}</option>
+            </select>
+        </div>
+      </div>
+    </li>
+    <li class="page-item">
+      <span>
+        {{firstIndexPage}}-{{lastIndexPage}} de {{totalItems}}
+      </span>
+    </li>
+    <li class="page-item">
+      <button aria-label="Previous" type="button" class="btn btn-link btn-rounded" [disabled]="isFirstPage" (click)="previousPage()">
+        <i class="mdi mdi-chevron-left"></i>
+      </button>
+      <button aria-label="Next" type="button" class="btn btn-link btn-rounded" [disabled]="isLastPage" (click)="nextPage()">
+        <i class="mdi mdi-chevron-right"></i>
+      </button>
+    </li>
+  </ul>
+</nav>
