@@ -16,6 +16,6 @@ export class ProjectsRepository {
       .set('pageSize', query.pageSize)
       .set('orderColumn', query.orderColumn)
       .set('orderDirection', query.orderDirection)
-    return this.http.get<any>(environment.apiUrl + '/projects', { params });
+    return this.http.get<Paginate<Project>>(environment.apiUrl + '/projects', { params });
   }
 }
