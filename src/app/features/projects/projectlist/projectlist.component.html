@@ -48,6 +48,13 @@
                     </th>
                     <th
                       scope="col"
+                      sortable="project.uniqueInvestmentCode"
+                      (sort)="onSort($event)"
+                    >
+                      CUI
+                    </th>
+                    <th
+                      scope="col"
                       sortable="project.viableAmount"
                       (sort)="onSort($event)"
                     >
@@ -104,6 +111,11 @@
                     <td>
                       <span class="text-nowrap">{{
                         project.district.province.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.uniqueInvestmentCode
                       }}</span>
                     </td>
                     <td class="text-end">

@@ -12,6 +12,7 @@ const projectsMock: Paginate<Project> = {
       "id": 6,
       "name": "CREACION (CONSTRUCCIÃ“N) DE LA SEGUNDA CALZADA DE LA RUTA PE-1N, TRAMO: LAMBAYEQUE PIURA EN LA PROVINCIA DE LAMBAYEQUE DEL DEPARTAMENTO DE LAMBAYEQUE Y LA PROVINCIA DE SECHURA DEL DEPARTAMENTO DE PIURA",
       "viableAmount": "2013732521",
+      "uniqueInvestmentCode": "65478943",
       "status": {
           "description": "Asignado",
           "code": "assigned"
@@ -42,6 +43,7 @@ const projectsMock: Paginate<Project> = {
       "id": 4,
       "name": "MEJORAMIENTO DE RIEGO Y GENERACION HIDROENERGETICO DEL ALTO PIURA",
       "viableAmount": "2272300920",
+      "uniqueInvestmentCode": "65478942",
       "status": {
           "description": "Asignado",
           "code": "assigned"
@@ -72,6 +74,7 @@ const projectsMock: Paginate<Project> = {
       "id": 5,
       "name": "PROYECTO CHAVIMOCHIC TERCERA ETAPA",
       "viableAmount": "1847407252",
+      "uniqueInvestmentCode": "65478941",
       "status": {
           "description": "Asignado",
           "code": "assigned"
