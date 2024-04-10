@@ -10,35 +10,95 @@ const projectsMock: Paginate<Project> = {
   pageSize: 10,
   items: [
     {
-      id: 4,
-      name: 'MEJORAMIENTO DE RIEGO Y GENERACION HIDROENERGETICO DEL ALTO PIURA',
-      status: {
-        description: 'Asignado',
-        code: 'assigned',
+      "id": 6,
+      "name": "CREACION (CONSTRUCCIÃ“N) DE LA SEGUNDA CALZADA DE LA RUTA PE-1N, TRAMO: LAMBAYEQUE PIURA EN LA PROVINCIA DE LAMBAYEQUE DEL DEPARTAMENTO DE LAMBAYEQUE Y LA PROVINCIA DE SECHURA DEL DEPARTAMENTO DE PIURA",
+      "viableAmount": "2013732521",
+      "status": {
+          "description": "Asignado",
+          "code": "assigned"
       },
-      office: {
-        id: 1,
-        region: {
-          id: 1,
-          name: 'Región 1',
-        },
+      "office": {
+          "id": 1,
+          "region": {
+              "id": 1,
+              "name": "Región 1"
+          },
       },
-    },
-    {
-      id: 5,
-      name: 'PROYECTO CHAVIMOCHIC TERCERA ETAPA',
-      status: {
-        description: 'Asignado',
-        code: 'assigned',
+      "district": {
+          "name": "Piura",
+          "province": {
+              "name": "Piura",
+              "department": {
+                  "name": "Piura"
+              }
+          }
       },
-      office: {
-        id: 2,
-        region: {
-          id: 2,
-          name: 'Región 4',
-        },
+      "projectAssignments": [
+          {
+              "createdAt": new Date(),
+          }
+      ]
+  },
+  {
+      "id": 4,
+      "name": "MEJORAMIENTO DE RIEGO Y GENERACION HIDROENERGETICO DEL ALTO PIURA",
+      "viableAmount": "2272300920",
+      "status": {
+          "description": "Asignado",
+          "code": "assigned"
       },
-    },
+      "office": {
+          "id": 1,
+          "region": {
+              "id": 1,
+              "name": "Región 1"
+          },
+      },
+      "district": {
+          "name": "Piura",
+          "province": {
+              "name": "Piura",
+              "department": {
+                  "name": "Piura"
+              }
+          }
+      },
+      "projectAssignments": [
+          {
+              "createdAt": new Date(),
+          }
+      ]
+  },
+  {
+      "id": 5,
+      "name": "PROYECTO CHAVIMOCHIC TERCERA ETAPA",
+      "viableAmount": "1847407252",
+      "status": {
+          "description": "Asignado",
+          "code": "assigned"
+      },
+      "office": {
+          "id": 2,
+          "region": {
+              "id": 2,
+              "name": "Región 4"
+          },
+      },
+      "district": {
+          "name": "Salaverry",
+          "province": {
+              "name": "Trujillo",
+              "department": {
+                  "name": "La Libertad"
+              }
+          }
+      },
+      "projectAssignments": [
+          {
+              "createdAt": new Date(),
+          }
+      ]
+    }
   ],
   total: 2,
   totalPages: 1,
@@ -76,6 +136,6 @@ describe('ProjectlistComponent', () => {
   it('should list projects', () => {
     const tableBody = fixture.nativeElement.querySelector('tbody');
     const rows = tableBody.querySelectorAll('tr');
-    expect(rows.length).toBe(2);
+    expect(rows.length).toBe(3);
   });
 });

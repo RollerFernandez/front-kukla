@@ -11,9 +11,56 @@
               >
                 <thead class="table-light">
                   <tr>
-                    <th scope="col" sortable="project.name" (sort)="onSort($event)">Proyecto</th>
-                    <th scope="col" sortable="status.description" (sort)="onSort($event)">Estado</th>
-                    <th scope="col" sortable="region.name" (sort)="onSort($event)">Región</th>
+                    <th
+                      scope="col"
+                      sortable="project.name"
+                      (sort)="onSort($event)"
+                    >
+                      Proyecto
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="status.description"
+                      (sort)="onSort($event)"
+                    >
+                      Estado
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="region.name"
+                      (sort)="onSort($event)"
+                    >
+                      Región
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="department.name"
+                      (sort)="onSort($event)"
+                    >
+                      Departamento
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="province.name"
+                      (sort)="onSort($event)"
+                    >
+                      Provincia
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="project.viableAmount"
+                      (sort)="onSort($event)"
+                    >
+                      Monto Inversión
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="project_assignment.createdAt"
+                      (sort)="onSort($event)"
+                    >
+                      Fecha Asignación
+                    </th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,6 +95,37 @@
                       <span class="text-nowrap">{{
                         project.office.region.name
                       }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.district.province.department.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.district.province.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.viableAmount
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.projectAssignments[0]?.createdAt | date
+                      }}</span>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-primary"
+                        [disabled]="
+                          project.status.code ===
+                            projectStatusCode.InProgress ||
+                          project.status.code === projectStatusCode.Observed
+                        "
+                      >
+                        <span class="text-nowrap">Ver Detalle</span>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
