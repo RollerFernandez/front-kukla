@@ -38,7 +38,12 @@ const projectsMock: Paginate<Project> = {
           {
               "createdAt": new Date(),
           }
-      ]
+      ],
+      "financialUnit": {
+        "organization": {
+          "name": "Gobierno regional 1"
+        },
+      },
   },
   {
       "id": 4,
@@ -69,7 +74,12 @@ const projectsMock: Paginate<Project> = {
           {
               "createdAt": new Date(),
           }
-      ]
+      ],
+      "financialUnit": {
+        "organization": {
+          "name": "Gobierno regional 1"
+        },
+      },
   },
   {
       "id": 5,
@@ -100,7 +110,12 @@ const projectsMock: Paginate<Project> = {
           {
               "createdAt": new Date(),
           }
-      ]
+      ],
+      "financialUnit": {
+        "organization": {
+          "name": "Gobierno regional 1"
+        },
+      },
     }
   ],
   total: 2,

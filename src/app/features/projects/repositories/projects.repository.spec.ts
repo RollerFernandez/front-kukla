@@ -50,7 +50,12 @@ describe('ProjectsRepository', () => {
               {
                   "createdAt": new Date(),
               }
-          ]
+          ],
+          "financialUnit": {
+            "organization": {
+              "name": "Gobierno regional 1"
+            },
+          },
       },
       {
           "id": 4,
@@ -81,7 +86,12 @@ describe('ProjectsRepository', () => {
               {
                   "createdAt": new Date(),
               }
-          ]
+          ],
+          "financialUnit": {
+            "organization": {
+              "name": "Gobierno regional 1"
+            },
+          },
       },
       {
           "id": 5,
@@ -112,7 +122,12 @@ describe('ProjectsRepository', () => {
               {
                   "createdAt": new Date(),
               }
-          ]
+          ],
+          "financialUnit": {
+            "organization": {
+              "name": "Gobierno regional 1"
+            },
+          },
         }
       ],
       total: 2,

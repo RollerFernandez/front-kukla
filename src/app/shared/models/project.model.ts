@@ -25,5 +25,10 @@ export interface Project {
       };
     };
   };
+  financialUnit: {
+    organization: {
+      name: string;
+    };
+  };
   projectAssignments: ProjectAssignment[];
 }

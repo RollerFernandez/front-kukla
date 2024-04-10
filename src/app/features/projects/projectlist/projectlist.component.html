@@ -13,17 +13,24 @@
                   <tr>
                     <th
                       scope="col"
-                      sortable="project.name"
+                      sortable="project.uniqueInvestmentCode"
                       (sort)="onSort($event)"
                     >
-                      Proyecto
+                      CUI
                     </th>
                     <th
                       scope="col"
-                      sortable="status.description"
+                      sortable="project.name"
                       (sort)="onSort($event)"
                     >
-                      Estado
+                      Nombre de la inversión
+                    </th>
+                    <th
+                      scope="col"
+                      sortable="organization.name"
+                      (sort)="onSort($event)"
+                    >
+                      Entidad
                     </th>
                     <th
                       scope="col"
@@ -48,17 +55,10 @@
                     </th>
                     <th
                       scope="col"
-                      sortable="project.uniqueInvestmentCode"
-                      (sort)="onSort($event)"
-                    >
-                      CUI
-                    </th>
-                    <th
-                      scope="col"
                       sortable="project.viableAmount"
                       (sort)="onSort($event)"
                     >
-                      Monto Inversión
+                      Monto
                     </th>
                     <th
                       scope="col"
@@ -67,13 +67,56 @@
                     >
                       Fecha Asignación
                     </th>
+                    <th
+                      scope="col"
+                      sortable="status.description"
+                      (sort)="onSort($event)"
+                    >
+                      Estado
+                    </th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let project of projects">
                     <td>
-                      <span class="col-sm-9">{{ project.name }}</span>
+                      <span class="text-nowrap">{{
+                        project.uniqueInvestmentCode
+                      }}</span>
+                    </td>
+                    <td>
+                      <span>{{ project.name }}</span>
+                    </td>
+                    <td>
+                      <span>{{
+                        project.financialUnit.organization.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.office.region.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.district.province.department.name
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.district.province.name
+                      }}</span>
+                    </td>
+
+                    <td class="text-end">
+                      <span class="text-nowrap">{{
+                        project.viableAmount
+                      }}</span>
+                    </td>
+                    <td>
+                      <span class="text-nowrap">{{
+                        project.projectAssignments[0]?.createdAt | date
+                      }}</span>
                     </td>
                     <td>
                       <span
@@ -97,36 +140,6 @@
                         "
                         >{{ project.status.description }}</span
                       >
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.office.region.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.district.province.department.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.district.province.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.uniqueInvestmentCode
-                      }}</span>
-                    </td>
-                    <td class="text-end">
-                      <span class="text-nowrap">{{
-                        project.viableAmount
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.projectAssignments[0]?.createdAt | date
-                      }}</span>
                     </td>
                     <td>
                       <button type="button" class="btn btn-primary"
