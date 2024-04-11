@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <div class>
+          <ng-container *ngIf="!empty; else emptyTemplate">
             <div class="table-responsive">
               <table
                 class="table align-middle nowrap w-100"
@@ -164,7 +164,13 @@
               [totalItems]="totalItems"
               [totalPages]="totalPages"
             ></app-paginator>
-          </div>
+          </ng-container>
+
+          <ng-template #emptyTemplate>
+            <div class="d-flex justify-content-center">
+              <span>{{message}}</span>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

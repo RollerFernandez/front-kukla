@@ -3,6 +3,8 @@ import { ProjectsRepository } from "./projects.repository";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { Paginate, Project } from "src/app/shared/models";
 import { environment } from "src/environments/environment";
+import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
+import { WithoutAssignedProjectsException } from "../exceptions";
 
 describe('ProjectsRepository', () => {
   let projectsRepository: ProjectsRepository;
@@ -150,5 +152,53 @@ describe('ProjectsRepository', () => {
       url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC',
     });
     expectedRequest.flush(responseMock);
+  });
+
+  it('should throw WithoutAssignedProjectsException when response status is 404', (done) => {
+    projectsRepository.getProjects({
+      pageIndex: 0,
+      pageSize: 10,
+      orderColumn: 'project.name',
+      orderDirection: 'ASC',
+    }).subscribe({
+      error: (error) => {
+        expect(error).toBeInstanceOf(WithoutAssignedProjectsException);
+        done();
+      },
+    });
+    const expectedRequest = httpController.expectOne({
+      method: 'GET',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC',
+    });
+    expectedRequest.flush({
+      message: 'Sin registros',
+    }, {
+      status: HttpStatusCode.NotFound,
+      statusText: 'Not Found',
+    });
+  });
+
+  it('should throw HttpErrorResponse when response status is 500', (done) => {
+    projectsRepository.getProjects({
+      pageIndex: 0,
+      pageSize: 10,
+      orderColumn: 'project.name',
+      orderDirection: 'ASC',
+    }).subscribe({
+      error: (error) => {
+        expect(error).toBeInstanceOf(HttpErrorResponse);
+        done();
+      },
+    });
+    const expectedRequest = httpController.expectOne({
+      method: 'GET',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC',
+    });
+    expectedRequest.flush({
+      message: 'Sin registros',
+    }, {
+      status: HttpStatusCode.InternalServerError,
+      statusText: 'Internal Server Error',
+    });
   });
 });

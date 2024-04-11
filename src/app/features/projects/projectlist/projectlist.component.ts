@@ -4,6 +4,7 @@ import { ProjectsService } from '../services';
 import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { SortableHeaderDirective } from 'src/app/shared/ui';
+import { WithoutAssignedProjectsException } from '../exceptions';
 
 @Component({
   selector: 'app-projectlist',
@@ -20,6 +21,8 @@ export class ProjectlistComponent implements OnInit {
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
   orderColumn = 'project.name';
   orderDirection: 'ASC' | 'DESC' = 'ASC';
+  empty = false;
+  message = '';
 
   constructor(private readonly projectsService: ProjectsService) { }
 
@@ -44,7 +47,14 @@ export class ProjectlistComponent implements OnInit {
         this.projects = page.items;
         this.totalItems = page.total;
         this.totalPages = page.totalPages;
-      }
+      },
+      error: (error) => {
+        if (error instanceof WithoutAssignedProjectsException) {
+          this.empty = true;
+          this.message = error.message;
+        }
+        throw error;
+      },
     });
   }
 
