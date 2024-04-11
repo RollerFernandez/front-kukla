@@ -3,6 +3,8 @@ import { ProjectsService } from "./projects.service";
 import { ProjectsRepository } from "../repositories";
 import { of } from "rxjs";
 import { Paginate, Project } from "src/app/shared/models";
+import { ProjectfiltersService } from "./projectfilters.service";
+import { FormGroup } from "@angular/forms";
 
 const projectsMock: Paginate<Project> = {
   pageIndex: 0,
@@ -121,6 +123,10 @@ const projectsMock: Paginate<Project> = {
   totalPages: 1,
 };
 
+const projectfiltersServiceMock = {
+  filtersFormGroup: new FormGroup({}),
+};
+
 const projectsRepositoryMock = {
   getProjects: jest.fn(),
 };
@@ -133,6 +139,7 @@ describe('ProjectsService', () => {
     TestBed.configureTestingModule({
       providers: [
         ProjectsService,
+        { provide: ProjectfiltersService, useValue: projectfiltersServiceMock },
         { provide: ProjectsRepository, useValue: projectsRepositoryMock },
       ],
     });

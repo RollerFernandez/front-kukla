@@ -1,0 +1,102 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <div class="mt-4">
+          <accordion [closeOthers]="true" class="accordion" [isAnimated]="true">
+            <accordion-group [isOpen]="false" heading="Filtros" class="accordion-item" #group>
+              <span accordion-heading class="float-end fs-5">
+                <i class="mdi"
+                  [ngClass]="!group?.isOpen ? 'mdi mdi-chevron-down accor-plus-icon': 'mdi mdi-chevron-up accor-plus-icon'"></i>
+              </span>
+
+              <form class="row" [formGroup]="filtersFormGroup" (ngSubmit)="filter.emit()">
+                <div class="col-12">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Estado</h5>
+
+                      <div formArrayName="status">
+                        <ng-container *ngFor="let statusForm of statusFormArray.controls; let i = index">
+                          <div class="form-check form-checkbox form-check-primary mb-3" [formGroup]="statusForm">
+                            <input class="form-check-input" type="checkbox" [id]="'status-checkbox-' + i" formControlName="checked">
+                            <label class="form-check-label" [for]="'status-checkbox-' + i">
+                              {{statusList[i]?.description}}
+                            </label>
+                          </div>
+                        </ng-container>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Región</h5>
+
+                      <div formArrayName="regions">
+                        <ng-container *ngFor="let regionForm of regionsFormArray.controls; let i = index">
+                          <div class="form-check form-checkbox form-check-primary mb-3" [formGroup]="regionForm">
+                            <input class="form-check-input" type="checkbox" [id]="'region-checkbox-' + i" formControlName="checked">
+                            <label class="form-check-label" [for]="'region-checkbox-' + i">
+                              {{regionList[i]?.name}}
+                            </label>
+                          </div>
+                        </ng-container>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Departamento</h5>
+                      <div *ngFor="let item of departmentList$ | async" class="form-check mb-3">
+                          <input class="form-check-input" type="radio" name="department" [id]="'department-radio-' + i" formControlName="department"
+                            [value]="item.id">
+                          <label class="form-check-label" [for]="'department-radio-' + i">
+                            {{item.name}}
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="mt-4">
+                        <h5 class="font-size-14 text-muted">Provincia</h5>
+                        <div *ngFor="let item of provinceList$ | async" class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="province" [id]="'province-radio-' + i" formControlName="province"
+                              [value]="item.id">
+                            <label class="form-check-label" [for]="'province-radio-' + i">
+                              {{item.name}}
+                            </label>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Monto de inversión</h5>
+                      <ngx-slider formControlName="amountRange" [options]="amountRangeOptions"></ngx-slider>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Fecha de asignación</h5>
+                      <input type="text" placeholder="dd/mm/yyyy" id="min-date-input" formControlName="minDate" class="form-control mb-2" bsDatepicker [minDate]="minDate" [maxDate]="maxDate"[bsConfig]="bsConfig">
+                      <input type="text" placeholder="dd/mm/yyyy" id="max-date-input" formControlName="maxDate" class="form-control" bsDatepicker [minDate]="minDate" [maxDate]="maxDate"[bsConfig]="bsConfig">
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between mt-4">
+                      <button type="button" id="remove-filters-button" class="btn btn-link" (click)="resetFilters()">Quitar Filtros</button>
+                      <button type="submit" id="apply-filters-button" class="btn btn-primary w-md">Aplicar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

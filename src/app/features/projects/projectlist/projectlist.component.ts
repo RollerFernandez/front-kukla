@@ -1,15 +1,23 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Project } from 'src/app/shared/models';
-import { ProjectsService } from '../services';
+import { ProjectfiltersService, ProjectsService } from '../services';
 import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { SortableHeaderDirective } from 'src/app/shared/ui';
+import { ProjectfiltersRepository, ProjectsRepository } from '../repositories';
+
 import { WithoutAssignedProjectsException } from '../exceptions';
 
 @Component({
   selector: 'app-projectlist',
   templateUrl: './projectlist.component.html',
-  styleUrls: ['./projectlist.component.scss']
+  styleUrls: ['./projectlist.component.scss'],
+  providers: [
+    ProjectsService,
+    ProjectfiltersService,
+    ProjectsRepository,
+    ProjectfiltersRepository,
+  ]
 })
 export class ProjectlistComponent implements OnInit {
   projects: Project[];
@@ -52,24 +60,11 @@ export class ProjectlistComponent implements OnInit {
         if (error instanceof WithoutAssignedProjectsException) {
           this.empty = true;
           this.message = error.message;
+          return;
         }
         throw error;
       },
     });
-  }
-
-  previousPage(): void {
-    if (this.page > 1) {
-      this.page--;
-      this.loadProjects();
-    }
-  }
-
-  nextPage(): void {
-    if (this.page < this.totalPages) {
-      this.page++;
-      this.loadProjects();
-    }
   }
 
   onSort(event: { column: string; direction: 'ASC' | 'DESC'; }): void {
@@ -80,6 +75,11 @@ export class ProjectlistComponent implements OnInit {
     });
     this.orderColumn = event.column;
     this.orderDirection = event.direction;
+    this.loadProjects();
+  }
+
+  filterProjects(): void {
+    this.page = 1;
     this.loadProjects();
   }
 }
