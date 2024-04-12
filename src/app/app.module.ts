@@ -34,6 +34,7 @@ import { ResponseInterceptor } from './core/interceptors/response.interceptor';
 import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
 import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { NgSelectConfig } from '@ng-select/ng-select';
 
 defineLocale('es', esLocale);
 registerLocaleData(localeEsPE);
@@ -52,6 +53,12 @@ export function createTranslateLoader(http: HttpClient): any {
 export function getDatepickerConfig(): BsDatepickerConfig {
   return Object.assign(new BsDatepickerConfig(), {
     containerClass: 'theme-red',
+  });
+}
+
+export function getSelectConfigConfig(): NgSelectConfig {
+  return Object.assign(new NgSelectConfig(), {
+    notFoundText: 'Sin elementos',
   });
 }
 
@@ -87,6 +94,7 @@ export function getDatepickerConfig(): BsDatepickerConfig {
     { provide: LOCALE_ID, useValue: 'es-PE' },
     { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: 'dd/MM/yyyy' } },
     { provide: BsDatepickerConfig, useFactory: getDatepickerConfig },
+    { provide: NgSelectConfig, useFactory: getSelectConfigConfig },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProjectfiltersRepository } from '../repositories';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AmountRange, ProjectFilters } from '../models';
-import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Department, ProjectStatus, Province, Region } from 'src/app/shared/models';
 import { isValid } from 'date-fns';
 
@@ -20,38 +20,52 @@ export class ProjectfiltersService {
   readonly amountRanges$ = this._amountRanges.asObservable();
   filtersFormGroup = new UntypedFormGroup({
     search: new FormControl(null),
-    status: new FormControl([]),
-    regions: new FormControl([]),
-    departments: new FormControl([]),
-    provinces: new FormControl([]),
-    amountRanges: new FormControl([]),
-    minDate: new FormControl(null),
-    maxDate: new FormControl(null),
-  }, {
-    validators: [this.validateDates],
+    filters: new FormGroup({
+      status: new FormControl([]),
+      regions: new FormControl([]),
+      departments: new FormControl([]),
+      provinces: new FormControl([]),
+      amountRanges: new FormControl([]),
+      minDate: new FormControl(null),
+      maxDate: new FormControl(null),
+    }, {
+      validators: [this.validateDates],
+    }),
   });
   minDate = new Date();
   maxDate = new Date();
   private allProvinces: Province[] = [];
+  get filtersControl(): FormGroup {
+    return this.filtersFormGroup.get('filters') as FormGroup;
+  }
   get provincesControl(): AbstractControl {
-    return this.filtersFormGroup.get('provinces');
+    return this.filtersControl.get('provinces');
+  }
+  get departmentsControl(): AbstractControl {
+    return this.filtersControl.get('departments');
+  }
+  get minDateControl(): AbstractControl {
+    return this.filtersControl.get('minDate');
+  }
+  get maxDateControl(): AbstractControl {
+    return this.filtersControl.get('maxDate');
   }
 
   constructor(private readonly projectfiltersRepository: ProjectfiltersRepository) {
-    this.filtersFormGroup.get('departments').valueChanges.subscribe((value: number[]) => {
+    this.departmentsControl.valueChanges.subscribe((value: number[]) => {
       this._provinceList.next(this.allProvinces.filter((p) => value.includes(p.departmentId)));
       this.provincesControl.setValue(this.provincesControl.value?.filter((id) => this._provinceList.value.find((p) => p.id === id)));
     });
 
-    this.filtersFormGroup.get('minDate').valueChanges.subscribe((value) => {
+    this.minDateControl.valueChanges.subscribe((value) => {
       if (value && !isValid(value)) {
-        this.filtersFormGroup.get('minDate').setValue(null);
+        this.minDateControl.setValue(null);
       }
     });
 
-    this.filtersFormGroup.get('maxDate').valueChanges.subscribe((value) => {
+    this.maxDateControl.valueChanges.subscribe((value) => {
       if (value && !isValid(value)) {
-        this.filtersFormGroup.get('maxDate').setValue(null);
+        this.maxDateControl.setValue(null);
       }
     });
   }
@@ -71,7 +85,7 @@ export class ProjectfiltersService {
   }
 
   reset(): void {
-    this.filtersFormGroup.reset({
+    this.filtersControl.reset({
       status: [],
       regions: [],
       departments: [],

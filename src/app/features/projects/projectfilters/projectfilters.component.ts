@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ProjectfiltersService } from '../services';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { FilterType } from 'src/app/shared/base';
 
 @Component({
   selector: 'app-projectfilters',
@@ -16,8 +17,11 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
   provinceList$ = this.projectfiltersService.provinceList$;
   amountRanges$ = this.projectfiltersService.amountRanges$;
   filtersFormGroup = this.projectfiltersService.filtersFormGroup;
-  @Output() filter = new EventEmitter<void>();
-  @Output() reset = new EventEmitter<void>();
+  filtersControl = this.projectfiltersService.filtersControl;
+  @Output() filter = new EventEmitter<FilterType>();
+  @Output() reset = new EventEmitter<FilterType>();
+  filterType = FilterType;
+  isClean = true;
 
   constructor(
     private readonly projectfiltersService: ProjectfiltersService,
@@ -34,16 +38,18 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
     this.projectfiltersService.reset();
   }
 
-  applyFilters(): void {
+  applyFilters(filterType: FilterType): void {
     if (this.filtersFormGroup.invalid) {
       return;
     }
 
-    this.filter.emit();
+    this.isClean = false;
+    this.filter.emit(filterType);
   }
 
   resetFilters(): void {
+    this.isClean = true;
     this.projectfiltersService.reset();
-    this.reset.emit();
+    this.reset.emit(this.filtersFormGroup.get('search').value ? FilterType.Search : undefined);
   }
 }

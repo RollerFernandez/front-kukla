@@ -18,14 +18,15 @@ export class ProjectsRepository {
       .set('orderColumn', query.orderColumn)
       .set('orderDirection', query.orderDirection)
       .set('search', filters?.search ?? '')
-      .set('minDate', filters?.minDate ? formatISO(filters.minDate, { representation: 'date' }) : '')
-      .set('maxDate', filters?.maxDate ? formatISO(filters.maxDate, { representation: 'date' }) : '');
+      .set('minDate', filters?.filters?.minDate ? formatISO(filters.filters.minDate, { representation: 'date' }) : '')
+      .set('maxDate', filters?.filters?.maxDate ? formatISO(filters.filters.maxDate, { representation: 'date' }) : '');
 
-    filters?.status?.forEach(s => params = params.append('status', s));
-    filters?.regions?.forEach(r => params = params.append('region', r));
-    filters?.provinces?.forEach(p => params = params.append('province', p));
-    filters?.departments?.forEach(d => params = params.append('department', d));
-    filters?.amountRanges?.forEach(a => params = params.append('amountRange', a));
+    if (filters?.type) params = params.set('type', filters.type);
+    filters?.filters?.status?.forEach(s => params = params.append('status', s));
+    filters?.filters?.regions?.forEach(r => params = params.append('region', r));
+    filters?.filters?.provinces?.forEach(p => params = params.append('province', p));
+    filters?.filters?.departments?.forEach(d => params = params.append('department', d));
+    filters?.filters?.amountRanges?.forEach(a => params = params.append('amountRange', a));
 
     return this.http.get<Paginate<Project>>(environment.apiUrl + '/projects', { params }).pipe(
       catchError((error) => {

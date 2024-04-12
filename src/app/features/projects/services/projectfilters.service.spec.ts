@@ -124,26 +124,32 @@ describe('ProjectfiltersService', () => {
     it('should clear invalid min date', () => {
       const invalidDate = new Date('prueba');
       service.filtersFormGroup.patchValue({
-        minDate: invalidDate,
+        filters: {
+          minDate: invalidDate,
+        },
       });
-      expect(service.filtersFormGroup.get('minDate').value).toBeNull();
+      expect(service.minDateControl.value).toBeNull();
     });
 
     it('should clear invalid max date', () => {
       const invalidDate = new Date('prueba');
       service.filtersFormGroup.patchValue({
-        maxDate: invalidDate,
+        filters: {
+          maxDate: invalidDate,
+        },
       });
-      expect(service.filtersFormGroup.get('maxDate').value).toBeNull();
+      expect(service.maxDateControl.value).toBeNull();
     });
 
     it('formGroup should be invalid when max date in less than min date', () => {
       service.filtersFormGroup.patchValue({
-        minDate: addDays(new Date(), 1),
-        maxDate: new Date(),
+        filters: {
+          minDate: addDays(new Date(), 1),
+          maxDate: new Date(),
+        },
       });
-      expect(service.filtersFormGroup.invalid).toBeTruthy();
-      expect(service.filtersFormGroup.errors.invalidDateRange).toBeTruthy();
+      expect(service.filtersControl.invalid).toBeTruthy();
+      expect(service.filtersControl.errors.invalidDateRange).toBeTruthy();
     });
   });
 });

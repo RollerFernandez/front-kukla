@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Project } from 'src/app/shared/models';
 import { ProjectfiltersService, ProjectsService } from '../services';
-import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
+import { FilterType, ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { SortableHeaderDirective } from 'src/app/shared/ui';
 import { ProjectfiltersRepository, ProjectsRepository } from '../repositories';
@@ -30,7 +30,8 @@ export class ProjectlistComponent implements OnInit {
   orderColumn = 'project.name';
   orderDirection: 'ASC' | 'DESC' = 'ASC';
   empty = false;
-  message = '';
+  messageTitle = '';
+  messageBody = '';
 
   constructor(private readonly projectsService: ProjectsService) { }
 
@@ -44,13 +45,13 @@ export class ProjectlistComponent implements OnInit {
     this.loadProjects();
   }
 
-  loadProjects(): void {
+  loadProjects(filterType?: FilterType): void {
     this.projectsService.getProjects({
       pageSize: this.pageSize,
       pageIndex: this.page - 1,
       orderColumn: this.orderColumn,
       orderDirection: this.orderDirection,
-    }).subscribe({
+    }, filterType).subscribe({
       next: (page) => {
         this.empty = false;
         this.projects = page.items;
@@ -60,7 +61,9 @@ export class ProjectlistComponent implements OnInit {
       error: (error) => {
         if (error instanceof WithoutAssignedProjectsException) {
           this.empty = true;
-          this.message = error.message;
+          const [title, body] = error.message.split('\n');
+          this.messageTitle = title;
+          this.messageBody = body;
           return;
         }
         throw error;
@@ -79,8 +82,8 @@ export class ProjectlistComponent implements OnInit {
     this.loadProjects();
   }
 
-  filterProjects(): void {
+  filterProjects(filterType?: FilterType): void {
     this.page = 1;
-    this.loadProjects();
+    this.loadProjects(filterType);
   }
 }
