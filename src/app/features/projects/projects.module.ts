@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { UIModule } from '../../shared/ui/ui.module';
@@ -21,8 +21,8 @@ import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
 import { ProjectfiltersComponent } from './projectfilters/projectfilters.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { NgxSliderModule } from 'ngx-slider-v2';
 import { ShortCurrencyPipe } from 'src/app/shared/ui/pipes/short-currency.pipe';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [ProjectgridComponent, ProjectlistComponent, OverviewComponent, CreateComponent, ProjectfiltersComponent],
@@ -39,7 +39,7 @@ import { ShortCurrencyPipe } from 'src/app/shared/ui/pipes/short-currency.pipe';
     PaginationModule.forRoot(),
     AccordionModule.forRoot(),
     ReactiveFormsModule,
-    NgxSliderModule,
+    NgSelectModule,
   ],
   providers: [ShortCurrencyPipe],
 })

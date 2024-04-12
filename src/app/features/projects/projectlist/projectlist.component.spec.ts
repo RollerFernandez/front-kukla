@@ -6,7 +6,6 @@ import { of, throwError } from 'rxjs';
 import { UIModule } from 'src/app/shared/ui/ui.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxSliderModule } from 'ngx-slider-v2';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ProjectfiltersService, ProjectsService } from '../services';
@@ -14,6 +13,7 @@ import { ShortCurrencyPipe } from 'src/app/shared/ui';
 import { CurrencyPipe } from '@angular/common';
 import { ProjectfiltersComponent } from '../projectfilters/projectfilters.component';
 import { WithoutAssignedProjectsException } from '../exceptions';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const projectsMock: Paginate<Project> = {
   pageIndex: 0,
@@ -188,10 +188,16 @@ const filtersMock = {
       "provinceId": 3
     }
   ],
-  "amountRange": {
-    "minAmount": 1847407252,
-    "maxAmount": 2272300920
-  },
+  "amountRanges": [
+    {
+      "id": 4,
+      "minAmount": 50000001,
+      "maxAmount": null,
+      "currency": {
+          "isoCode": "PEN"
+      }
+    },
+  ],
   "dateRange": {
     "maxDate": new Date("2024-04-05T17:20:30.654Z"),
     "minDate": new Date("2024-04-05T17:20:30.633Z")
@@ -213,7 +219,7 @@ describe('ProjectlistComponent', () => {
         UIModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
-        NgxSliderModule,
+        NgSelectModule,
         BsDatepickerModule.forRoot(),
         AccordionModule.forRoot(),
       ],

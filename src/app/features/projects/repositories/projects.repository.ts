@@ -17,15 +17,15 @@ export class ProjectsRepository {
       .set('pageSize', query.pageSize)
       .set('orderColumn', query.orderColumn)
       .set('orderDirection', query.orderDirection)
-      .set('province', filters?.province ?? '')
-      .set('department', filters?.department ?? '')
-      .set('minAmount', filters?.amountRange[0] ?? '')
-      .set('maxAmount', filters?.amountRange[1] ?? '')
+      .set('search', filters?.search ?? '')
       .set('minDate', filters?.minDate ? formatISO(filters.minDate, { representation: 'date' }) : '')
       .set('maxDate', filters?.maxDate ? formatISO(filters.maxDate, { representation: 'date' }) : '');
 
-    filters?.status.filter(s => s.checked).forEach(s => params = params.append('status', s.statusId));
-    filters?.regions.filter(r => r.checked).forEach(r => params = params.append('region', r.regionId));
+    filters?.status?.forEach(s => params = params.append('status', s));
+    filters?.regions?.forEach(r => params = params.append('region', r));
+    filters?.provinces?.forEach(p => params = params.append('province', p));
+    filters?.departments?.forEach(d => params = params.append('department', d));
+    filters?.amountRanges?.forEach(a => params = params.append('amountRange', a));
 
     return this.http.get<Paginate<Project>>(environment.apiUrl + '/projects', { params }).pipe(
       catchError((error) => {

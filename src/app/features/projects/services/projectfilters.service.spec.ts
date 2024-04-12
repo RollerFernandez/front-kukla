@@ -56,10 +56,16 @@ const filtersMock = {
       "provinceId": 3
     }
   ],
-  "amountRange": {
-    "minAmount": 1847407252,
-    "maxAmount": 2272300920
-  },
+  "amountRanges": [
+    {
+      "id": 4,
+      "minAmount": 50000001,
+      "maxAmount": null,
+      "currency": {
+          "isoCode": "PEN"
+      }
+    },
+  ],
   "dateRange": {
     "maxDate": new Date("2024-04-05T17:20:30.654Z"),
     "minDate": new Date("2024-04-05T17:20:30.633Z")
@@ -83,28 +89,33 @@ describe('ProjectfiltersService', () => {
     service = TestBed.inject(ProjectfiltersService);
   });
 
-  it('should return status', () => {
+  it('should return status', (done) => {
     service.getFilters().subscribe();
-    expect(service.statusList.length).toBe(filtersMock.status.length);
+    service.statusList$.subscribe({
+      next: (data) => {
+        expect(data.length).toEqual(filtersMock.status.length);
+        done();
+      },
+    });
   });
 
-  it('should return regions', () => {
+  it('should return regions', (done) => {
     service.getFilters().subscribe();
-    expect(service.regionList.length).toBe(filtersMock.regions.length);
+    service.regionList$.subscribe({
+      next: (data) => {
+        expect(data.length).toEqual(filtersMock.regions.length);
+        done();
+      },
+    });
   });
 
-  it('should return amount range', () => {
+  it('should return amount ranges', (done) => {
     service.getFilters().subscribe();
-    expect(service.amountRange).toBe(filtersMock.amountRange);
-  });
-
-  it('should add status controls', () => {
-    service.getFilters().subscribe();
-    expect(service.statusFormArray.length).toBe(filtersMock.status.length);
-  });
-
-  it('should add region controls', () => {
-    service.getFilters().subscribe();
-    expect(service.regionsFormArray.length).toBe(filtersMock.regions.length);
+    service.amountRanges$.subscribe({
+      next: (data) => {
+        expect(data.length).toEqual(filtersMock.amountRanges.length);
+        done();
+      },
+    });
   });
 });

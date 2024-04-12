@@ -52,6 +52,7 @@ export class ProjectlistComponent implements OnInit {
       orderDirection: this.orderDirection,
     }).subscribe({
       next: (page) => {
+        this.empty = false;
         this.projects = page.items;
         this.totalItems = page.total;
         this.totalPages = page.totalPages;

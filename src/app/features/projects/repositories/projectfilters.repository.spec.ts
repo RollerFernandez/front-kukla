@@ -70,10 +70,16 @@ describe('ProjectfiltersRepository', () => {
           "provinceId": 3
         }
       ],
-      "amountRange": {
-        "minAmount": "1847407252",
-        "maxAmount": "2272300920"
-      },
+      "amountRanges": [
+        {
+          "id": 4,
+          "minAmount": 50000001,
+          "maxAmount": null,
+          "currency": {
+              "isoCode": "PEN"
+          }
+        },
+      ],
       "dateRange": {
         "maxDate": "2024-04-05T17:20:30.654Z",
         "minDate": "2024-04-05T17:20:30.633Z"
@@ -86,7 +92,7 @@ describe('ProjectfiltersRepository', () => {
         expect(filters.status.length).toBeGreaterThan(0);
         expect(filters.departments.length).toBeGreaterThan(0);
         expect(filters.provinces.length).toBeGreaterThan(0);
-        expect(filters.amountRange).toBeTruthy();
+        expect(filters.amountRanges.length).toBeGreaterThan(0);
         expect(filters.dateRange).toBeTruthy();
         done();
       },

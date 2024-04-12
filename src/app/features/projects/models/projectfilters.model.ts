@@ -1,8 +1,10 @@
-import { Department, District, ProjectStatus, Province, Region } from "src/app/shared/models";
+import { Currency, Department, District, ProjectStatus, Province, Region } from "src/app/shared/models";
 
 export interface AmountRange {
-  minAmount: number;
-  maxAmount: number;
+  id: number;
+  minAmount?: number;
+  maxAmount?: number;
+  currency: Currency;
 }
 
 export interface DateRange {
@@ -16,22 +18,17 @@ export interface ProjectFilters {
   departments: Department[];
   provinces: Province[];
   districts: District[];
-  amountRange: AmountRange;
+  amountRanges: AmountRange[];
   dateRange: DateRange;
 }
 
 export interface ProjectActiveFilters {
-  status?: {
-    statusId: number;
-    checked: boolean;
-  }[];
-  regions?: {
-    regionId: number;
-    checked: boolean;
-  }[];
-  department?: number;
-  province?: number;
-  amountRange?: number[];
+  search?: string;
+  status?: number[];
+  regions?: number[];
+  departments?: number[];
+  provinces?: number[];
+  amountRanges?: number[];
   minDate?: Date;
   maxDate?: Date;
 }

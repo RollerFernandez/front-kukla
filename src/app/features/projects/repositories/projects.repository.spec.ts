@@ -150,7 +150,7 @@ describe('ProjectsRepository', () => {
     });
     const expectedRequest = httpController.expectOne({
       method: 'GET',
-      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&province=&department=&minAmount=&maxAmount=&minDate=&maxDate=',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=&maxDate=',
     });
     expectedRequest.flush(responseMock);
   });
@@ -169,7 +169,7 @@ describe('ProjectsRepository', () => {
     });
     const expectedRequest = httpController.expectOne({
       method: 'GET',
-      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&province=&department=&minAmount=&maxAmount=&minDate=&maxDate=',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=&maxDate=',
     });
     expectedRequest.flush({
       message: 'Sin registros',
@@ -193,7 +193,7 @@ describe('ProjectsRepository', () => {
     });
     const expectedRequest = httpController.expectOne({
       method: 'GET',
-      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&province=&department=&minAmount=&maxAmount=&minDate=&maxDate=',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=&maxDate=',
     });
     expectedRequest.flush({
       message: 'Sin registros',
@@ -210,16 +210,11 @@ describe('ProjectsRepository', () => {
       orderColumn: 'project.name',
       orderDirection: 'ASC',
     }, {
-      status: [
-        { statusId: 2, checked: true },
-      ],
-      regions: [
-        { regionId: 1, checked: true },
-        { regionId: 2, checked: true },
-      ],
-      department: 1,
-      province: 1,
-      amountRange: [0, 50000000],
+      status: [2],
+      regions: [1, 2],
+      departments: [1],
+      provinces: [1],
+      amountRanges: [5],
       minDate: new Date(),
       maxDate: new Date(),
     }).subscribe({
@@ -230,7 +225,7 @@ describe('ProjectsRepository', () => {
     });
     const expectedRequest = httpController.expectOne({
       method: 'GET',
-      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&province=1&department=1&minAmount=0&maxAmount=50000000&minDate=2024-04-11&maxDate=2024-04-11&status=2&region=1&region=2',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=2024-04-12&maxDate=2024-04-12&status=2&region=1&region=2&province=1&department=1&amountRange=5',
     });
     expectedRequest.flush(responseMock);
   });

@@ -7,3 +7,4 @@ export * from './region.model';
 export * from './department.model';
 export * from './province.model';
 export * from './district.model';
+export * from './currency.model';
