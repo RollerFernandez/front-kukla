@@ -1,0 +1,115 @@
+<div class="card">
+  <div class="card-body">
+    <form class="row" [formGroup]="filtersFormGroup" (ngSubmit)="filter.emit()">
+      <div class="col-sm-12 col-md-4">
+        <div class="input-group">
+          <input type="text" placeholder="Buscar..." id="search-input" formControlName="search" class="form-control input-group-input">
+          <div class="input-group-text">
+            <button type="button" id="search-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
+              <i class="bx bx-search" (click)="filter.emit()"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="mt-4">
+          <accordion [closeOthers]="true" class="accordion" [isAnimated]="true">
+            <accordion-group [isOpen]="false" heading="Filtros" class="accordion-item" #group>
+              <span accordion-heading class="float-end fs-5">
+                <i class="mdi"
+                  [ngClass]="!group?.isOpen ? 'mdi mdi-chevron-down accor-plus-icon': 'mdi mdi-chevron-up accor-plus-icon'"></i>
+              </span>
+
+              <div class="row">
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Estado</h5>
+                      <ng-select id="status-select" formControlName="status" [items]="statusList$ | async" [multiple]="true" bindValue="id" bindLabel="description"></ng-select>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Región</h5>
+                      <ng-select id="regions-select" formControlName="regions" [items]="regionList$ | async" [multiple]="true" bindValue="id" bindLabel="name"></ng-select>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Departamento</h5>
+                      <ng-select id="departments-select" formControlName="departments" [items]="departmentList$ | async" [multiple]="true" bindValue="id" bindLabel="name"></ng-select>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Provincia</h5>
+                      <ng-select id="provinces-select" formControlName="provinces" [items]="provinceList$ | async" [multiple]="true" bindValue="id" bindLabel="name"></ng-select>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                    <h5 class="font-size-14 text-muted">Monto de inversión</h5>
+                    <ng-select id="amount-ranges-select" formControlName="amountRanges" [items]="amountRanges$ | async" [multiple]="true" bindValue="id">
+                      <ng-template ng-label-tmp let-item="item">
+                        {{item.minAmount !== null ? (item.minAmount|currency:item.currency.isoCode) : 'menos'}} a {{item.maxAmount !== null ? (item.maxAmount|currency:item.currency.isoCode) : 'más'}}
+                      </ng-template>
+
+                      <ng-template ng-option-tmp let-item="item">
+                        {{item.minAmount !== null ? (item.minAmount|currency:item.currency.isoCode) : 'menos'}} a {{item.maxAmount !== null ? (item.maxAmount|currency:item.currency.isoCode) : 'más'}}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4 row">
+                    <div class="col-12">
+                      <h5 class="font-size-14 text-muted">Fecha de asignación</h5>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="row row-v-gap">
+                        <div class="col-sm-12 col-md-6">
+                          <div class="input-group">
+                            <input type="text" placeholder="dd/mm/yyyy" id="min-date-input" formControlName="minDate" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="bsConfig">
+                            <div class="input-group-text">
+                              <button type="button" id="min-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-calendar" (click)="mindp.toggle()"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                          <div class="input-group">
+                            <input type="text" placeholder="dd/mm/yyyy" id="max-date-input" formControlName="maxDate" class="form-control input-group-input" #maxdp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate" [bsConfig]="bsConfig">
+                            <div class="input-group-text">
+                              <button type="button" id="max-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-calendar" (click)="maxdp.toggle()"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="d-flex gap-3 mt-4">
+                    <button type="button" id="remove-filters-button" class="btn btn-link" (click)="resetFilters()">Quitar Filtros</button>
+                    <button type="submit" id="apply-filters-button" class="btn btn-primary w-md">Aplicar</button>
+                  </div>
+                </div>
+              </div>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

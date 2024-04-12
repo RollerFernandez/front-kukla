@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 
@@ -11,8 +11,9 @@ import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { LoaderComponent } from './loader/loader.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { SortableHeaderDirective } from './sortable-header/sortable-header.directive';
+import { ShortCurrencyPipe } from './pipes/short-currency.pipe';
 @NgModule({
-  declarations: [PagetitleComponent,  LoaderComponent, PaginatorComponent, SortableHeaderDirective],
+  declarations: [PagetitleComponent,  LoaderComponent, PaginatorComponent, SortableHeaderDirective, ShortCurrencyPipe],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,5 +22,6 @@ import { SortableHeaderDirective } from './sortable-header/sortable-header.direc
     BsDropdownModule.forRoot()
   ],
   exports: [PagetitleComponent, LoaderComponent, PaginatorComponent, SortableHeaderDirective],
+  providers: [CurrencyPipe],
 })
 export class UIModule { }

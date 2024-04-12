@@ -6,7 +6,7 @@ import { UIModule } from '../../shared/ui/ui.module';
 
 // dropzone
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -19,9 +19,13 @@ import { ProjectgridComponent } from './projectgrid/projectgrid.component';
 import { ProjectlistComponent } from './projectlist/projectlist.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
+import { ProjectfiltersComponent } from './projectfilters/projectfilters.component';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { ShortCurrencyPipe } from 'src/app/shared/ui/pipes/short-currency.pipe';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  declarations: [ProjectgridComponent, ProjectlistComponent, OverviewComponent, CreateComponent],
+  declarations: [ProjectgridComponent, ProjectlistComponent, OverviewComponent, CreateComponent, ProjectfiltersComponent],
   imports: [
     CommonModule,
     ProjectsRoutingModule,
@@ -32,8 +36,12 @@ import { CreateComponent } from './create/create.component';
     NgxDropzoneModule,
     FormsModule,
     BsDatepickerModule.forRoot(),
-    PaginationModule.forRoot()
-  ]
+    PaginationModule.forRoot(),
+    AccordionModule.forRoot(),
+    ReactiveFormsModule,
+    NgSelectModule,
+  ],
+  providers: [ShortCurrencyPipe],
 })
 
 export class ProjectsModule { }

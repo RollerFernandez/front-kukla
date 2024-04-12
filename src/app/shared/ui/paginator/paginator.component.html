@@ -17,10 +17,10 @@
       </span>
     </li>
     <li class="page-item">
-      <button aria-label="Previous" type="button" class="btn btn-link btn-rounded" [disabled]="isFirstPage" (click)="previousPage()">
+      <button aria-label="Previous" type="button" id="paginator-prev-button" class="btn btn-link btn-rounded" [disabled]="isFirstPage" (click)="previousPage()">
         <i class="mdi mdi-chevron-left"></i>
       </button>
-      <button aria-label="Next" type="button" class="btn btn-link btn-rounded" [disabled]="isLastPage" (click)="nextPage()">
+      <button aria-label="Next" type="button" id="paginator-next-button" class="btn btn-link btn-rounded" [disabled]="isLastPage" (click)="nextPage()">
         <i class="mdi mdi-chevron-right"></i>
       </button>
     </li>
