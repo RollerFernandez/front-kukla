@@ -32,7 +32,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './core/interceptors/authInterceptor';
 import { ResponseInterceptor } from './core/interceptors/response.interceptor';
 import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
+import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
+defineLocale('es', esLocale);
 registerLocaleData(localeEsPE);
 
 if (environment.defaultauth === 'firebase') {
@@ -44,6 +47,12 @@ if (environment.defaultauth === 'firebase') {
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
+export function getDatepickerConfig(): BsDatepickerConfig {
+  return Object.assign(new BsDatepickerConfig(), {
+    containerClass: 'theme-red',
+  });
 }
 
 @NgModule({
@@ -77,6 +86,7 @@ export function createTranslateLoader(http: HttpClient): any {
   providers: [
     { provide: LOCALE_ID, useValue: 'es-PE' },
     { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: 'dd/MM/yyyy' } },
+    { provide: BsDatepickerConfig, useFactory: getDatepickerConfig },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },

@@ -146,7 +146,7 @@ describe('ProjectfiltersComponent', () => {
 
     it('should set filters', () => {
       expect(projectfiltersService.filtersFormGroup.value).toEqual({
-        "search": "",
+        "search": null,
         "amountRanges": [],
         "departments": [2],
         "maxDate": null,
@@ -162,13 +162,13 @@ describe('ProjectfiltersComponent', () => {
       resetButton.click();
       expect(projectfiltersService.filtersFormGroup.value).toEqual({
         "search": null,
-        "amountRanges": null,
-        "departments": null,
+        "amountRanges": [],
+        "departments": [],
         "maxDate": null,
         "minDate": null,
-        "provinces": null,
-        "regions": null,
-        "status": null,
+        "provinces": [],
+        "regions": [],
+        "status": [],
       });
     });
   });

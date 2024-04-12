@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ProjectfiltersService } from '../services';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-projectfilters',
@@ -17,11 +18,13 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
   filtersFormGroup = this.projectfiltersService.filtersFormGroup;
   @Output() filter = new EventEmitter<void>();
   @Output() reset = new EventEmitter<void>();
-  bsConfig = { containerClass: 'theme-red' };
 
   constructor(
     private readonly projectfiltersService: ProjectfiltersService,
-  ) {}
+    readonly localeService: BsLocaleService,
+  ) {
+    localeService.use('es');
+  }
 
   ngOnInit(): void {
     this.projectfiltersService.getFilters().subscribe();
@@ -29,6 +32,14 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.projectfiltersService.reset();
+  }
+
+  applyFilters(): void {
+    if (this.filtersFormGroup.invalid) {
+      return;
+    }
+
+    this.filter.emit();
   }
 
   resetFilters(): void {
