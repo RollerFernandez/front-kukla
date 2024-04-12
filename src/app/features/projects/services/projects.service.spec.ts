@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ProjectlistComponent } from './projectlist.component';
-import { Paginate, Project } from 'src/app/shared/models';
-import { ProjectsRepository } from '../repositories';
-import { of } from 'rxjs';
-import { UIModule } from 'src/app/shared/ui/ui.module';
+import { TestBed } from "@angular/core/testing";
+import { ProjectsService } from "./projects.service";
+import { ProjectsRepository } from "../repositories";
+import { of } from "rxjs";
+import { Paginate, Project } from "src/app/shared/models";
 
 const projectsMock: Paginate<Project> = {
   pageIndex: 0,
@@ -12,8 +11,8 @@ const projectsMock: Paginate<Project> = {
     {
       "id": 6,
       "name": "CREACION (CONSTRUCCIÃ“N) DE LA SEGUNDA CALZADA DE LA RUTA PE-1N, TRAMO: LAMBAYEQUE PIURA EN LA PROVINCIA DE LAMBAYEQUE DEL DEPARTAMENTO DE LAMBAYEQUE Y LA PROVINCIA DE SECHURA DEL DEPARTAMENTO DE PIURA",
-      "uniqueInvestmentCode": "65478943",
       "viableAmount": "2013732521",
+      "uniqueInvestmentCode": "65478943",
       "status": {
           "description": "Asignado",
           "code": "assigned"
@@ -48,8 +47,8 @@ const projectsMock: Paginate<Project> = {
   {
       "id": 4,
       "name": "MEJORAMIENTO DE RIEGO Y GENERACION HIDROENERGETICO DEL ALTO PIURA",
-      "uniqueInvestmentCode": "65478942",
       "viableAmount": "2272300920",
+      "uniqueInvestmentCode": "65478942",
       "status": {
           "description": "Asignado",
           "code": "assigned"
@@ -84,8 +83,8 @@ const projectsMock: Paginate<Project> = {
   {
       "id": 5,
       "name": "PROYECTO CHAVIMOCHIC TERCERA ETAPA",
-      "uniqueInvestmentCode": "65478941",
       "viableAmount": "1847407252",
+      "uniqueInvestmentCode": "65478941",
       "status": {
           "description": "Asignado",
           "code": "assigned"
@@ -123,37 +122,40 @@ const projectsMock: Paginate<Project> = {
 };
 
 const projectsRepositoryMock = {
-  getProjects: jest.fn().mockReturnValue(of(projectsMock)),
+  getProjects: jest.fn(),
 };
 
-describe('ProjectlistComponent', () => {
-  let component: ProjectlistComponent;
-  let fixture: ComponentFixture<ProjectlistComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [UIModule],
-      declarations: [ProjectlistComponent],
-      providers: [
-        { provide: ProjectsRepository, useValue: projectsRepositoryMock },
-      ],
-    })
-    .compileComponents();
-  }));
+describe('ProjectsService', () => {
+  let projectsService: ProjectsService;
+  let projectsRepository: ProjectsRepository;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectlistComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      providers: [
+        ProjectsService,
+        { provide: ProjectsRepository, useValue: projectsRepositoryMock },
+      ],
+    });
+    projectsService = TestBed.inject(ProjectsService);
+    projectsRepository = TestBed.inject(ProjectsRepository);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should list projects', () => {
-    const tableBody = fixture.nativeElement.querySelector('tbody');
-    const rows = tableBody.querySelectorAll('tr');
-    expect(rows.length).toBe(3);
+  it('should return projects', (done) => {
+    jest.spyOn(projectsRepository, 'getProjects').mockReturnValue(of(projectsMock));
+    projectsService.getProjects({
+      pageIndex: 0,
+      pageSize: 10,
+      orderColumn: 'project.name',
+      orderDirection: 'ASC',
+    }).subscribe({
+      next: (data) => {
+        expect(data).toBeTruthy();
+        done();
+      },
+    });
   });
 });

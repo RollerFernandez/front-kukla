@@ -4,15 +4,12 @@ import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 // Date Format
 import {DatePipe} from '@angular/common';
-
-import {Project} from '../project.model';
-import {projectData} from '../projectdata';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './projectgrid-sortable.directive';
 
 interface SearchResult {
-  countries: Project[];
+  countries: any[];
   total: number;
 }
 
@@ -32,7 +29,7 @@ interface State {
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(countries: Project[], column: SortColumn, direction: string): Project[] {
+function sort(countries: any[], column: SortColumn, direction: string): any[] {
   if (direction === '' || column === '') {
     return countries;
   } else {
@@ -43,7 +40,7 @@ function sort(countries: Project[], column: SortColumn, direction: string): Proj
   }
 }
 
-function matches(country: Project, term: string, pipe: PipeTransform) {
+function matches(country: any, term: string, pipe: PipeTransform) {
   return country.text.toLowerCase().includes(term.toLowerCase())
   ;
 }
@@ -52,7 +49,7 @@ function matches(country: Project, term: string, pipe: PipeTransform) {
 export class ProjectgridService {
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
-  private _countries$ = new BehaviorSubject<Project[]>([]);
+  private _countries$ = new BehaviorSubject<any[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
   content?: any;
@@ -122,7 +119,7 @@ export class ProjectgridService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm, status, payment, date} = this._state;
 
     // 1. sort
-    let countries = sort(projectData, sortColumn, sortDirection);    
+    let countries = sort([], sortColumn, sortDirection);    
 
     // 2. filter
     countries = countries.filter(country => matches(country, searchTerm, this.pipe));        

@@ -1,31 +1,85 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Project } from '../project.model';
-
-import { projectData } from '../projectdata';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Project } from 'src/app/shared/models';
+import { ProjectsService } from '../services';
+import { ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { SortableHeaderDirective } from 'src/app/shared/ui';
+import { WithoutAssignedProjectsException } from '../exceptions';
 
 @Component({
   selector: 'app-projectlist',
   templateUrl: './projectlist.component.html',
   styleUrls: ['./projectlist.component.scss']
 })
-
-/**
- * Projects-list component
- */
 export class ProjectlistComponent implements OnInit {
+  projects: Project[];
+  page = 1;
+  pageSize = defaultPageSize;
+  totalItems = 0;
+  totalPages = 0;
+  projectStatusCode = ProjectStatusCode;
+  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
+  orderColumn = 'project.name';
+  orderDirection: 'ASC' | 'DESC' = 'ASC';
+  empty = false;
+  message = '';
 
- // bread crumb items
- breadCrumbItems: Array<{}>;
+  constructor(private readonly projectsService: ProjectsService) { }
 
- projectData: Project[];
-  page: any = 1;
-  
- constructor() { }
+  ngOnInit(): void {
+    this.loadProjects();
+  }
 
- ngOnInit() {
-   this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects List', active: true }];
+  changePage(event: PageChangedEvent): void {
+    this.page = event.page;
+    this.pageSize = event.itemsPerPage;
+    this.loadProjects();
+  }
 
-   this.projectData = projectData;
- }
+  loadProjects(): void {
+    this.projectsService.getProjects({
+      pageSize: this.pageSize,
+      pageIndex: this.page - 1,
+      orderColumn: this.orderColumn,
+      orderDirection: this.orderDirection,
+    }).subscribe({
+      next: (page) => {
+        this.projects = page.items;
+        this.totalItems = page.total;
+        this.totalPages = page.totalPages;
+      },
+      error: (error) => {
+        if (error instanceof WithoutAssignedProjectsException) {
+          this.empty = true;
+          this.message = error.message;
+        }
+        throw error;
+      },
+    });
+  }
+
+  previousPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.loadProjects();
+    }
+  }
+
+  nextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+      this.loadProjects();
+    }
+  }
+
+  onSort(event: { column: string; direction: 'ASC' | 'DESC'; }): void {
+    this.headers.forEach(header => {
+      if (header.sortable !== event.column) {
+        header.direction = '';
+      }
+    });
+    this.orderColumn = event.column;
+    this.orderDirection = event.direction;
+    this.loadProjects();
+  }
 }
