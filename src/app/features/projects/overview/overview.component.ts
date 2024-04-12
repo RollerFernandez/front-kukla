@@ -1,30 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-
-import { overviewBarChart } from './data';
-
-import { ChartType } from './overview.model';
+import { Project, ProjectQuestion } from 'src/app/shared/models';
+import { ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  styleUrls: ['./overview.component.scss'],
+  providers: [
+    ProjectsService,
+    ProjectfiltersService,
+    ProjectsRepository,
+    ProjectfiltersRepository,
+    ProjectquestionsService,
+    ProjectquestionsRepository,
+  ],
 })
-
-/**
- * Overview component
- */
 export class OverviewComponent implements OnInit {
+  projectId: number;
+  project: Project;
+  questions: ProjectQuestion[];
+  breadCrumbItems = [{ label: 'Lista de proyectos' }, { label: '', active: true }];
 
-  // bread crumb items
-  breadCrumbItems: Array<{}>;
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly projectquestionsService: ProjectquestionsService,
+    route: ActivatedRoute,
+  ) {
+    this.projectId = route.snapshot.params['id'];
+  }
 
-  overviewBarChart: ChartType;
+  ngOnInit(): void {
+    this.projectsService.getProject(this.projectId).subscribe({
+      next: (project) => {
+        this.project = project;
+        this.breadCrumbItems[1].label = this.project.name;
+      },
+    });
 
-  constructor() { }
-
-  ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Projects' }, { label: 'Projects Overview', active: true }];
-
-    this.overviewBarChart = overviewBarChart;
+    this.projectquestionsService.getQuestions().subscribe({
+      next: (questions) => {
+        this.questions = questions;
+      },
+    });
   }
 }

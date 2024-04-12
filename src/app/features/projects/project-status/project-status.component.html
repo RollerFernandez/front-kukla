@@ -1,0 +1,21 @@
+<span
+  class="badge"
+  [class.badge-soft-warning]="
+    status.code === projectStatusCode.Unassigned
+  "
+  [class.badge-soft-danger]="
+    status.code ===
+      projectStatusCode.InProgress ||
+    status.code === projectStatusCode.Observed
+  "
+  [class.badge-soft-dark]="
+    status.code === projectStatusCode.Assigned
+  "
+  [class.badge-soft-info]="
+    status.code === projectStatusCode.Sended
+  "
+  [class.badge-soft-success]="
+    status.code === projectStatusCode.Approved
+  "
+  >{{ status.description }}</span
+>

@@ -18,4 +18,8 @@ export class ProjectsService {
       type: filterType,
     });
   }
+
+  getProject(projectId: number): Observable<Project> {
+    return this.projectsRepository.getProject(projectId);
+  }
 }

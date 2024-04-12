@@ -1,0 +1,11 @@
+:host {
+  .breadcrumb-item {
+    span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 95%;
+      white-space: nowrap;
+    }
+  }
+}

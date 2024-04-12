@@ -123,27 +123,7 @@
                         }}</span>
                       </td>
                       <td>
-                        <span
-                          class="badge"
-                          [class.badge-soft-warning]="
-                            project.status.code === projectStatusCode.Unassigned
-                          "
-                          [class.badge-soft-danger]="
-                            project.status.code ===
-                              projectStatusCode.InProgress ||
-                            project.status.code === projectStatusCode.Observed
-                          "
-                          [class.badge-soft-dark]="
-                            project.status.code === projectStatusCode.Assigned
-                          "
-                          [class.badge-soft-info]="
-                            project.status.code === projectStatusCode.Sended
-                          "
-                          [class.badge-soft-success]="
-                            project.status.code === projectStatusCode.Approved
-                          "
-                          >{{ project.status.description }}</span
-                        >
+                        <app-project-status [status]="project.status"></app-project-status>
                       </td>
                       <td>
                         <button type="button" class="btn btn-primary"
