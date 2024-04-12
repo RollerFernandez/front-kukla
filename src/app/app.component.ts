@@ -1,4 +1,5 @@
 import { Component , OnInit} from '@angular/core';
+import { InactivityService } from './core/services/inactivity.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,14 @@ import { Component , OnInit} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit  {
-
+  constructor(private inactivityService: InactivityService) {}
   ngOnInit() {
+    this.inactivityService.startMonitoring();
     // document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
+  }
+
+  ngOnDestroy() {
+    // Detiene el monitoreo de inactividad
+    this.inactivityService.stopMonitoring();
   }
 }

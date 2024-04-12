@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserRepository } from '../domain/repositories/user.repository';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../domain/entities/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { User } from '../domain/entities/user';
 export class UserService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  constructor(private userRepository: UserRepository) {
+  constructor(private router: Router,private userRepository: UserRepository) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
 }
@@ -21,6 +22,7 @@ export class UserService {
 
   logout() {
     this.userRepository.logout();
+    this.router.navigate(['/account/login']); 
   }
 
   public get currentUserValue(): User {
