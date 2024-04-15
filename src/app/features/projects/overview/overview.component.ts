@@ -39,7 +39,7 @@ export class OverviewComponent implements OnInit {
       },
     });
 
-    this.projectquestionsService.getQuestions().subscribe({
+    this.projectquestionsService.getQuestions(this.projectId).subscribe({
       next: (questions) => {
         this.questions = questions;
       },

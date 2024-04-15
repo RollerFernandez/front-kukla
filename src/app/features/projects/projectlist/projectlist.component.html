@@ -132,6 +132,7 @@
                               projectStatusCode.InProgress ||
                             project.status.code === projectStatusCode.Observed
                           "
+                          [routerLink]="'/projects/' + project.id"
                         >
                           <span class="text-nowrap">Ver Detalle</span>
                         </button>

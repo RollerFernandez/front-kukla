@@ -9,7 +9,7 @@ export class ProjectquestionsService {
     private readonly projectquestionsRepository: ProjectquestionsRepository,
   ) {}
 
-  getQuestions(): Observable<ProjectQuestion[]> {
-    return this.projectquestionsRepository.getQuestions();
+  getQuestions(projectId: number): Observable<ProjectQuestion[]> {
+    return this.projectquestionsRepository.getQuestions(projectId);
   }
 }

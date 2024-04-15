@@ -1,7 +1,7 @@
 <div class="mb-4">
   <h5 class="font-size-14 text-muted">{{question.text}}</h5>
   <ng-container *ngIf="question.type === type.Select">
-    <ng-select [id]="'question' + question.id + '-select'" [items]="[]" bindValue="id" bindLabel="name"></ng-select>
+    <ng-select [id]="'question' + question.id + '-select'" [items]="question.options" bindValue="id" bindLabel="text"></ng-select>
   </ng-container>
 
   <ng-container *ngIf="question.type === type.Date">
