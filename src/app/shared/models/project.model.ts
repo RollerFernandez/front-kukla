@@ -1,3 +1,4 @@
+import { ProjectStatusCode } from "../base";
 import { ProjectAssignment } from "./project-assignment.model";
 
 export interface Project {
@@ -7,7 +8,7 @@ export interface Project {
   uniqueInvestmentCode: string;
   status: {
     description: string;
-    code: string;
+    code: ProjectStatusCode;
   };
   office: {
     id: number;

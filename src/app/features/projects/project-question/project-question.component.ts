@@ -9,5 +9,6 @@ import { ProjectQuestion } from 'src/app/shared/models';
 })
 export class ProjectQuestionComponent {
   @Input() question!: ProjectQuestion;
+  @Input() editable!: boolean;
   type = ProjectQuestionType;
 }

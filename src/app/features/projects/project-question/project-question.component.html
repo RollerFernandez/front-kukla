@@ -1,23 +1,31 @@
 <div class="mb-4">
-  <h5 class="font-size-14 text-muted">{{question.text}}</h5>
-  <ng-container *ngIf="question.type === type.Select">
-    <ng-select [id]="'question' + question.id + '-select'" [items]="question.options" bindValue="id" bindLabel="text"></ng-select>
-  </ng-container>
+  <ng-container *ngIf="editable; else notEditableTemplate">
+    <h5 class="font-size-14 text-muted">{{question.text}}</h5>
 
-  <ng-container *ngIf="question.type === type.Date">
-    <div class="input-group">
-      <input type="text" placeholder="dd/mm/yyyy" [id]="'question' + question.id + '-input'" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
-      <div class="input-group-text">
-        <button type="button" id="min-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
-          <i class="bx bx-calendar" (click)="mindp.toggle()"></i>
-        </button>
+    <ng-container *ngIf="question.type === type.Select">
+      <ng-select [id]="'question' + question.id + '-select'" [items]="question.options" bindValue="id" bindLabel="text"></ng-select>
+    </ng-container>
+
+    <ng-container *ngIf="question.type === type.Date">
+      <div class="input-group">
+        <input type="text" placeholder="dd/mm/yyyy" [id]="'question' + question.id + '-input'" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
+        <div class="input-group-text">
+          <button type="button" id="min-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
+            <i class="bx bx-calendar" (click)="mindp.toggle()"></i>
+          </button>
+        </div>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-container *ngIf="question.type === type.Integer">
+      <input type="number" [id]="'question' + question.id + '-input'" class="form-control">
+    </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="question.type === type.Integer">
-    <input type="number" [id]="'question' + question.id + '-input'" class="form-control">
-  </ng-container>
+  <ng-template #notEditableTemplate>
+      <h6>{{question.text}}</h6>
+      <p>{{question.text}}</p>
+  </ng-template>
 </div>
 
 

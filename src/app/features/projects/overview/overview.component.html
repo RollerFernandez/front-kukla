@@ -17,67 +17,67 @@
           <div class="row">
             <div class="col-12">
               <h6>Descripción de la alternativa</h6>
-              <p class="text-muted">{{project.description}}</p>
+              <app-more-text [text]="project.description"></app-more-text>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Orden prelación</h6>
-              <p>{{project.priority}}</p>
+              <p>{{project.priority | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Código unico de invers6ón</h6>
-              <p>{{project.uniqueInvestmentCode}}</p>
+              <p>{{project.uniqueInvestmentCode | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Entidad</h6>
-              <p>{{project.financialUnit.organization.name}}</p>
+              <p>{{project.financialUnit.organization.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Costo Actualizado</h6>
-              <p>{{project.updatedAmount}}</p>
+              <p>{{project.updatedAmount | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Monto Viable</h6>
-              <p>{{project.viableAmount}}</p>
+              <p>{{project.viableAmount | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Nivel de viabilidad</h6>
-              <p>{{project.feasibilityLevel?.name || '-'}}</p>
+              <p>{{project.feasibilityLevel?.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Ultimo estudio</h6>
-              <p>{{project.lastStudy.name}}</p>
+              <p>{{project.lastStudy.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Unidad UF</h6>
-              <p>{{project.financialUnit.name}}<p>
+              <p>{{project.financialUnit.name | emptyText}}<p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Especialidad</h6>
-              <p>{{project.speciality.name}}</p>
+              <p>{{project.speciality.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Región</h6>
-              <p>{{project.office.region.name}}</p>
+              <p>{{project.office.region.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Zonal</h6>
-              <p>{{project.office.name}}</p>
+              <p>{{project.office.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Departamento</h6>
-              <p>{{project.district.province.department.name}}</p>
+              <p>{{project.district.province.department.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Provincia</h6>
-              <p>{{project.district.province.name}}</p>
+              <p>{{project.district.province.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Distrito</h6>
-              <p>{{project.district.name}}</p>
+              <p>{{project.district.name | emptyText}}</p>
             </div>
             <div class="col-sm-12 col-md-6">
               <h6>Fecha viabilidad</h6>
-              <p>{{project.feasibilityDate|date}}</p>
+              <p>{{project.feasibilityDate|date | emptyText}}</p>
             </div>
           </div>
 
@@ -85,13 +85,14 @@
 
           <div class="row">
             <div class="col-sm-12 col-md-6" *ngFor="let question of questions">
-              <app-project-question [question]="question"></app-project-question>
+              <app-project-question [editable]="editable" [question]="question"></app-project-question>
             </div>
           </div>
 
+
           <div class="d-flex gap-2">
-            <button type="button" id="save-button" class="btn btn-outline-primary w-md">Guardar</button>
-            <button type="button" id="send-button" class="btn btn-primary w-md">Enviar</button>
+            <button type="button" id="save-button" [disabled]="!editable" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable">Guardar</button>
+            <button type="button" id="send-button" [disabled]="!editable" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Project, ProjectQuestion } from 'src/app/shared/models';
 import { ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
+import { ProjectStatusCode } from 'src/app/shared/base';
 
 @Component({
   selector: 'app-overview',
@@ -21,7 +22,10 @@ export class OverviewComponent implements OnInit {
   projectId: number;
   project: Project;
   questions: ProjectQuestion[];
-  breadCrumbItems = [{ label: 'Lista de proyectos' }, { label: '', active: true }];
+  breadCrumbItems = [{ label: 'Lista de proyectos', link: '/projects' }, { label: '', active: true }];
+  get editable(): boolean {
+    return [ProjectStatusCode.InProgress, ProjectStatusCode.Observed].includes(this.project?.status.code);
+  }
 
   constructor(
     private readonly projectsService: ProjectsService,
