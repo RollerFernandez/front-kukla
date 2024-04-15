@@ -15,9 +15,8 @@ export class UserService {
     this.currentUser = this.currentUserSubject.asObservable();
 }
 
-  login(email: string, password: string) {
-    console.log(" ver login ",email);
-    return this.userRepository.login(email, password);
+   login(email: string, password: string) {
+       return this.userRepository.login(email, password);
   }
 
   logout() {
@@ -27,5 +26,10 @@ export class UserService {
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+  }
+
+  isOnLoginPage(): boolean {
+    // Verifica si la ruta actual es la página de inicio de sesión
+    return this.router.url.includes('/login');
   }
 }

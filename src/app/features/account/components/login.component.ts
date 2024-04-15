@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   submitted: any = false;
   error: any = '';
   returnUrl: string;
-
+  showPassword = false; 
   // set the currenr year
   year: number = new Date().getFullYear();
 
@@ -58,30 +58,22 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      // this.userService.login(this.f.email.value, this.f.password.value)
-      //   .pipe(
-      //     tap(() => this.router.navigate(['/dashboard'])),
-      //     catchError(error => {
-      //       this.error = error ? error : '';
-      //       return throwError(() => new Error(this.error));
-      //     }))
-      //   .subscribe(data => {
-      //     this.router.navigate(['/dashboard']);
-      //   },
-      //   error => {
-      //     this.error = error ? error : '';
-      //   });
 
-        this.userService.login(this.f.email.value, this.f.password.value)
-        .pipe(first())
-        .subscribe(
-          data => {
-            this.router.navigate(['/dashboard']);
-          },
-          error => {
-            this.error = error ? error : '';
-          });
-
+      this.userService.login(this.f.email.value, this.f.password.value)
+      .subscribe(
+        user => {
+          console.log(" ver login ",user );
+          this.router.navigate(['/dashboard']);
+        },
+        error => {
+          console.log(" ver error ", error.error)
+          this.error = error ? error.error.message : '';
+        }
+      );
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }
