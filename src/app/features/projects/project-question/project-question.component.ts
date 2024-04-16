@@ -11,4 +11,11 @@ export class ProjectQuestionComponent {
   @Input() question!: ProjectQuestion;
   @Input() editable!: boolean;
   type = ProjectQuestionType;
+  get response(): string {
+    if (this.question.type === ProjectQuestionType.Select) {
+      return this.question.options?.find((o) => o.id === this.question.responses?.[0].questionOptionId)?.text;
+    }
+
+    return this.question.responses?.[0].text;
+  }
 }

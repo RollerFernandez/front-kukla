@@ -24,7 +24,8 @@
 
   <ng-template #notEditableTemplate>
       <h6>{{question.text}}</h6>
-      <p>{{question.text}}</p>
+      <p *ngIf="question.type === type.Date">{{response|date}}</p>
+      <p *ngIf="question.type !== type.Date">{{response | emptyText}}</p>
   </ng-template>
 </div>
 
