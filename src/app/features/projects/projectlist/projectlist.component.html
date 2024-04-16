@@ -82,7 +82,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let project of projects">
+                    <tr *ngFor="let project of projects; let i = index">
                       <td>
                         <span class="text-nowrap">{{
                           project.uniqueInvestmentCode
@@ -126,7 +126,7 @@
                         <app-project-status [status]="project.status"></app-project-status>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn btn-primary" [id]="'project-detail-button-' + i"
                           [routerLink]="'/projects/' + project.id"
                         >
                           <span class="text-nowrap">Ver Detalle</span>

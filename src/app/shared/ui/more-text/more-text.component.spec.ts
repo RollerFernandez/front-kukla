@@ -12,10 +12,14 @@ describe('MoreTextComponent', () => {
     });
     fixture = TestBed.createComponent(MoreTextComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create', (done) => {
+    component.text = 'Descripcion de proyecto';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component).toBeTruthy();
+      done();
+    });
   });
 });
