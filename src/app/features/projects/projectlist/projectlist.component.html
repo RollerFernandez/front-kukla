@@ -1,181 +1,186 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <app-projectfilters (filter)="filterProjects()" (reset)="filterProjects()"></app-projectfilters>
+      <app-projectfilters (filter)="filterProjects($event)" (reset)="filterProjects($event)"></app-projectfilters>
     </div>
     <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <ng-container *ngIf="!empty; else emptyTemplate">
-            <div class="table-responsive">
-              <table
-                class="table align-middle nowrap w-100"
-                id="projectList-table"
-              >
-                <thead class="table-light">
-                  <tr>
-                    <th
-                      scope="col"
-                      sortable="project.uniqueInvestmentCode"
-                      (sort)="onSort($event)"
-                    >
-                      CUI
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="project.name"
-                      (sort)="onSort($event)"
-                    >
-                      Nombre de la inversión
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="organization.name"
-                      (sort)="onSort($event)"
-                    >
-                      Entidad
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="region.name"
-                      (sort)="onSort($event)"
-                    >
-                      Región
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="department.name"
-                      (sort)="onSort($event)"
-                    >
-                      Departamento
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="province.name"
-                      (sort)="onSort($event)"
-                    >
-                      Provincia
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="project.viableAmount"
-                      (sort)="onSort($event)"
-                    >
-                      Monto
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="project_assignment.createdAt"
-                      (sort)="onSort($event)"
-                    >
-                      Fecha Asignación
-                    </th>
-                    <th
-                      scope="col"
-                      sortable="status.description"
-                      (sort)="onSort($event)"
-                    >
-                      Estado
-                    </th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let project of projects">
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.uniqueInvestmentCode
-                      }}</span>
-                    </td>
-                    <td>
-                      <span>{{ project.name }}</span>
-                    </td>
-                    <td>
-                      <span>{{
-                        project.financialUnit.organization.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.office.region.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.district.province.department.name
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.district.province.name
-                      }}</span>
-                    </td>
+      <ng-container *ngIf="!empty; else emptyTemplate">
+        <div class="card">
+          <div class="card-body">
 
-                    <td class="text-end">
-                      <span class="text-nowrap">{{
-                        project.viableAmount
-                      }}</span>
-                    </td>
-                    <td>
-                      <span class="text-nowrap">{{
-                        project.projectAssignments[0]?.createdAt | date
-                      }}</span>
-                    </td>
-                    <td>
-                      <span
-                        class="badge"
-                        [class.badge-soft-warning]="
-                          project.status.code === projectStatusCode.Unassigned
-                        "
-                        [class.badge-soft-danger]="
-                          project.status.code ===
-                            projectStatusCode.InProgress ||
-                          project.status.code === projectStatusCode.Observed
-                        "
-                        [class.badge-soft-dark]="
-                          project.status.code === projectStatusCode.Assigned
-                        "
-                        [class.badge-soft-info]="
-                          project.status.code === projectStatusCode.Sended
-                        "
-                        [class.badge-soft-success]="
-                          project.status.code === projectStatusCode.Approved
-                        "
-                        >{{ project.status.description }}</span
+              <div class="table-responsive">
+                <table
+                  class="table align-middle nowrap w-100"
+                  id="projectList-table"
+                >
+                  <thead class="table-light">
+                    <tr>
+                      <th
+                        scope="col"
+                        sortable="project.uniqueInvestmentCode"
+                        (sort)="onSort($event)"
                       >
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-primary"
-                        [disabled]="
-                          project.status.code ===
-                            projectStatusCode.InProgress ||
-                          project.status.code === projectStatusCode.Observed
-                        "
+                        CUI
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="project.name"
+                        (sort)="onSort($event)"
                       >
-                        <span class="text-nowrap">Ver Detalle</span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                        Nombre de la inversión
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="organization.name"
+                        (sort)="onSort($event)"
+                      >
+                        Entidad
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="region.name"
+                        (sort)="onSort($event)"
+                      >
+                        Región
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="department.name"
+                        (sort)="onSort($event)"
+                      >
+                        Departamento
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="province.name"
+                        (sort)="onSort($event)"
+                      >
+                        Provincia
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="project.viableAmount"
+                        (sort)="onSort($event)"
+                      >
+                        Monto
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="project_assignment.createdAt"
+                        (sort)="onSort($event)"
+                      >
+                        Fecha Asignación
+                      </th>
+                      <th
+                        scope="col"
+                        sortable="status.description"
+                        (sort)="onSort($event)"
+                      >
+                        Estado
+                      </th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let project of projects">
+                      <td>
+                        <span class="text-nowrap">{{
+                          project.uniqueInvestmentCode
+                        }}</span>
+                      </td>
+                      <td>
+                        <span>{{ project.name }}</span>
+                      </td>
+                      <td>
+                        <span>{{
+                          project.financialUnit.organization.name
+                        }}</span>
+                      </td>
+                      <td>
+                        <span class="text-nowrap">{{
+                          project.office.region.name
+                        }}</span>
+                      </td>
+                      <td>
+                        <span class="text-nowrap">{{
+                          project.district.province.department.name
+                        }}</span>
+                      </td>
+                      <td>
+                        <span class="text-nowrap">{{
+                          project.district.province.name
+                        }}</span>
+                      </td>
 
-            <app-paginator
-              [(page)]="this.page"
-              (changePage)="changePage($event)"
-              [pageSize]="pageSize"
-              [totalItems]="totalItems"
-              [totalPages]="totalPages"
-            ></app-paginator>
-          </ng-container>
+                      <td class="text-end">
+                        <span class="text-nowrap">{{
+                          project.viableAmount
+                        }}</span>
+                      </td>
+                      <td>
+                        <span class="text-nowrap">{{
+                          project.projectAssignments[0]?.createdAt | date
+                        }}</span>
+                      </td>
+                      <td>
+                        <span
+                          class="badge"
+                          [class.badge-soft-warning]="
+                            project.status.code === projectStatusCode.Unassigned
+                          "
+                          [class.badge-soft-danger]="
+                            project.status.code ===
+                              projectStatusCode.InProgress ||
+                            project.status.code === projectStatusCode.Observed
+                          "
+                          [class.badge-soft-dark]="
+                            project.status.code === projectStatusCode.Assigned
+                          "
+                          [class.badge-soft-info]="
+                            project.status.code === projectStatusCode.Sended
+                          "
+                          [class.badge-soft-success]="
+                            project.status.code === projectStatusCode.Approved
+                          "
+                          >{{ project.status.description }}</span
+                        >
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-primary"
+                          [disabled]="
+                            project.status.code ===
+                              projectStatusCode.InProgress ||
+                            project.status.code === projectStatusCode.Observed
+                          "
+                        >
+                          <span class="text-nowrap">Ver Detalle</span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-          <ng-template #emptyTemplate>
-            <div class="d-flex justify-content-center">
-              <span id="empty-table-message">{{message}}</span>
-            </div>
-          </ng-template>
+              <app-paginator
+                [(page)]="this.page"
+                (changePage)="changePage($event)"
+                [pageSize]="pageSize"
+                [totalItems]="totalItems"
+                [totalPages]="totalPages"
+              ></app-paginator>
+
+          </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #emptyTemplate>
+        <div class="d-flex mt-4 justify-content-center">
+          <div>
+            <h5 class="text-muted" id="empty-table-message-title">{{messageTitle}}</h5>
+            <p class="text-muted" id="empty-table-message-body">{{messageBody}}</p>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

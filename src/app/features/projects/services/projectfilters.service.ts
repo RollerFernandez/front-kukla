@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { ProjectfiltersRepository } from '../repositories';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AmountRange, ProjectFilters } from '../models';
-import { FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Department, ProjectStatus, Province, Region } from 'src/app/shared/models';
+import { isValid } from 'date-fns';
 
 @Injectable()
 export class ProjectfiltersService {
@@ -18,19 +19,56 @@ export class ProjectfiltersService {
   private _amountRanges = new BehaviorSubject<AmountRange[]>([]);
   readonly amountRanges$ = this._amountRanges.asObservable();
   filtersFormGroup = new UntypedFormGroup({
-    search: new FormControl(''),
-    status: new FormControl([]),
-    regions: new FormControl([]),
-    departments: new FormControl([]),
-    provinces: new FormControl([]),
-    amountRanges: new FormControl([]),
-    minDate: new FormControl(null),
-    maxDate: new FormControl(null),
+    search: new FormControl(null),
+    filters: new FormGroup({
+      status: new FormControl([]),
+      regions: new FormControl([]),
+      departments: new FormControl([]),
+      provinces: new FormControl([]),
+      amountRanges: new FormControl([]),
+      minDate: new FormControl(null),
+      maxDate: new FormControl(null),
+    }, {
+      validators: [this.validateDates],
+    }),
   });
   minDate = new Date();
   maxDate = new Date();
+  private allProvinces: Province[] = [];
+  get filtersControl(): FormGroup {
+    return this.filtersFormGroup.get('filters') as FormGroup;
+  }
+  get provincesControl(): AbstractControl {
+    return this.filtersControl.get('provinces');
+  }
+  get departmentsControl(): AbstractControl {
+    return this.filtersControl.get('departments');
+  }
+  get minDateControl(): AbstractControl {
+    return this.filtersControl.get('minDate');
+  }
+  get maxDateControl(): AbstractControl {
+    return this.filtersControl.get('maxDate');
+  }
 
-  constructor(private readonly projectfiltersRepository: ProjectfiltersRepository) {}
+  constructor(private readonly projectfiltersRepository: ProjectfiltersRepository) {
+    this.departmentsControl.valueChanges.subscribe((value: number[]) => {
+      this._provinceList.next(this.allProvinces.filter((p) => value.includes(p.departmentId)));
+      this.provincesControl.setValue(this.provincesControl.value?.filter((id) => this._provinceList.value.find((p) => p.id === id)));
+    });
+
+    this.minDateControl.valueChanges.subscribe((value) => {
+      if (value && !isValid(value)) {
+        this.minDateControl.setValue(null);
+      }
+    });
+
+    this.maxDateControl.valueChanges.subscribe((value) => {
+      if (value && !isValid(value)) {
+        this.maxDateControl.setValue(null);
+      }
+    });
+  }
 
   getFilters(): Observable<ProjectFilters> {
     return this.projectfiltersRepository.getFilters().pipe(
@@ -38,7 +76,7 @@ export class ProjectfiltersService {
         this._statusList.next(filters.status);
         this._regionList.next(filters.regions);
         this._departmentList.next(filters.departments);
-        this._provinceList.next(filters.provinces);
+        this.allProvinces = filters.provinces;
         this._amountRanges.next(filters.amountRanges);
         this.minDate = filters.dateRange.minDate;
         this.minDate = filters.dateRange.maxDate;
@@ -47,6 +85,23 @@ export class ProjectfiltersService {
   }
 
   reset(): void {
-    this.filtersFormGroup.reset();
+    this.filtersControl.reset({
+      status: [],
+      regions: [],
+      departments: [],
+      provinces: [],
+      amountRanges: [],
+    });
+  }
+
+  validateDates(control: AbstractControl): { invalidDateRange: boolean } | null {
+    const minDate = control.get('minDate').value;
+    const maxDate = control.get('maxDate').value;
+
+    if (minDate && maxDate && maxDate < minDate) {
+      return { invalidDateRange: true };
+    }
+
+    return null;
   }
 }

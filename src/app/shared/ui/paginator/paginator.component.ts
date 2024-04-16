@@ -13,7 +13,7 @@ export class PaginatorComponent {
   @Input() pageSize = 0;
   @Input() totalItems = 0;
   @Output() changePage = new EventEmitter<PageChangedEvent>();
-  @Input() pageSizes = [5, 10, 20];
+  @Input() pageSizes = [10, 25, 50, 100];
   get isFirstPage(): boolean {
     return this.page === 1;
   }

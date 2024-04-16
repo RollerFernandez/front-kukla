@@ -296,7 +296,7 @@ describe('ProjectlistComponent', () => {
 
   describe('empty', () => {
     let projectsRepository: ProjectsRepository;
-    const emptyMessage = 'Sin registros';
+    const emptyMessage = 'Sin registros\nNo hay registro.';
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ProjectlistComponent);
@@ -310,8 +310,10 @@ describe('ProjectlistComponent', () => {
     it('should not show table', () => {
       const tableBody = fixture.nativeElement.querySelector('tbody');
       expect(tableBody).toBeNull();
-      const message = fixture.nativeElement.querySelector('#empty-table-message');
-      expect(message.textContent).toEqual(emptyMessage);
+      const title = fixture.nativeElement.querySelector('#empty-table-message-title');
+      expect(title.textContent).toEqual(emptyMessage.split('\n')[0]);
+      const body = fixture.nativeElement.querySelector('#empty-table-message-body');
+      expect(body.textContent).toEqual(emptyMessage.split('\n')[1]);
     });
   });
 });

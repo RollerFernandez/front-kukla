@@ -1,3 +1,4 @@
+import { FilterType } from "src/app/shared/base";
 import { Currency, Department, District, ProjectStatus, Province, Region } from "src/app/shared/models";
 
 export interface AmountRange {
@@ -23,12 +24,15 @@ export interface ProjectFilters {
 }
 
 export interface ProjectActiveFilters {
+  type?: FilterType;
   search?: string;
-  status?: number[];
-  regions?: number[];
-  departments?: number[];
-  provinces?: number[];
-  amountRanges?: number[];
-  minDate?: Date;
-  maxDate?: Date;
+  filters: {
+    status?: number[];
+    regions?: number[];
+    departments?: number[];
+    provinces?: number[];
+    amountRanges?: number[];
+    minDate?: Date;
+    maxDate?: Date;
+  };
 }

@@ -106,36 +106,6 @@ describe('ProjectfiltersComponent', () => {
     fixture.detectChanges();
   });
 
-  // describe('show controls', () => {
-  //   it('should show status checkboxes', () => {
-  //     const checkboxes = fixture.nativeElement.querySelectorAll('[id^="status-checkbox-"]');
-  //     expect(checkboxes.length).toBe(filtersMock.status.length);
-  //     const title = checkboxes[0].closest('.col-12').querySelector('h5');
-  //     expect(title.textContent).toBe('Estado');
-  //   });
-
-  //   it('should show regions checkboxes', () => {
-  //     const checkboxes = fixture.nativeElement.querySelectorAll('[id^="region-checkbox-"]');
-  //     expect(checkboxes.length).toBe(filtersMock.regions.length);
-  //     const title = checkboxes[0].closest('.col-12').querySelector('h5');
-  //     expect(title.textContent).toBe('Región');
-  //   });
-
-  //   it('should show departments radios', () => {
-  //     const radios = fixture.nativeElement.querySelectorAll('[id^="department-radio-"]');
-  //     expect(radios.length).toBe(filtersMock.departments.length);
-  //     const title = radios[0].closest('.col-12').querySelector('h5');
-  //     expect(title.textContent).toBe('Departamento');
-  //   });
-
-  //   it('should show provinces radios', () => {
-  //     const radios = fixture.nativeElement.querySelectorAll('[id^="province-radio-"]');
-  //     expect(radios.length).toBe(filtersMock.provinces.length);
-  //     const title = radios[0].closest('.col-12').querySelector('h5');
-  //     expect(title.textContent).toBe('Provincia');
-  //   });
-  // });
-
   describe('set values', () => {
     beforeEach(fakeAsync(() => {
       selectOption(fixture, 'status-select', 1);
@@ -146,14 +116,16 @@ describe('ProjectfiltersComponent', () => {
 
     it('should set filters', () => {
       expect(projectfiltersService.filtersFormGroup.value).toEqual({
-        "search": "",
-        "amountRanges": [],
-        "departments": [2],
-        "maxDate": null,
-        "minDate": null,
-        "provinces": [3],
-        "regions": [1],
-        "status": [2],
+        "search": null,
+        "filters": {
+          "amountRanges": [],
+          "departments": [2],
+          "maxDate": null,
+          "minDate": null,
+          "provinces": [3],
+          "regions": [1],
+          "status": [2],
+        },
       });
     });
 
@@ -162,13 +134,15 @@ describe('ProjectfiltersComponent', () => {
       resetButton.click();
       expect(projectfiltersService.filtersFormGroup.value).toEqual({
         "search": null,
-        "amountRanges": null,
-        "departments": null,
-        "maxDate": null,
-        "minDate": null,
-        "provinces": null,
-        "regions": null,
-        "status": null,
+        "filters": {
+          "amountRanges": [],
+          "departments": [],
+          "maxDate": null,
+          "minDate": null,
+          "provinces": [],
+          "regions": [],
+          "status": [],
+        },
       });
     });
   });

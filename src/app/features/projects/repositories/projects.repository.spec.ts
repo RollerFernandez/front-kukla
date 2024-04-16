@@ -210,13 +210,15 @@ describe('ProjectsRepository', () => {
       orderColumn: 'project.name',
       orderDirection: 'ASC',
     }, {
-      status: [2],
-      regions: [1, 2],
-      departments: [1],
-      provinces: [1],
-      amountRanges: [5],
-      minDate: new Date(),
-      maxDate: new Date(),
+      filters: {
+        status: [2],
+        regions: [1, 2],
+        departments: [1],
+        provinces: [1],
+        amountRanges: [5],
+        minDate: new Date(),
+        maxDate: new Date(),
+      },
     }).subscribe({
       next: (data) => {
         expect(data.total).toBe(2);
