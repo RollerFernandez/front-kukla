@@ -5,6 +5,8 @@ import { environment } from "src/environments/environment";
 import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { WithoutAssignedProjectsException } from "../exceptions";
 import { projectMock, projectsMock } from "../test";
+import { ProjectData } from "../models";
+import { ProjectAction } from "src/app/shared/base";
 
 describe('ProjectsRepository', () => {
   let projectsRepository: ProjectsRepository;
@@ -126,5 +128,38 @@ describe('ProjectsRepository', () => {
       method: 'GET',
       url: environment.apiUrl + '/projects/2',
     }).flush(projectMock);
+  });
+
+  it('should send request for save project responses', () => {
+    const projectData: ProjectData = {
+      responses: {
+        '1': { questionId: 1, response: 1 },
+        '2': { questionId: 2, response: 1 },
+        '3': { questionId: 3, response: 1 },
+        '4': { questionId: 4, response: 1 },
+        '5': { questionId: 5, response: 1 },
+        '6': { questionId: 6, response: 1 },
+        '7': { questionId: 7, response: 1 },
+      },
+    };
+
+    projectsRepository.saveResponses(2, projectData).subscribe();
+    const handler = httpController.expectOne({
+      method: 'PUT',
+      url: environment.apiUrl + '/projects/2',
+    });
+    const request = handler.request;
+    expect(request.body).toEqual({
+      action: ProjectAction.Save,
+      responses: [
+        { questionId: 1, response: 1 },
+        { questionId: 2, response: 1 },
+        { questionId: 3, response: 1 },
+        { questionId: 4, response: 1 },
+        { questionId: 5, response: 1 },
+        { questionId: 6, response: 1 },
+        { questionId: 7, response: 1 },
+      ],
+    });
   });
 });

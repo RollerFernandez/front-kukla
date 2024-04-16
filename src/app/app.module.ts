@@ -87,7 +87,9 @@ export function getSelectConfigConfig(): NgSelectConfig {
     TooltipModule.forRoot(),
     SharedModule,
     ScrollToModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center',
+    }),
   ],
   bootstrap: [AppComponent],
   providers: [

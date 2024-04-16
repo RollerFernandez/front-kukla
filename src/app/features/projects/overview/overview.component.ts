@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectQuestion } from 'src/app/shared/models';
-import { ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
+import { ProjectDetailService, ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
-import { ProjectStatusCode } from 'src/app/shared/base';
+import { ProjectStatusCode, toastErrorTitle, toastSuccessTitle } from 'src/app/shared/base';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-overview',
@@ -16,6 +17,7 @@ import { ProjectStatusCode } from 'src/app/shared/base';
     ProjectfiltersRepository,
     ProjectquestionsService,
     ProjectquestionsRepository,
+    ProjectDetailService,
   ],
 })
 export class OverviewComponent implements OnInit {
@@ -26,10 +28,14 @@ export class OverviewComponent implements OnInit {
   get editable(): boolean {
     return [ProjectStatusCode.InProgress, ProjectStatusCode.Observed].includes(this.project?.status.code);
   }
+  projectForm = this.projectDetailService.projectForm;
+  responsesForm = this.projectDetailService.responsesForm;
 
   constructor(
     private readonly projectsService: ProjectsService,
     private readonly projectquestionsService: ProjectquestionsService,
+    private readonly projectDetailService: ProjectDetailService,
+    private readonly toastrService: ToastrService,
     route: ActivatedRoute,
   ) {
     this.projectId = route.snapshot.params['id'];
@@ -46,6 +52,18 @@ export class OverviewComponent implements OnInit {
     this.projectquestionsService.getQuestions(this.projectId).subscribe({
       next: (questions) => {
         this.questions = questions;
+        this.projectDetailService.addQuestions(questions);
+      },
+    });
+  }
+
+  save(): void {
+    this.projectDetailService.saveResponses(this.project.id).subscribe({
+      next: (response) => {
+        this.toastrService.success(response, toastSuccessTitle);
+      },
+      error: (error) => {
+        this.toastrService.error(error.message, toastErrorTitle);
       },
     });
   }

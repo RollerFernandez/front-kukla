@@ -1,11 +1,11 @@
-import { ProjectStatusCode } from "src/app/shared/base";
-import { Paginate, Project } from "src/app/shared/models";
+import { ProjectQuestionType, ProjectStatusCode } from "src/app/shared/base";
+import { Paginate, Project, ProjectQuestion } from "src/app/shared/models";
 
-export const questionListMock = [
+export const questionListMock: ProjectQuestion[] = [
   {
     "id": 4,
     "text": "Rubro",
-    "type": "select",
+    "type": ProjectQuestionType.Select,
     "parentId": null,
     "options": [
       {
@@ -30,7 +30,7 @@ export const questionListMock = [
   {
     "id": 5,
     "text": "Tipo de obra",
-    "type": "select",
+    "type": ProjectQuestionType.Select,
     "parentId": 4,
     "options": [
       {
@@ -55,7 +55,7 @@ export const questionListMock = [
   {
     "id": 1,
     "text": "Etapa de obra",
-    "type": "select",
+    "type": ProjectQuestionType.Select,
     "parentId": null,
     "options": [
       {
@@ -100,7 +100,7 @@ export const questionListMock = [
   {
     "id": 2,
     "text": "Etapa de venta",
-    "type": "select",
+    "type": ProjectQuestionType.Select,
     "parentId": null,
     "options": [
       {
@@ -125,7 +125,7 @@ export const questionListMock = [
   {
     "id": 3,
     "text": "Etapa de prospección",
-    "type": "select",
+    "type": ProjectQuestionType.Select,
     "parentId": null,
     "options": [
       {
@@ -175,7 +175,7 @@ export const questionListMock = [
   {
     "id": 6,
     "text": "Fecha inicio",
-    "type": "date",
+    "type": ProjectQuestionType.Date,
     "parentId": null,
     "options": [],
     "responses": [
@@ -189,7 +189,7 @@ export const questionListMock = [
   {
     "id": 7,
     "text": "Duración",
-    "type": "integer",
+    "type": ProjectQuestionType.Integer,
     "parentId": null,
     "options": [],
     "responses": [
@@ -330,7 +330,7 @@ export const projectMock: Project = {
   "description": "COMPONENTE 1: OBRAS DE TRASVASE QUE COMPRENDE PRESA REGULADORA TRONERA NORTE, TUNEL DE TRASVASE (13.315km) Y CONSTRUCCION DE 92.6 KM DE CAMINOS Y ACCESOS. COMPONENTE2: CONSTRUCCION DE DOS CENTRALES HIDROELECTRICAS: CENTRAL CASHAPITE Y CENTRAL GRAMADAL, COMPONENTE 3: CONSTRUCCIÃ“N DE PRESA MAMAYACO, CANAL DE CONDUCCIÃ“N , SISTEMA DE RIEGO TECNIFICADO DE AREAS NUEVAS (19 MIL NUEVAS HECTAREAS DE CULTIVO) ,COMPONENTE 4: MEJORAMIENTO DE RIEGO DE 31 MIL HECTAREAS DEL VALLE VIEJO (MORROPON)",
   "status": {
     "description": "En Progreso",
-    "code": ProjectStatusCode.Completed,
+    "code": ProjectStatusCode.InProgress,
   },
   "office": {
     "id": 1,

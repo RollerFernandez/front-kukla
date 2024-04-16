@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ProjectQuestionComponent } from './project-question.component';
 import { ProjectQuestionType } from 'src/app/shared/base';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UIModule } from 'src/app/shared/ui/ui.module';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 const questions = [
   {
@@ -13,6 +14,7 @@ const questions = [
     parentId: null,
     options: [
       { id: 1, text: 'Opcion 1' },
+      { id: 2, text: 'Opcion 2' },
     ],
     responses: [
       { id: 1, questionOptionId: 1, text: null },
@@ -38,7 +40,42 @@ const questions = [
       { id: 3, text: '25' },
     ],
   },
+  {
+    id: 4,
+    text: 'Pregunta 4',
+    type: ProjectQuestionType.Select,
+    parentId: 1,
+    options: [
+      { id: 1, text: 'Opcion 1', parentId: 1 },
+      { id: 2, text: 'Opcion 2', parentId: 1 },
+      { id: 3, text: 'Opcion 3', parentId: 2 },
+    ],
+    responses: [
+      { id: 1, questionOptionId: 1, text: null },
+    ],
+  },
 ];
+
+function createForm(): FormGroup {
+  return new FormGroup({
+    '1': new FormGroup({
+      questionId: new FormControl(1),
+      response: new FormControl(1),
+    }),
+    '2': new FormGroup({
+      questionId: new FormControl(2),
+      response: new FormControl(new Date('2021-05-29')),
+    }),
+    '3': new FormGroup({
+      questionId: new FormControl(3),
+      response: new FormControl('25'),
+    }),
+    '4': new FormGroup({
+      questionId: new FormControl(4),
+      response: new FormControl(1),
+    }),
+  });
+}
 
 describe('ProjectQuestionComponent', () => {
   let component: ProjectQuestionComponent;
@@ -46,7 +83,7 @@ describe('ProjectQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgSelectModule, UIModule],
+      imports: [NgSelectModule, UIModule, ReactiveFormsModule],
       declarations: [ProjectQuestionComponent],
       providers: [
         { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: 'dd/MM/yyyy' } },
@@ -63,6 +100,7 @@ describe('ProjectQuestionComponent', () => {
 
     it('should show text for type select', () => {
       component.question = questions[0];
+      component.responsesForm = createForm();
       fixture.detectChanges();
       const title = fixture.nativeElement.querySelector('h6');
       const text = fixture.nativeElement.querySelector('p');
@@ -72,6 +110,7 @@ describe('ProjectQuestionComponent', () => {
 
     it('should show text for type date', () => {
       component.question = questions[1];
+      component.responsesForm = createForm();
       fixture.detectChanges();
       const title = fixture.nativeElement.querySelector('h6');
       const text = fixture.nativeElement.querySelector('p');
@@ -81,6 +120,7 @@ describe('ProjectQuestionComponent', () => {
 
     it('should show text for type integer', () => {
       component.question = questions[2];
+      component.responsesForm = createForm();
       fixture.detectChanges();
       const title = fixture.nativeElement.querySelector('h6');
       const text = fixture.nativeElement.querySelector('p');
@@ -89,4 +129,21 @@ describe('ProjectQuestionComponent', () => {
     });
   });
 
+  describe('editable', () => {
+    beforeEach(() => {
+      component.editable = true;
+    });
+
+    it('should filter options', fakeAsync(() => {
+      const form = createForm();
+      component.question = questions[3];
+      component.responsesForm = form;
+      fixture.detectChanges();
+      tick(10);
+      expect(component.options.length).toBe(2);
+      form.get('1').get('response').setValue(2);
+      tick(10);
+      expect(component.options.length).toBe(1);
+    }));
+  });
 });
