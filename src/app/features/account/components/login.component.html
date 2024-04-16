@@ -30,9 +30,9 @@
                     <alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</alert>
 
                     <div class="mb-3">
-                      <label for="email">Usuario</label>
+                      <label for="email">Correo electrónico</label>
                       <input type="email" formControlName="email" class="form-control" id="email"
-                        placeholder="Ingrese usuario" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        placeholder="Ingrese correo electrónico" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                       <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                         <div *ngIf="f.email.errors.required">Email es requerido</div>
                         <div *ngIf="f.email.errors.email">Email ingresado en invalido</div>
@@ -70,4 +70,3 @@
     <!-- end col -->
   </div>
   <!-- end row -->
-</div>
