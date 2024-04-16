@@ -22,22 +22,23 @@
                     </div>
                   </div>
                 </div>
+              </div>
               <div class="card-body pt-0 mt-4">
                 <div class="p-2">
                   <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      
+
                     <alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</alert>
-      
+
                     <div class="mb-3">
-                      <label for="email">Correo electrónico</label>
-                      <input type="email" formControlName="email" class="form-control" id="email" placeholder="Ingrese correo eletrónico"
-                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                      <label for="email">Usuario</label>
+                      <input type="email" formControlName="email" class="form-control" id="email"
+                        placeholder="Ingrese usuario" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                       <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                         <div *ngIf="f.email.errors.required">Email es requerido</div>
                         <div *ngIf="f.email.errors.email">Email ingresado en invalido</div>
                       </div>
                     </div>
-      
+
                     <div class="mb-3">
                       <label for="password">Contraseña</label>
                       <div class="input-group auth-pass-inputgroup">
@@ -53,22 +54,15 @@
                       </div>
                     </div>
 
-                    <div class="form-check mb-3">
-                      <input class="form-check-input" type="checkbox" id="remember-check">
-                      <label class="form-check-label" for="remember-check">
-                          Recordar usuario
-                      </label>
-                  </div>
-      
                     <div class="mt-1 d-grid">
                       <button class="btn btn-primary mb-3" [ngClass]="{ 'btn-disabled': !loginForm.valid }" [disabled]="!loginForm.valid" type="submit">Iniciar Sesión</button>
                     </div>
                   </form>
                 </div>
-      
+
               </div>
             </div>
-      
+
           </div>
         </div>
       </div>

@@ -1,9 +1,8 @@
-import { Injectable, Input, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from 'src/app/features/account/services/user.service';
 import Swal from 'sweetalert2';
 import { CounterService } from './counterService';
 import { Subscription } from 'rxjs';
-import { map, timer, takeWhile } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +11,6 @@ export class InactivityService implements OnInit, OnDestroy{
   private timeoutId: number;
   countdownValue: number=30;
   private countdownSubscription: Subscription;
-  @Input() seconds = 300;
-
-
 
   constructor(private userService: UserService, private counterService: CounterService) {
     this.bindEvents();
@@ -56,15 +52,10 @@ export class InactivityService implements OnInit, OnDestroy{
     this.startInactivityTimer();
   }
 
-  timeRemaining$ = timer(0, 1000).pipe(
-    map(n => (this.seconds - n) * 1000),
-    takeWhile(n => n >= 0),
-  );
-
   showInactivityAlert() {
     Swal.fire({
       title: '¡Advertencia!',
-      text: `Su sesión está a punto de terminar. ¿Deseas más tiempo para realizar la operación actual ? ${this.timeRemaining$}"`,
+      text: `Su sesión está a punto de terminar. ¿Deseas más tiempo para realizar la operación actual ? ${this.counterService.updateCountdown(30)}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#34c38f',
