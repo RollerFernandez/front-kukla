@@ -82,7 +82,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let project of projects">
+                    <tr *ngFor="let project of projects; let i = index">
                       <td>
                         <span class="text-nowrap">{{
                           project.uniqueInvestmentCode
@@ -123,35 +123,11 @@
                         }}</span>
                       </td>
                       <td>
-                        <span
-                          class="badge"
-                          [class.badge-soft-warning]="
-                            project.status.code === projectStatusCode.Unassigned
-                          "
-                          [class.badge-soft-danger]="
-                            project.status.code ===
-                              projectStatusCode.InProgress ||
-                            project.status.code === projectStatusCode.Observed
-                          "
-                          [class.badge-soft-dark]="
-                            project.status.code === projectStatusCode.Assigned
-                          "
-                          [class.badge-soft-info]="
-                            project.status.code === projectStatusCode.Sended
-                          "
-                          [class.badge-soft-success]="
-                            project.status.code === projectStatusCode.Approved
-                          "
-                          >{{ project.status.description }}</span
-                        >
+                        <app-project-status [status]="project.status"></app-project-status>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-primary"
-                          [disabled]="
-                            project.status.code ===
-                              projectStatusCode.InProgress ||
-                            project.status.code === projectStatusCode.Observed
-                          "
+                        <button type="button" class="btn btn-primary" [id]="'project-detail-button-' + i"
+                          [routerLink]="'/projects/' + project.id"
                         >
                           <span class="text-nowrap">Ver Detalle</span>
                         </button>

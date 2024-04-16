@@ -42,4 +42,8 @@ export class ProjectsRepository {
       }),
     );
   }
+
+  getProject(projectId: number): Observable<Project> {
+    return this.http.get<Project>(environment.apiUrl + '/projects/' + projectId);
+  }
 }

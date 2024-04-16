@@ -1,3 +1,4 @@
+import { ProjectStatusCode } from "../base";
 import { ProjectAssignment } from "./project-assignment.model";
 
 export interface Project {
@@ -7,10 +8,11 @@ export interface Project {
   uniqueInvestmentCode: string;
   status: {
     description: string;
-    code: string;
+    code: ProjectStatusCode;
   };
   office: {
     id: number;
+    name?: string;
     region: {
       id: number;
       name: string;
@@ -26,9 +28,24 @@ export interface Project {
     };
   };
   financialUnit: {
+    id?: number;
+    name?: string;
     organization: {
       name: string;
     };
   };
+  speciality?: {
+    name?: string;
+  };
+  lastStudy?: {
+    name?: string;
+  };
+  feasibilityLevel?: {
+    name?: string;
+  };
+  priority?: string;
+  feasibilityDate?: Date;
+  updatedAmount?: string;
+  description?: string;
   projectAssignments: ProjectAssignment[];
 }

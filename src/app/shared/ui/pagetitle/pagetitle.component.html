@@ -1,4 +1,3 @@
-<!-- breadcrumb item -->
 <div class="row">
   <div class="col-12">
     <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -6,9 +5,10 @@
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <ng-container *ngFor="let item of breadcrumbItems">
-            <li class="breadcrumb-item" *ngIf="!item.active"><a href="javascript: void(0);">{{ item.label }}</a>
+            <li class="breadcrumb-item" *ngIf="!item.active"><a [routerLink]="item.link">{{ item.label }}</a>
             </li>
-            <li class="breadcrumb-item active" *ngIf="item.active">{{ item.label }}
+            <li class="breadcrumb-item active" *ngIf="item.active">
+              <span>{{ item.label }}</span>
             </li>
           </ng-container>
         </ol>

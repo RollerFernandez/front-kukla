@@ -1,0 +1,4 @@
+<div class="text-wrapper">
+  <p class="text-muted" #textElement [class.hide-text]="hide" [style.-webkit-line-clamp]="initialLines">{{text | emptyText}}</p>
+  <button class="btn btn-link show-mode-button" *ngIf="showButton" (click)="hide = !hide">{{action}}</button>
+</div>

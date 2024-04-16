@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { ProjectlistComponent } from './projectlist.component';
 import { Paginate, Project } from 'src/app/shared/models';
 import { ProjectfiltersRepository, ProjectsRepository } from '../repositories';
@@ -14,6 +14,10 @@ import { CurrencyPipe } from '@angular/common';
 import { ProjectfiltersComponent } from '../projectfilters/projectfilters.component';
 import { WithoutAssignedProjectsException } from '../exceptions';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ProjectStatusCode } from 'src/app/shared/base';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { ProjectStatusComponent } from '../project-status/project-status.component';
 
 const projectsMock: Paginate<Project> = {
   pageIndex: 0,
@@ -26,7 +30,7 @@ const projectsMock: Paginate<Project> = {
       "viableAmount": "2013732521",
       "status": {
           "description": "Asignado",
-          "code": "assigned"
+          "code": ProjectStatusCode.Assigned,
       },
       "office": {
           "id": 1,
@@ -62,7 +66,7 @@ const projectsMock: Paginate<Project> = {
       "viableAmount": "2272300920",
       "status": {
           "description": "Asignado",
-          "code": "assigned"
+          "code": ProjectStatusCode.Assigned,
       },
       "office": {
           "id": 1,
@@ -98,7 +102,7 @@ const projectsMock: Paginate<Project> = {
       "viableAmount": "1847407252",
       "status": {
           "description": "Asignado",
-          "code": "assigned"
+          "code": ProjectStatusCode.Assigned,
       },
       "office": {
           "id": 2,
@@ -209,7 +213,6 @@ const projectfiltersRepositoryMock = {
 };
 
 describe('ProjectlistComponent', () => {
-  let component: ProjectlistComponent;
   let fixture: ComponentFixture<ProjectlistComponent>;
   let projectsRepository: ProjectsRepository;
 
@@ -222,8 +225,11 @@ describe('ProjectlistComponent', () => {
         NgSelectModule,
         BsDatepickerModule.forRoot(),
         AccordionModule.forRoot(),
+        RouterTestingModule.withRoutes([
+          { path: 'projects/6', component: {} as any },
+        ]),
       ],
-      declarations: [ProjectlistComponent, ProjectfiltersComponent],
+      declarations: [ProjectlistComponent, ProjectfiltersComponent, ProjectStatusComponent],
       providers: [
         ShortCurrencyPipe,
         CurrencyPipe,
@@ -254,7 +260,6 @@ describe('ProjectlistComponent', () => {
   describe('table', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(ProjectlistComponent);
-      component = fixture.componentInstance;
       projectsRepository = TestBed.inject(ProjectsRepository);
       fixture.detectChanges();
     });
@@ -292,6 +297,14 @@ describe('ProjectlistComponent', () => {
       filterButton.click();
       expect(projectsRepository.getProjects).toHaveBeenCalledTimes(2);
     });
+
+    it('should navigate to project detail view', fakeAsync(() => {
+      const router = TestBed.inject(Router);
+      const button = fixture.nativeElement.querySelector('#project-detail-button-0');
+      button.click();
+      tick(10);
+      expect(router.url).toEqual('/projects/6');
+    }));
   });
 
   describe('empty', () => {
@@ -300,7 +313,6 @@ describe('ProjectlistComponent', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ProjectlistComponent);
-      component = fixture.componentInstance;
       projectsRepository = TestBed.inject(ProjectsRepository);
       jest.spyOn(projectsRepository, 'getProjects').mockReturnValue(throwError(() => new WithoutAssignedProjectsException(emptyMessage)));
       projectsRepository = TestBed.inject(ProjectsRepository);

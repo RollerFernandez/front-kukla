@@ -1,0 +1,22 @@
+:host {
+  .header-item {
+    padding: 0;
+    margin: 0;
+    height: 22px;
+  }
+
+  .input-group-text {
+    background: none;
+    border-left: none;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .input-group-input {
+    border-right: none;
+  }
+
+  .row-v-gap {
+    row-gap: 1rem;
+  }
+}
