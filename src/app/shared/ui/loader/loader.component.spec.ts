@@ -1,16 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { LoaderComponent } from './loader.component';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 describe('LoaderComponent', () => {
   let component: LoaderComponent;
   let fixture: ComponentFixture<LoaderComponent>;
+  let loaderService: LoaderService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoaderComponent ]
+      declarations: [LoaderComponent],
     })
     .compileComponents();
+    loaderService = TestBed.inject(LoaderService);
   });
 
   beforeEach(() => {
@@ -19,7 +21,16 @@ describe('LoaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should show/hide loader', fakeAsync(() => {
+    const loader = fixture.nativeElement.querySelector('#preloader');
+    expect(loader).toBeFalsy();
+    loaderService.isLoading.next(true);
+    tick(10);
+    fixture.detectChanges();
+    expect(loader).toBeTruthy();
+    loaderService.isLoading.next(false);
+    tick(10);
+    fixture.detectChanges();
+    expect(loader).toBeFalsy();
+  }));
 });

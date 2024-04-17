@@ -35,6 +35,8 @@ import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
 import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { LoaderService } from './core/services/loader.service';
+import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
 
 defineLocale('es', esLocale);
 registerLocaleData(localeEsPE);
@@ -100,9 +102,9 @@ export function getSelectConfigConfig(): NgSelectConfig {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-    // LoaderService,
-    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
 })
 export class AppModule {}

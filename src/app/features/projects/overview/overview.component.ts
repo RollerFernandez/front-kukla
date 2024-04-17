@@ -3,7 +3,7 @@ import { Project, ProjectQuestion } from 'src/app/shared/models';
 import { ProjectDetailService, ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
-import { ProjectStatusCode, toastErrorTitle, toastSuccessTitle } from 'src/app/shared/base';
+import { ProjectStatusCode, saveErrorMessage, toastErrorTitle, toastSuccessTitle } from 'src/app/shared/base';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -28,6 +28,7 @@ export class OverviewComponent implements OnInit {
   get editable(): boolean {
     return [ProjectStatusCode.InProgress, ProjectStatusCode.Observed].includes(this.project?.status.code);
   }
+  get isLoading(): boolean { return  this.projectDetailService.isLoading; }
   projectForm = this.projectDetailService.projectForm;
   responsesForm = this.projectDetailService.responsesForm;
 
@@ -63,7 +64,8 @@ export class OverviewComponent implements OnInit {
         this.toastrService.success(response, toastSuccessTitle);
       },
       error: (error) => {
-        this.toastrService.error(error.message, toastErrorTitle);
+        this.toastrService.error(saveErrorMessage, toastErrorTitle);
+        throw error;
       },
     });
   }

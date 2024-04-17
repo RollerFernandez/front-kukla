@@ -1,3 +1,5 @@
+<app-loader></app-loader>
+
 <div class="container-fluid" [formGroup]="projectForm">
   <app-page-title [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
@@ -91,8 +93,8 @@
 
 
           <div class="d-flex gap-2">
-            <button type="button" id="save-button" [disabled]="!editable" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable" (click)="save()">Guardar</button>
-            <button type="button" id="send-button" [disabled]="!editable" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
+            <button type="button" id="save-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable" (click)="save()">Guardar</button>
+            <button type="button" id="send-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
           </div>
         </div>
       </div>

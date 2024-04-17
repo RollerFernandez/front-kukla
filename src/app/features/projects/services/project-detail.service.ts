@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
 import { ProjectQuestionType } from 'src/app/shared/base';
 import { ProjectQuestion } from 'src/app/shared/models';
 import { ProjectsRepository } from '../repositories';
@@ -15,6 +15,7 @@ export class ProjectDetailService {
   get responsesForm(): FormGroup {
     return this.projectForm.get('responses') as FormGroup;
   }
+  isLoading = false;
 
   constructor(private readonly projectsRepository: ProjectsRepository) {}
 
@@ -55,6 +56,11 @@ export class ProjectDetailService {
   }
 
   saveResponses(projectId: number): Observable<string> {
-    return this.projectsRepository.saveResponses(projectId, this.projectForm.value);
+    this.isLoading = true;
+    return this.projectsRepository.saveResponses(projectId, this.projectForm.value).pipe(
+      finalize(() => {
+        this.isLoading = false;
+      }),
+    );
   }
 }

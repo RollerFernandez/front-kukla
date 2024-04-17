@@ -1,24 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoaderService } from "../../../core/services/loader.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
 })
-export class LoaderComponent implements OnInit {
-
+export class LoaderComponent implements OnInit, OnDestroy {
+  isLoadingSub?: Subscription;
   loading: boolean = true;
 
-  constructor(private loaderService: LoaderService) {
+  constructor(private loaderService: LoaderService) {}
 
-    this.loaderService.isLoading.subscribe((v) => {
+  ngOnInit(): void {
+    this.isLoadingSub = this.loaderService.isLoading.subscribe((v) => {
       setTimeout(() => {
         this.loading = v;
-      }, 1500);     
+      });
     });
   }
-  ngOnInit(): void {
-  }
 
+  ngOnDestroy(): void {
+    this.isLoadingSub?.unsubscribe();
+  }
 }
