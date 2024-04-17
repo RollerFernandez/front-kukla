@@ -1,4 +1,4 @@
-import { ProjectQuestionType } from "../base";
+import { ProjectQuestionType, QuestionValidationType } from "../base";
 
 export interface QuestionOption {
   id: number;
@@ -12,6 +12,14 @@ export interface QuestionResponse {
   questionOptionId?: number;
 }
 
+export interface QuestionValidation {
+  id: number;
+  type: QuestionValidationType;
+  parameter: string;
+  reference: boolean;
+  message: string;
+};
+
 export interface ProjectQuestion {
   id: number;
   text: string;
@@ -19,4 +27,5 @@ export interface ProjectQuestion {
   parentId: number;
   options?: QuestionOption[];
   responses?: QuestionResponse[];
+  validations?: QuestionValidation[];
 }

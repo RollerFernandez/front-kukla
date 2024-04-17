@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { OverviewComponent } from './overview.component';
 import { ProjectQuestionComponent } from '../project-question/project-question.component';
 import { UIModule } from 'src/app/shared/ui/ui.module';
@@ -14,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
+defineLocale('es', esLocale);
 
 const routeMock = {
   snapshot: {

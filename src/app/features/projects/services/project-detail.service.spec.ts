@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProjectDetailService } from './project-detail.service';
-import { projectsRepositoryMockProvider, questionListMock } from '../test';
+import { projectMock, projectsRepositoryMockProvider, questionListMock } from '../test';
 
 describe('ProjectDetailService', () => {
   let service: ProjectDetailService;
@@ -13,6 +13,7 @@ describe('ProjectDetailService', () => {
       ],
     });
     service = TestBed.inject(ProjectDetailService);
+    service.project = projectMock;
   });
 
   it('should add form group for every question', () => {

@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { startWith } from 'rxjs';
 import { ProjectQuestionType } from 'src/app/shared/base';
 import { ProjectQuestion, QuestionOption } from 'src/app/shared/models';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-project-question',
@@ -22,6 +23,10 @@ export class ProjectQuestionComponent {
     return this.question.responses?.[0].text;
   }
   options: QuestionOption[] = [];
+
+  constructor(localeService: BsLocaleService) {
+    localeService.use('es');
+  }
 
   ngAfterViewInit(): void {
     if (this.question.parentId) {

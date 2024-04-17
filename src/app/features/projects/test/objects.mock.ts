@@ -1,4 +1,4 @@
-import { ProjectQuestionType, ProjectStatusCode } from "src/app/shared/base";
+import { ProjectQuestionType, ProjectStatusCode, QuestionValidationType } from "src/app/shared/base";
 import { Paginate, Project, ProjectQuestion } from "src/app/shared/models";
 
 export const questionListMock: ProjectQuestion[] = [
@@ -25,7 +25,8 @@ export const questionListMock: ProjectQuestion[] = [
         "text": null,
         "questionOptionId": 28
       }
-    ]
+    ],
+    "validations": [],
   },
   {
     "id": 5,
@@ -50,7 +51,8 @@ export const questionListMock: ProjectQuestion[] = [
         "text": null,
         "questionOptionId": 90
       }
-    ]
+    ],
+    "validations": [],
   },
   {
     "id": 1,
@@ -95,7 +97,8 @@ export const questionListMock: ProjectQuestion[] = [
         "text": null,
         "questionOptionId": 1
       }
-    ]
+    ],
+    "validations": [],
   },
   {
     "id": 2,
@@ -120,7 +123,8 @@ export const questionListMock: ProjectQuestion[] = [
         "text": null,
         "questionOptionId": 8
       }
-    ]
+    ],
+    "validations": [],
   },
   {
     "id": 3,
@@ -170,7 +174,8 @@ export const questionListMock: ProjectQuestion[] = [
         "text": null,
         "questionOptionId": 10
       }
-    ]
+    ],
+    "validations": [],
   },
   {
     "id": 6,
@@ -184,7 +189,10 @@ export const questionListMock: ProjectQuestion[] = [
         "text": "2021-04-06",
         "questionOptionId": null
       }
-    ]
+    ],
+    "validations": [
+      { id: 1, type: QuestionValidationType.MinDate, message: 'Invalido', parameter: 'feasibilityDate', reference: true },
+    ],
   },
   {
     "id": 7,
@@ -198,7 +206,11 @@ export const questionListMock: ProjectQuestion[] = [
         "text": "5",
         "questionOptionId": null
       }
-    ]
+    ],
+    "validations": [
+      { id: 1, type: QuestionValidationType.Min, message: 'Invalido', parameter: '1', reference: false },
+      { id: 1, type: QuestionValidationType.Max, message: 'Invalido', parameter: '100', reference: false },
+    ],
   },
 ];
 

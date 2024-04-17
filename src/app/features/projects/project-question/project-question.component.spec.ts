@@ -5,6 +5,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { UIModule } from 'src/app/shared/ui/ui.module';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const questions = [
   {
@@ -83,7 +84,7 @@ describe('ProjectQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgSelectModule, UIModule, ReactiveFormsModule],
+      imports: [NgSelectModule, UIModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
       declarations: [ProjectQuestionComponent],
       providers: [
         { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: 'dd/MM/yyyy' } },

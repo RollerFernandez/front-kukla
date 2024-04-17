@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Observable, finalize } from 'rxjs';
-import { ProjectQuestionType } from 'src/app/shared/base';
-import { ProjectQuestion } from 'src/app/shared/models';
+import { ProjectQuestionType, QuestionValidationType } from 'src/app/shared/base';
+import { Project, ProjectQuestion, QuestionValidation } from 'src/app/shared/models';
 import { ProjectsRepository } from '../repositories';
+import { CustomValidators } from 'src/app/shared/base/validators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class ProjectDetailService {
     return this.projectForm.get('responses') as FormGroup;
   }
   isLoading = false;
+  project: Project;
 
   constructor(private readonly projectsRepository: ProjectsRepository) {}
 
@@ -23,7 +25,7 @@ export class ProjectDetailService {
     questions.forEach((q) => {
       const form = new FormGroup({
         questionId: new FormControl(q.id),
-        response: new FormControl(this.getResponse(q)),
+        response: new FormControl(this.getResponse(q), this.getValidations(q.validations)),
       });
 
       if (q.parentId) {
@@ -62,5 +64,20 @@ export class ProjectDetailService {
         this.isLoading = false;
       }),
     );
+  }
+
+  getValidations(validations: QuestionValidation[]): ValidatorFn[] {
+    return validations.map((v) => {
+      switch (v.type) {
+        case QuestionValidationType.Min:
+          return CustomValidators.min(Number(v.parameter), v.message);
+
+        case QuestionValidationType.Max:
+          return CustomValidators.max(Number(v.parameter), v.message);
+
+        case QuestionValidationType.MinDate:
+          return CustomValidators.minDate(new Date(this.project[v.parameter]), v.message);
+      }
+    });
   }
 }
