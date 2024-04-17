@@ -37,6 +37,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { LoaderService } from './core/services/loader.service';
 import { LoaderInterceptor } from './core/interceptors/loader.interceptor';
+import { ToastComponent } from './shared/ui';
 
 defineLocale('es', esLocale);
 registerLocaleData(localeEsPE);
@@ -91,6 +92,9 @@ export function getSelectConfigConfig(): NgSelectConfig {
     ScrollToModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center',
+      closeButton: true,
+      toastClass: 'kukla-toast',
+      toastComponent: ToastComponent,
     }),
   ],
   bootstrap: [AppComponent],

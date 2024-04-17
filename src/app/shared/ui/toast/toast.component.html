@@ -1,0 +1,27 @@
+<div class="kukla-toast-container"
+[class.kukla-toast-container-success]="toastClasses.includes('toast-success')"
+[class.kukla-toast-container-error]="toastClasses.includes('toast-error')"
+>
+  <div>
+    <div class="d-flex gap-2 align-items-center">
+      <span>
+        <i class="bx bx-check kukla-toast-icon"></i>
+      </span>
+      <div class="flex-fill">
+        <div class="row">
+          <div class="col-12">
+            <span><b>{{title}}</b></span>
+          </div>
+          <div class="col-12">
+            <span>{{message}}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button *ngIf="options.closeButton" type="button" id="toast-close-button" class="btn btn-rounded" (click)="remove()">
+          <i class="mdi mdi-close kukla-toast-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

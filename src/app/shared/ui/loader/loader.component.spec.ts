@@ -22,15 +22,17 @@ describe('LoaderComponent', () => {
   });
 
   it('should show/hide loader', fakeAsync(() => {
-    const loader = fixture.nativeElement.querySelector('#preloader');
+    let loader = fixture.nativeElement.querySelector('#preloader');
     expect(loader).toBeFalsy();
     loaderService.isLoading.next(true);
     tick(10);
     fixture.detectChanges();
+    loader = fixture.nativeElement.querySelector('#preloader');
     expect(loader).toBeTruthy();
     loaderService.isLoading.next(false);
     tick(10);
     fixture.detectChanges();
+    loader = fixture.nativeElement.querySelector('#preloader');
     expect(loader).toBeFalsy();
   }));
 });
