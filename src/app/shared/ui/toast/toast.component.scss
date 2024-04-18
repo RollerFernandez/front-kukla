@@ -1,0 +1,56 @@
+:host {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  width: fit-content;
+  max-width: 400px;
+  border: none !important;
+  border-radius: 8px;
+  pointer-events: all;
+  cursor: pointer;
+  background-color: none !important;
+  padding: 0 0 0 .5rem !important;
+
+  .kukla-toast-container {
+    border-radius: 8px;
+    width: 100% !important;
+    padding: 1rem;
+
+    &-success {
+      color: var(--bs-form-valid-border-color) !important;
+      background-color: var(--bs-success-border-subtle) !important;
+
+      .btn {
+        color: var(--bs-form-valid-border-color);
+        padding: 0 !important;
+      }
+    }
+
+    &-error {
+      color: var(--bs-form-invalid-border-color) !important;
+      background-color: var(--bs-danger-border-subtle) !important;
+
+      .btn {
+        color: var(--bs-form-invalid-border-color);
+        padding: 0 !important;
+      }
+    }
+  }
+
+  .kukla-toast-button {
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    right: auto !important;
+    top: auto !important;
+  }
+
+  .kukla-toast-icon {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    color: var(--bs-form-valid-border-color);
+    padding: 0 !important;
+  }
+}

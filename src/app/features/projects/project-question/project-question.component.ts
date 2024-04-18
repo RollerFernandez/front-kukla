@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { startWith } from 'rxjs';
 import { ProjectQuestionType } from 'src/app/shared/base';
-import { ProjectQuestion } from 'src/app/shared/models';
+import { ProjectQuestion, QuestionOption } from 'src/app/shared/models';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-project-question',
@@ -10,6 +13,7 @@ import { ProjectQuestion } from 'src/app/shared/models';
 export class ProjectQuestionComponent {
   @Input() question!: ProjectQuestion;
   @Input() editable!: boolean;
+  @Input() responsesForm!: FormGroup;
   type = ProjectQuestionType;
   get response(): string {
     if (this.question.type === ProjectQuestionType.Select) {
@@ -17,5 +21,27 @@ export class ProjectQuestionComponent {
     }
 
     return this.question.responses?.[0].text;
+  }
+  options: QuestionOption[] = [];
+
+  constructor(localeService: BsLocaleService) {
+    localeService.use('es');
+  }
+
+  ngAfterViewInit(): void {
+    if (this.question.parentId) {
+      const parentControl = this.responsesForm.get(String(this.question.parentId)).get('response');
+      parentControl.valueChanges.pipe(
+        startWith(parentControl.value),
+      ).subscribe((value) => {
+        setTimeout(() => {
+          this.options = this.question.options?.filter((o) => o.parentId === value);
+        });
+      });
+    } else {
+      setTimeout(() => {
+        this.options = this.question.options;
+      });
+    }
   }
 }

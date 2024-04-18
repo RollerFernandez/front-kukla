@@ -4,8 +4,9 @@ import { Observable, catchError } from "rxjs";
 import { Paginate, PaginateQuery, Project } from "src/app/shared/models";
 import { environment } from "src/environments/environment";
 import { WithoutAssignedProjectsException } from "../exceptions";
-import { ProjectActiveFilters } from "../models";
+import { ProjectData, ProjectActiveFilters } from "../models";
 import { formatISO } from "date-fns";
+import { ProjectAction } from "src/app/shared/base";
 
 @Injectable()
 export class ProjectsRepository {
@@ -45,5 +46,15 @@ export class ProjectsRepository {
 
   getProject(projectId: number): Observable<Project> {
     return this.http.get<Project>(environment.apiUrl + '/projects/' + projectId);
+  }
+
+  saveResponses(projectId: number, projectData: ProjectData): Observable<string> {
+    const payload = {
+      ...projectData,
+      action: ProjectAction.Save,
+      responses: Object.values(projectData.responses),
+    };
+
+    return this.http.put<string>(environment.apiUrl + '/projects/' + projectId, payload);
   }
 }

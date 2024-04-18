@@ -57,4 +57,18 @@ ngx-dropzone-preview {
   background-color: white !important;
 }
 
+.kukla-toast {
+  display: block !important;
+  margin: auto !important;
+  margin-top: 5rem !important;
+}
 
+.toast-success {
+  color: var(--bs-form-valid-border-color) !important;
+  background-image: none !important;
+}
+
+.toast-error {
+  color: var(--bs-form-invalid-border-color) !important;
+  background-image: none !important;
+}

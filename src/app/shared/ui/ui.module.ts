@@ -15,9 +15,10 @@ import { ShortCurrencyPipe } from './pipes/short-currency.pipe';
 import { RouterModule } from '@angular/router';
 import { EmptyTextPipe } from './pipes';
 import { MoreTextComponent } from './more-text/more-text.component';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
-  declarations: [PagetitleComponent, LoaderComponent, PaginatorComponent, SortableHeaderDirective, ShortCurrencyPipe, EmptyTextPipe, MoreTextComponent],
+  declarations: [PagetitleComponent, LoaderComponent, PaginatorComponent, SortableHeaderDirective, ShortCurrencyPipe, EmptyTextPipe, MoreTextComponent, ToastComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -1,4 +1,6 @@
-<div class="container-fluid">
+<app-loader></app-loader>
+
+<div class="container-fluid" [formGroup]="projectForm">
   <app-page-title [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div *ngIf="project" class="row">
@@ -85,14 +87,14 @@
 
           <div class="row">
             <div class="col-sm-12 col-md-6" *ngFor="let question of questions">
-              <app-project-question [editable]="editable" [question]="question"></app-project-question>
+              <app-project-question [responsesForm]="responsesForm" [editable]="editable" [question]="question"></app-project-question>
             </div>
           </div>
 
 
           <div class="d-flex gap-2">
-            <button type="button" id="save-button" [disabled]="!editable" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable">Guardar</button>
-            <button type="button" id="send-button" [disabled]="!editable" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
+            <button type="button" id="save-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable" (click)="save()">Guardar</button>
+            <button type="button" id="send-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
           </div>
         </div>
       </div>

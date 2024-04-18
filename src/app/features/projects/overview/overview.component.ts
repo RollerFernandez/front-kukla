@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectQuestion } from 'src/app/shared/models';
-import { ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
+import { ProjectDetailService, ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
-import { ProjectStatusCode } from 'src/app/shared/base';
+import { ProjectStatusCode, saveErrorMessage, toastErrorTitle, toastSuccessTitle } from 'src/app/shared/base';
+import { ToastrService } from 'ngx-toastr';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -16,6 +18,7 @@ import { ProjectStatusCode } from 'src/app/shared/base';
     ProjectfiltersRepository,
     ProjectquestionsService,
     ProjectquestionsRepository,
+    ProjectDetailService,
   ],
 })
 export class OverviewComponent implements OnInit {
@@ -26,26 +29,48 @@ export class OverviewComponent implements OnInit {
   get editable(): boolean {
     return [ProjectStatusCode.InProgress, ProjectStatusCode.Observed].includes(this.project?.status.code);
   }
+  get isLoading(): boolean { return  this.projectDetailService.isLoading; }
+  projectForm = this.projectDetailService.projectForm;
+  responsesForm = this.projectDetailService.responsesForm;
 
   constructor(
     private readonly projectsService: ProjectsService,
     private readonly projectquestionsService: ProjectquestionsService,
+    private readonly projectDetailService: ProjectDetailService,
+    private readonly toastrService: ToastrService,
     route: ActivatedRoute,
   ) {
     this.projectId = route.snapshot.params['id'];
   }
 
   ngOnInit(): void {
-    this.projectsService.getProject(this.projectId).subscribe({
-      next: (project) => {
+    this.projectsService.getProject(this.projectId).pipe(
+      tap((project) => {
         this.project = project;
+        this.projectDetailService.project = this.project;
         this.breadCrumbItems[1].label = this.project.name;
-      },
-    });
-
-    this.projectquestionsService.getQuestions(this.projectId).subscribe({
+      }),
+      switchMap(() => this.projectquestionsService.getQuestions(this.projectId)),
+    ).subscribe({
       next: (questions) => {
         this.questions = questions;
+        this.projectDetailService.addQuestions(questions);
+      },
+    });
+  }
+
+  save(): void {
+    if (this.projectForm.invalid) {
+      return;
+    }
+
+    this.projectDetailService.saveResponses(this.project.id).subscribe({
+      next: (response) => {
+        this.toastrService.success(response, toastSuccessTitle);
+      },
+      error: (error) => {
+        this.toastrService.error(saveErrorMessage, toastErrorTitle);
+        throw error;
       },
     });
   }

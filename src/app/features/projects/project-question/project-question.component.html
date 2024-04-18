@@ -1,14 +1,14 @@
-<div class="mb-4">
-  <ng-container *ngIf="editable; else notEditableTemplate">
+<div class="mb-4" [formGroup]="responsesForm">
+  <ng-container *ngIf="editable; else notEditableTemplate" [formGroupName]="question.id + ''">
     <h5 class="font-size-14 text-muted">{{question.text}}</h5>
 
     <ng-container *ngIf="question.type === type.Select">
-      <ng-select [id]="'question' + question.id + '-select'" [items]="question.options" bindValue="id" bindLabel="text"></ng-select>
+      <ng-select formControlName="response" [id]="'question' + question.id + '-select'" [items]="options" bindValue="id" bindLabel="text"></ng-select>
     </ng-container>
 
     <ng-container *ngIf="question.type === type.Date">
       <div class="input-group">
-        <input type="text" placeholder="dd/mm/yyyy" [id]="'question' + question.id + '-input'" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
+        <input formControlName="response" type="text" placeholder="dd/mm/yyyy" [id]="'question' + question.id + '-input'" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
         <div class="input-group-text">
           <button type="button" id="min-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
             <i class="bx bx-calendar" (click)="mindp.toggle()"></i>
@@ -18,8 +18,14 @@
     </ng-container>
 
     <ng-container *ngIf="question.type === type.Integer">
-      <input type="number" [id]="'question' + question.id + '-input'" class="form-control">
+      <input formControlName="response" type="number" [id]="'question' + question.id + '-input'" class="form-control">
     </ng-container>
+
+    <div *ngIf="responsesForm?.get(question.id + '')?.get('response').errors" class="invalid-feedback d-block">
+      <span *ngIf="responsesForm.get(question.id + '').get('response').errors.min">{{responsesForm.get(question.id + '').get('response').errors.min}}</span>
+      <span *ngIf="responsesForm.get(question.id + '').get('response').errors.max">{{responsesForm.get(question.id + '').get('response').errors.max}}</span>
+      <span *ngIf="responsesForm.get(question.id + '').get('response').errors.minDate">{{responsesForm.get(question.id + '').get('response').errors.minDate}}</span>
+    </div>
   </ng-container>
 
   <ng-template #notEditableTemplate>
