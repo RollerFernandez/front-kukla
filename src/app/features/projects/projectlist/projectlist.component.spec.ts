@@ -58,6 +58,9 @@ const projectsMock: Paginate<Project> = {
           "name": "Gobierno regional 1"
         },
       },
+      "currency": {
+        "isoCode": "USD",
+      },
   },
   {
       "id": 4,
@@ -94,6 +97,9 @@ const projectsMock: Paginate<Project> = {
           "name": "Gobierno regional 1"
         },
       },
+      "currency": {
+        "isoCode": "USD",
+      },
   },
   {
       "id": 5,
@@ -129,6 +135,9 @@ const projectsMock: Paginate<Project> = {
         "organization": {
           "name": "Gobierno regional 1"
         },
+      },
+      "currency": {
+        "isoCode": "USD",
       },
     }
   ],

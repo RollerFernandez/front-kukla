@@ -253,6 +253,9 @@ export const projectsMock: Paginate<Project> = {
           "name": "Gobierno regional 1"
         },
       },
+      "currency": {
+        "isoCode": "USD",
+      },
   },
   {
       "id": 4,
@@ -288,6 +291,9 @@ export const projectsMock: Paginate<Project> = {
         "organization": {
           "name": "Gobierno regional 1"
         },
+      },
+      "currency": {
+        "isoCode": "USD",
       },
   },
   {
@@ -325,7 +331,10 @@ export const projectsMock: Paginate<Project> = {
           "name": "Gobierno regional 1"
         },
       },
-    }
+      "currency": {
+        "isoCode": "USD",
+      },
+    },
   ],
   total: 2,
   totalPages: 1,
@@ -381,7 +390,10 @@ export const projectMock: Project = {
     {
       "createdAt": new Date("2024-04-05T17:20:30.633Z"),
     }
-  ]
+  ],
+  "currency": {
+    "isoCode": "USD",
+  },
 };
 
 export const filtersMock = {

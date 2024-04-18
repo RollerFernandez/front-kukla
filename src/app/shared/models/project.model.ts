@@ -48,4 +48,7 @@ export interface Project {
   updatedAmount?: string;
   description?: string;
   projectAssignments: ProjectAssignment[];
+  currency: {
+    isoCode: string;
+  };
 }
