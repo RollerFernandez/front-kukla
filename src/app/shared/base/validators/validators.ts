@@ -3,7 +3,11 @@ import { AbstractControl, ValidatorFn } from "@angular/forms";
 export class CustomValidators {
   static min(min: number, message):  ValidatorFn {
     return (control: AbstractControl): { [key: string]: string } | null => {
-      if (control.value && min > control.value) {
+      if (control.value === undefined || control.value === null) {
+        return null;
+      }
+
+      if (Number(min) > Number(control.value)) {
         return { min: message };
       }
 
@@ -13,7 +17,11 @@ export class CustomValidators {
 
   static max(max: number, message):  ValidatorFn {
     return (control: AbstractControl): { [key: string]: string } | null => {
-      if (control.value && max < control.value) {
+      if (control.value === undefined || control.value === null) {
+        return null;
+      }
+
+      if (Number(max) < Number(control.value)) {
         return { max: message };
       }
 

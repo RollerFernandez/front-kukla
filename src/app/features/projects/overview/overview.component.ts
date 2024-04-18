@@ -61,9 +61,6 @@ export class OverviewComponent implements OnInit {
 
   save(): void {
     if (this.projectForm.invalid) {
-      console.log(this.responsesForm.get('6').get('response').errors)
-      console.log(this.responsesForm.get('7').get('response').errors)
-      console.log(this.responsesForm.value)
       return;
     }
 
