@@ -75,7 +75,7 @@
                       <div class="row row-v-gap">
                         <div class="col-sm-12 col-md-6">
                           <div class="input-group">
-                            <input type="text" placeholder="dd/mm/yyyy" id="min-date-input" formControlName="minDate" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
+                            <input type="text" placeholder="dd/mm/yyyy" id="min-date-input" formControlName="minDate" class="form-control input-group-input" #mindp="bsDatepicker" bsDatepicker>
                             <div class="input-group-text">
                               <button type="button" id="min-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-calendar" (click)="mindp.toggle()"></i>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-sm-12 col-md-6">
                           <div class="input-group">
-                            <input type="text" placeholder="dd/mm/yyyy" id="max-date-input" formControlName="maxDate" class="form-control input-group-input" #maxdp="bsDatepicker" bsDatepicker [minDate]="minDate" [maxDate]="maxDate">
+                            <input type="text" placeholder="dd/mm/yyyy" id="max-date-input" formControlName="maxDate" class="form-control input-group-input" #maxdp="bsDatepicker" bsDatepicker>
                             <div class="input-group-text">
                               <button type="button" id="max-date-icon-button" class="btn header-item noti-icon" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-calendar" (click)="maxdp.toggle()"></i>
