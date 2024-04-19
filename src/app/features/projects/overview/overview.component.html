@@ -94,7 +94,7 @@
 
           <div class="d-flex gap-2">
             <button type="button" id="save-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-outline-primary]="editable" [class.btn-outline-secondary]="!editable" (click)="save()">Guardar</button>
-            <button type="button" id="send-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable">Enviar</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#myModal" id="send-button" [disabled]="!editable || isLoading" class="btn w-md" [class.btn-primary]="editable" [class.btn-secondary]="!editable" (click)="openConfirmation()">Enviar</button>
           </div>
         </div>
       </div>

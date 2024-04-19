@@ -10,6 +10,7 @@ export const projectsRepositoryMock = {
   getProjects: () => of(projectsMock),
   getProject: () => of(projectMock),
   saveResponses: () => of('Guardado'),
+  sendProject: () => of('Enviado'),
 };
 export const projectsRepositoryMockProvider = { provide: ProjectsRepository, useValue: projectsRepositoryMock };
 export const projectfiltersRepositoryMock = {

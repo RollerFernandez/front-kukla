@@ -162,4 +162,16 @@ describe('ProjectsRepository', () => {
       ],
     });
   });
+
+  it('should send request for send project', () => {
+    projectsRepository.sendProject(2).subscribe();
+    const handler = httpController.expectOne({
+      method: 'PUT',
+      url: environment.apiUrl + '/projects/2',
+    });
+    const request = handler.request;
+    expect(request.body).toEqual({
+      action: ProjectAction.Send,
+    });
+  });
 });

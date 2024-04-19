@@ -66,6 +66,15 @@ export class ProjectDetailService {
     );
   }
 
+  sendProject(projectId: number): Observable<string> {
+    this.isLoading = true;
+    return this.projectsRepository.sendProject(projectId).pipe(
+      finalize(() => {
+        this.isLoading = false;
+      }),
+    );
+  }
+
   getValidations(validations: QuestionValidation[]): ValidatorFn[] {
     return validations.map((v) => {
       switch (v.type) {

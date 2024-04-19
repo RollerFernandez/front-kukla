@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="myModalLabel">Aviso de Confirmación</h5>
+  <button id="confirmation-close-button" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+</div>
+<div class="modal-body">
+    <h6>¿Estás seguro que deseas enviar este proyecto?</h6>
+</div>
+<div class="modal-footer">
+  <button id="confirmation-cancel-button" type="button" class="btn btn-outline-primary w-md" data-bs-dismiss="modal" (click)="modalRef.hide()">No enviar</button>
+  <button id="confirmation-ok-button" type="button" class="btn btn-primary w-md" (click)="confirm()">Sí enviar</button>
+</div>

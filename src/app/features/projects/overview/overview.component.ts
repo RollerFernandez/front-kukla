@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, ProjectQuestion } from 'src/app/shared/models';
 import { ProjectDetailService, ProjectfiltersService, ProjectquestionsService, ProjectsService } from '../services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectfiltersRepository, ProjectquestionsRepository, ProjectsRepository } from '../repositories';
 import { ProjectStatusCode, saveErrorMessage, toastErrorTitle, toastSuccessTitle } from 'src/app/shared/base';
 import { ToastrService } from 'ngx-toastr';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 @Component({
   selector: 'app-overview',
@@ -32,6 +34,7 @@ export class OverviewComponent implements OnInit {
   get isLoading(): boolean { return  this.projectDetailService.isLoading; }
   projectForm = this.projectDetailService.projectForm;
   responsesForm = this.projectDetailService.responsesForm;
+  modalRef?: BsModalRef;
 
   constructor(
     private readonly projectsService: ProjectsService,
@@ -39,6 +42,8 @@ export class OverviewComponent implements OnInit {
     private readonly projectDetailService: ProjectDetailService,
     private readonly toastrService: ToastrService,
     route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly modalService: BsModalService,
   ) {
     this.projectId = route.snapshot.params['id'];
   }
@@ -72,6 +77,33 @@ export class OverviewComponent implements OnInit {
         this.toastrService.error(saveErrorMessage, toastErrorTitle);
         throw error;
       },
+    });
+  }
+
+  send(): void {
+    this.projectDetailService.sendProject(this.project.id).subscribe({
+      next: (response) => {
+        this.router.navigate(['projects']);
+        this.toastrService.success(response, toastSuccessTitle);
+      },
+      error: (error) => {
+        this.toastrService.error(saveErrorMessage, toastErrorTitle);
+        throw error;
+      },
+    });
+  }
+
+  openConfirmation(): void {
+    if (this.projectForm.invalid) {
+      return;
+    }
+
+    this.modalRef = this.modalService.show(ConfirmationComponent, { class: 'modal-sm' });
+
+    this.modalRef.onHide.pipe(take(1)).subscribe(() => {
+      if (this.modalRef.content.accepted) {
+        this.send();
+      }
     });
   }
 }
