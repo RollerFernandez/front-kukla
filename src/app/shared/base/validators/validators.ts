@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn } from "@angular/forms";
+import { AbstractControl, ValidatorFn, Validators } from "@angular/forms";
 
 export class CustomValidators {
   static min(min: number, message):  ValidatorFn {
@@ -34,6 +34,19 @@ export class CustomValidators {
       if (control.value && minDate > control.value) {
         return { minDate: message };
       }
+
+      return null;
+    }
+  }
+
+  static required(message: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: string } | null => {
+      const result = Validators.required(control);
+
+      if (result) {
+        return { required: message };
+      }
+
 
       return null;
     }

@@ -21,7 +21,8 @@
       <input formControlName="response" type="number" [id]="'question' + question.id + '-input'" class="form-control">
     </ng-container>
 
-    <div *ngIf="responsesForm?.get(question.id + '')?.get('response').errors" class="invalid-feedback d-block">
+    <div *ngIf="responsesForm?.get(question.id + '')?.get('response').errors && responsesForm?.get(question.id + '')?.get('response').touched" class="invalid-feedback d-block">
+      <span *ngIf="responsesForm.get(question.id + '').get('response').errors.required">{{responsesForm.get(question.id + '').get('response').errors.required}}</span>
       <span *ngIf="responsesForm.get(question.id + '').get('response').errors.min">{{responsesForm.get(question.id + '').get('response').errors.min}}</span>
       <span *ngIf="responsesForm.get(question.id + '').get('response').errors.max">{{responsesForm.get(question.id + '').get('response').errors.max}}</span>
       <span *ngIf="responsesForm.get(question.id + '').get('response').errors.minDate">{{responsesForm.get(question.id + '').get('response').errors.minDate}}</span>

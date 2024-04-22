@@ -32,6 +32,7 @@ export class OverviewComponent implements OnInit {
     return [ProjectStatusCode.InProgress, ProjectStatusCode.Observed].includes(this.project?.status.code);
   }
   get isLoading(): boolean { return  this.projectDetailService.isLoading; }
+  get disabledSend(): boolean { return  this.projectDetailService.disabledSend; }
   projectForm = this.projectDetailService.projectForm;
   responsesForm = this.projectDetailService.responsesForm;
   modalRef?: BsModalRef;
@@ -65,6 +66,7 @@ export class OverviewComponent implements OnInit {
   }
 
   save(): void {
+    this.projectForm.markAllAsTouched();
     if (this.projectForm.invalid) {
       return;
     }
