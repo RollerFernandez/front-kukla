@@ -1,6 +1,6 @@
 export enum ProjectAction {
-  Save = 'save',
-  Send = 'send',
-  Approve = 'approve',
-  Reject = 'reject',
+  Save = 'register_project_information',
+  Send = 'send_project_information',
+  Approve = 'validate_project',
+  Reject = 'reprocess_project',
 }

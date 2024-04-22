@@ -18,6 +18,7 @@ import { ShortCurrencyPipe } from "src/app/shared/ui/pipes/short-currency.pipe";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { ProjectStatusComponent } from "./project-status/project-status.component";
 import { ProjectQuestionComponent } from './project-question/project-question.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ProjectQuestionComponent } from './project-question/project-question.co
     ProjectStatusComponent,
     ProjectStatusComponent,
     ProjectQuestionComponent,
+    ConfirmationComponent,
   ],
   imports: [
     CommonModule,

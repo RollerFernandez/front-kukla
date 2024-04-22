@@ -57,4 +57,12 @@ export class ProjectsRepository {
 
     return this.http.put<string>(environment.apiUrl + '/projects/' + projectId, payload);
   }
+
+  sendProject(projectId: number): Observable<string> {
+    const payload = {
+      action: ProjectAction.Send,
+    };
+
+    return this.http.put<string>(environment.apiUrl + '/projects/' + projectId, payload);
+  }
 }

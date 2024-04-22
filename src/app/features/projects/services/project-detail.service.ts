@@ -18,6 +18,7 @@ export class ProjectDetailService {
   }
   isLoading = false;
   project: Project;
+  disabledSend = false;
 
   constructor(private readonly projectsRepository: ProjectsRepository) {}
 
@@ -33,6 +34,8 @@ export class ProjectDetailService {
       }
 
       this.responsesForm.addControl(String(q.id), form);
+      const withoutResponse = !q.responses[0]?.text && !q.responses[0]?.questionOptionId;
+      this.disabledSend = this.disabledSend || withoutResponse;
     });
   }
 
@@ -62,6 +65,16 @@ export class ProjectDetailService {
     return this.projectsRepository.saveResponses(projectId, this.projectForm.value).pipe(
       finalize(() => {
         this.isLoading = false;
+        this.disabledSend = false;
+      }),
+    );
+  }
+
+  sendProject(projectId: number): Observable<string> {
+    this.isLoading = true;
+    return this.projectsRepository.sendProject(projectId).pipe(
+      finalize(() => {
+        this.isLoading = false;
       }),
     );
   }
@@ -69,6 +82,9 @@ export class ProjectDetailService {
   getValidations(validations: QuestionValidation[]): ValidatorFn[] {
     return validations.map((v) => {
       switch (v.type) {
+        case QuestionValidationType.Required:
+          return CustomValidators.required(v.message);
+
         case QuestionValidationType.Min:
           return CustomValidators.min(Number(v.parameter), v.message);
 
