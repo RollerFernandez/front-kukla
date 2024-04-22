@@ -460,6 +460,16 @@ export const filtersMock = {
       }
     },
   ],
+  "executives": [
+    {
+      "id": 1,
+      "shortname": "Juan Villar"
+    },
+    {
+      "id": 2,
+      "shortname": "Maria Noboa"
+    }
+  ],
   "dateRange": {
     "maxDate": new Date("2024-04-05T17:20:30.654Z"),
     "minDate": new Date("2024-04-05T17:20:30.633Z")

@@ -124,6 +124,7 @@ describe('ProjectfiltersComponent', () => {
           "provinces": [3],
           "regions": [1],
           "status": [2],
+          "executives": [],
         },
       });
     });
@@ -141,6 +142,7 @@ describe('ProjectfiltersComponent', () => {
           "provinces": [],
           "regions": [],
           "status": [],
+          "executives": [],
         },
       });
     });

@@ -3,7 +3,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <app-projectfilters (filter)="filterProjects($event)" (reset)="filterProjects($event)"></app-projectfilters>
+      <app-projectfilters (filter)="filterProjects($event)" (reset)="filterProjects($event)" [showManagerFilters]="showManagerColumns"></app-projectfilters>
     </div>
     <div class="col-lg-12">
       <ng-container *ngIf="!empty; else emptyTemplate">

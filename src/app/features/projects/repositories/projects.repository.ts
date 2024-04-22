@@ -28,6 +28,7 @@ export class ProjectsRepository {
     filters?.filters?.provinces?.forEach(p => params = params.append('province', p));
     filters?.filters?.departments?.forEach(d => params = params.append('department', d));
     filters?.filters?.amountRanges?.forEach(a => params = params.append('amountRange', a));
+    filters?.filters?.executives?.forEach(e => params = params.append('executive', e));
 
     return this.http.get<ProjectList>(environment.apiUrl + '/projects', { params }).pipe(
       catchError((error) => {

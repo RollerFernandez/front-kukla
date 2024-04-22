@@ -101,6 +101,7 @@ describe('ProjectsRepository', () => {
         departments: [1],
         provinces: [1],
         amountRanges: [5],
+        executives: [1],
         minDate: new Date('2024-04-12'),
         maxDate: new Date('2024-04-12'),
       },
@@ -112,7 +113,7 @@ describe('ProjectsRepository', () => {
     });
     const expectedRequest = httpController.expectOne({
       method: 'GET',
-      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=2024-04-11&maxDate=2024-04-11&status=2&region=1&region=2&province=1&department=1&amountRange=5',
+      url: environment.apiUrl + '/projects?pageIndex=0&pageSize=10&orderColumn=project.name&orderDirection=ASC&search=&minDate=2024-04-11&maxDate=2024-04-11&status=2&region=1&region=2&province=1&department=1&amountRange=5&executive=1',
     });
     expectedRequest.flush(projectsMock);
   });

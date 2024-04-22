@@ -36,6 +36,13 @@
                   </div>
                 </div>
 
+                <div *ngIf="showManagerFilters" class="col-sm-12 col-md-6 col-xl-4">
+                  <div class="mt-4">
+                      <h5 class="font-size-14 text-muted">Ejecutivo</h5>
+                      <ng-select id="executives-select" formControlName="executives" [items]="executiveList$ | async" [multiple]="true" bindValue="id" bindLabel="shortname"></ng-select>
+                  </div>
+                </div>
+
                 <div class="col-sm-12 col-md-6 col-xl-4">
                   <div class="mt-4">
                       <h5 class="font-size-14 text-muted">Departamento</h5>
