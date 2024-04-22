@@ -50,6 +50,9 @@ export class ProjectfiltersService {
   get maxDateControl(): AbstractControl {
     return this.filtersControl.get('maxDate');
   }
+  get statusControl(): AbstractControl {
+    return this.filtersControl.get('status');
+  }
 
   constructor(private readonly projectfiltersRepository: ProjectfiltersRepository) {
     this.departmentsControl.valueChanges.subscribe((value: number[]) => {
@@ -80,6 +83,9 @@ export class ProjectfiltersService {
         this._amountRanges.next(filters.amountRanges);
         this.minDate = filters.dateRange.minDate;
         this.minDate = filters.dateRange.maxDate;
+        if (filters.defaultStatus) {
+          this.statusControl.setValue(filters.defaultStatus);
+        }
       }),
     );
   }

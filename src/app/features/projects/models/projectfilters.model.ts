@@ -14,6 +14,7 @@ export interface DateRange {
 }
 
 export interface ProjectFilters {
+  defaultStatus?: number[];
   status: ProjectStatus[];
   regions: Region[];
   departments: Department[];

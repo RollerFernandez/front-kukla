@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpParams, HttpStatusCode } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, catchError } from "rxjs";
-import { Paginate, PaginateQuery, Project } from "src/app/shared/models";
+import { PaginateQuery, Project } from "src/app/shared/models";
 import { environment } from "src/environments/environment";
 import { WithoutAssignedProjectsException } from "../exceptions";
-import { ProjectData, ProjectActiveFilters } from "../models";
+import { ProjectData, ProjectActiveFilters, ProjectList } from "../models";
 import { formatISO } from "date-fns";
 import { ProjectAction } from "src/app/shared/base";
 
@@ -12,7 +12,7 @@ import { ProjectAction } from "src/app/shared/base";
 export class ProjectsRepository {
   constructor(private readonly http: HttpClient) {}
 
-  getProjects(query: PaginateQuery, filters?: ProjectActiveFilters): Observable<Paginate<Project>> {
+  getProjects(query: PaginateQuery, filters?: ProjectActiveFilters): Observable<ProjectList> {
     let params = new HttpParams()
       .set('pageIndex', query.pageIndex)
       .set('pageSize', query.pageSize)
@@ -29,7 +29,7 @@ export class ProjectsRepository {
     filters?.filters?.departments?.forEach(d => params = params.append('department', d));
     filters?.filters?.amountRanges?.forEach(a => params = params.append('amountRange', a));
 
-    return this.http.get<Paginate<Project>>(environment.apiUrl + '/projects', { params }).pipe(
+    return this.http.get<ProjectList>(environment.apiUrl + '/projects', { params }).pipe(
       catchError((error) => {
         if (!(error instanceof HttpErrorResponse)) {
           throw error;

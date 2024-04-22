@@ -27,16 +27,24 @@ export class ProjectlistComponent implements OnInit {
   totalPages = 0;
   projectStatusCode = ProjectStatusCode;
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
-  orderColumn = 'project.name';
-  orderDirection: 'ASC' | 'DESC' = 'ASC';
+  orderColumn = 'project_assignment.createdAt';
+  orderDirection: 'ASC' | 'DESC' = 'DESC';
   empty = false;
   messageTitle = '';
   messageBody = '';
+  showManagerColumns = false;
 
-  constructor(private readonly projectsService: ProjectsService) { }
+  constructor(
+    private readonly projectsService: ProjectsService,
+    private readonly projectfiltersService: ProjectfiltersService,
+  ) { }
 
   ngOnInit(): void {
-    this.loadProjects();
+    this.projectfiltersService.getFilters().subscribe({
+      next: () => {
+        this.loadProjects();
+      },
+    });
   }
 
   changePage(event: PageChangedEvent): void {
@@ -57,6 +65,7 @@ export class ProjectlistComponent implements OnInit {
         this.projects = page.items;
         this.totalItems = page.total;
         this.totalPages = page.totalPages;
+        this.showManagerColumns = page.showExecutive;
       },
       error: (error) => {
         if (error instanceof WithoutAssignedProjectsException) {

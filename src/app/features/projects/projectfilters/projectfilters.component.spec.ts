@@ -79,7 +79,6 @@ const projectfiltersRepositoryMock = {
 };
 
 describe('ProjectfiltersComponent', () => {
-  let component: ProjectfiltersComponent;
   let fixture: ComponentFixture<ProjectfiltersComponent>;
   let projectfiltersService: ProjectfiltersService;
 
@@ -101,8 +100,8 @@ describe('ProjectfiltersComponent', () => {
       ],
     });
     fixture = TestBed.createComponent(ProjectfiltersComponent);
-    component = fixture.componentInstance;
     projectfiltersService = TestBed.inject(ProjectfiltersService);
+    projectfiltersService.getFilters().subscribe();
     fixture.detectChanges();
   });
 

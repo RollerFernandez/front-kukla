@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { ProjectfiltersService } from '../services';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { FilterType } from 'src/app/shared/base';
@@ -8,7 +8,7 @@ import { FilterType } from 'src/app/shared/base';
   templateUrl: './projectfilters.component.html',
   styleUrls: ['./projectfilters.component.scss']
 })
-export class ProjectfiltersComponent implements OnInit, OnDestroy {
+export class ProjectfiltersComponent implements OnDestroy {
   statusList$ = this.projectfiltersService.statusList$;
   regionList$ = this.projectfiltersService.regionList$;
   get minDate(): Date { return this.projectfiltersService.minDate; }
@@ -28,10 +28,6 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
     readonly localeService: BsLocaleService,
   ) {
     localeService.use('es');
-  }
-
-  ngOnInit(): void {
-    this.projectfiltersService.getFilters().subscribe();
   }
 
   ngOnDestroy(): void {

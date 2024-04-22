@@ -74,6 +74,14 @@
                         Fecha Asignación
                       </th>
                       <th
+                        *ngIf="showManagerColumns"
+                        scope="col"
+                        sortable="executive.name"
+                        (sort)="onSort($event)"
+                      >
+                        Ejecutivo
+                      </th>
+                      <th
                         scope="col"
                         sortable="status.description"
                         (sort)="onSort($event)"
@@ -122,6 +130,11 @@
                       <td>
                         <span class="text-nowrap">{{
                           project.projectAssignments[0]?.createdAt | date
+                        }}</span>
+                      </td>
+                      <td *ngIf="showManagerColumns">
+                        <span class="text-nowrap">{{
+                          project.projectAssignments[0]?.user.shortname
                         }}</span>
                       </td>
                       <td>

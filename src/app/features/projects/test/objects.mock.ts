@@ -1,5 +1,6 @@
 import { ProjectQuestionType, ProjectStatusCode, QuestionValidationType } from "src/app/shared/base";
-import { Paginate, Project, ProjectQuestion } from "src/app/shared/models";
+import { Project, ProjectQuestion } from "src/app/shared/models";
+import { ProjectList } from "../models";
 
 export const questionListMock: ProjectQuestion[] = [
   {
@@ -214,7 +215,8 @@ export const questionListMock: ProjectQuestion[] = [
   },
 ];
 
-export const projectsMock: Paginate<Project> = {
+export const projectsMock: ProjectList = {
+  showExecutive: false,
   pageIndex: 0,
   pageSize: 10,
   items: [

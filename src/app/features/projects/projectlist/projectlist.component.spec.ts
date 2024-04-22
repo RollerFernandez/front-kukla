@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { ProjectlistComponent } from './projectlist.component';
-import { Paginate, Project } from 'src/app/shared/models';
 import { ProjectfiltersRepository, ProjectsRepository } from '../repositories';
 import { of, throwError } from 'rxjs';
 import { UIModule } from 'src/app/shared/ui/ui.module';
@@ -18,8 +17,10 @@ import { ProjectStatusCode } from 'src/app/shared/base';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { ProjectStatusComponent } from '../project-status/project-status.component';
+import { ProjectList } from '../models';
 
-const projectsMock: Paginate<Project> = {
+const projectsMock: ProjectList = {
+  showExecutive: false,
   pageIndex: 0,
   pageSize: 3,
   items: [
