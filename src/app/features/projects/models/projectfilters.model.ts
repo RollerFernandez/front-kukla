@@ -14,8 +14,10 @@ export interface DateRange {
 }
 
 export interface ProjectFilters {
+  defaultStatus?: number[];
   status: ProjectStatus[];
   regions: Region[];
+  executives: [];
   departments: Department[];
   provinces: Province[];
   districts: District[];
@@ -29,6 +31,7 @@ export interface ProjectActiveFilters {
   filters: {
     status?: number[];
     regions?: number[];
+    executives?: number[];
     departments?: number[];
     provinces?: number[];
     amountRanges?: number[];

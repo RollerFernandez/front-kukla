@@ -79,7 +79,6 @@ const projectfiltersRepositoryMock = {
 };
 
 describe('ProjectfiltersComponent', () => {
-  let component: ProjectfiltersComponent;
   let fixture: ComponentFixture<ProjectfiltersComponent>;
   let projectfiltersService: ProjectfiltersService;
 
@@ -101,8 +100,8 @@ describe('ProjectfiltersComponent', () => {
       ],
     });
     fixture = TestBed.createComponent(ProjectfiltersComponent);
-    component = fixture.componentInstance;
     projectfiltersService = TestBed.inject(ProjectfiltersService);
+    projectfiltersService.getFilters().subscribe();
     fixture.detectChanges();
   });
 
@@ -125,6 +124,7 @@ describe('ProjectfiltersComponent', () => {
           "provinces": [3],
           "regions": [1],
           "status": [2],
+          "executives": [],
         },
       });
     });
@@ -142,6 +142,7 @@ describe('ProjectfiltersComponent', () => {
           "provinces": [],
           "regions": [],
           "status": [],
+          "executives": [],
         },
       });
     });

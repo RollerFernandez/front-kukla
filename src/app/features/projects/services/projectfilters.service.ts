@@ -3,7 +3,7 @@ import { ProjectfiltersRepository } from '../repositories';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AmountRange, ProjectFilters } from '../models';
 import { AbstractControl, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
-import { Department, ProjectStatus, Province, Region } from 'src/app/shared/models';
+import { Department, ProjectStatus, Province, Region, User } from 'src/app/shared/models';
 import { isValid } from 'date-fns';
 
 @Injectable()
@@ -12,6 +12,8 @@ export class ProjectfiltersService {
   readonly statusList$ = this._statusList.asObservable();
   private _regionList = new BehaviorSubject<Region[]>([]);
   readonly regionList$ = this._regionList.asObservable();
+  private _executiveList = new BehaviorSubject<User[]>([]);
+  readonly executiveList$ = this._executiveList.asObservable();
   private _departmentList = new BehaviorSubject<Department[]>([]);
   readonly departmentList$ = this._departmentList.asObservable();
   private _provinceList = new BehaviorSubject<Province[]>([]);
@@ -23,6 +25,7 @@ export class ProjectfiltersService {
     filters: new FormGroup({
       status: new FormControl([]),
       regions: new FormControl([]),
+      executives: new FormControl([]),
       departments: new FormControl([]),
       provinces: new FormControl([]),
       amountRanges: new FormControl([]),
@@ -50,6 +53,9 @@ export class ProjectfiltersService {
   get maxDateControl(): AbstractControl {
     return this.filtersControl.get('maxDate');
   }
+  get statusControl(): AbstractControl {
+    return this.filtersControl.get('status');
+  }
 
   constructor(private readonly projectfiltersRepository: ProjectfiltersRepository) {
     this.departmentsControl.valueChanges.subscribe((value: number[]) => {
@@ -75,11 +81,15 @@ export class ProjectfiltersService {
       tap((filters) => {
         this._statusList.next(filters.status);
         this._regionList.next(filters.regions);
+        this._executiveList.next(filters.executives);
         this._departmentList.next(filters.departments);
         this.allProvinces = filters.provinces;
         this._amountRanges.next(filters.amountRanges);
         this.minDate = filters.dateRange.minDate;
         this.minDate = filters.dateRange.maxDate;
+        if (filters.defaultStatus) {
+          this.statusControl.setValue(filters.defaultStatus);
+        }
       }),
     );
   }
@@ -91,6 +101,7 @@ export class ProjectfiltersService {
       departments: [],
       provinces: [],
       amountRanges: [],
+      executives: [],
     });
   }
 

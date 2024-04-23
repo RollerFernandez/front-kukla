@@ -1,16 +1,18 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { ProjectfiltersService } from '../services';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { FilterType } from 'src/app/shared/base';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-projectfilters',
   templateUrl: './projectfilters.component.html',
   styleUrls: ['./projectfilters.component.scss']
 })
-export class ProjectfiltersComponent implements OnInit, OnDestroy {
+export class ProjectfiltersComponent implements OnDestroy {
   statusList$ = this.projectfiltersService.statusList$;
   regionList$ = this.projectfiltersService.regionList$;
+  executiveList$ = this.projectfiltersService.executiveList$.pipe(tap(v => console.log(v)));
   get minDate(): Date { return this.projectfiltersService.minDate; }
   get maxDate(): Date { return this.projectfiltersService.maxDate; }
   departmentList$ = this.projectfiltersService.departmentList$;
@@ -20,6 +22,7 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
   filtersControl = this.projectfiltersService.filtersControl;
   @Output() filter = new EventEmitter<FilterType>();
   @Output() reset = new EventEmitter<FilterType>();
+  @Input() showManagerFilters = false;
   filterType = FilterType;
   isClean = true;
 
@@ -28,10 +31,6 @@ export class ProjectfiltersComponent implements OnInit, OnDestroy {
     readonly localeService: BsLocaleService,
   ) {
     localeService.use('es');
-  }
-
-  ngOnInit(): void {
-    this.projectfiltersService.getFilters().subscribe();
   }
 
   ngOnDestroy(): void {

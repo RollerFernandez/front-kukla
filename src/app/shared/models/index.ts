@@ -9,3 +9,4 @@ export * from './province.model';
 export * from './district.model';
 export * from './currency.model';
 export * from './project-question.model';
+export * from './user.model';
