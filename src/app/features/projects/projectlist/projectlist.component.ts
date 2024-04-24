@@ -1,5 +1,5 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Project } from 'src/app/shared/models';
+import { Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Project, ProjectAssignment, ProjectAssignmentRequest } from 'src/app/shared/models';
 import { ProjectfiltersService, ProjectsService } from '../services';
 import { FilterType, ProjectStatusCode, defaultPageSize } from 'src/app/shared/base';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
@@ -7,6 +7,10 @@ import { SortableHeaderDirective } from 'src/app/shared/ui';
 import { ProjectfiltersRepository, ProjectsRepository } from '../repositories';
 
 import { WithoutAssignedProjectsException } from '../exceptions';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ProjectAssignmentService } from '../services/project-assignment.service';
+import { User } from 'src/app/core/models/auth.models';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-projectlist',
@@ -17,6 +21,7 @@ import { WithoutAssignedProjectsException } from '../exceptions';
     ProjectfiltersService,
     ProjectsRepository,
     ProjectfiltersRepository,
+    ProjectAssignmentService,
   ]
 })
 export class ProjectlistComponent implements OnInit {
@@ -33,7 +38,21 @@ export class ProjectlistComponent implements OnInit {
   messageTitle = '';
   messageBody = '';
 
-  constructor(private readonly projectsService: ProjectsService) { }
+  @ViewChild('varying', { static: true }) varying: TemplateRef<any>;
+  modalRef?: BsModalRef;
+  config: any = {
+    backdrop: true,
+    ignoreBackdropClick: true
+  };
+  selectedUser: User;
+  projectAssignments: ProjectAssignment[];
+  markedProjects: Project[] = [];
+
+  constructor(private readonly projectsService: ProjectsService,
+    private modalService: BsModalService,
+    private readonly projectAssignmentService: ProjectAssignmentService,
+    private toastService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadProjects();
@@ -70,6 +89,21 @@ export class ProjectlistComponent implements OnInit {
       },
     });
   }
+  getUsersByRegionId(regionId: number) {
+
+    this.projectAssignmentService
+      .getUsersByRegionId(regionId)
+      .subscribe({
+        next: res => {
+          this.projectAssignments = res;
+          console.log(res)
+          console.log(res[0].user)
+        },
+        error: error => {
+          throw error;
+        },
+      });
+  }
 
   onSort(event: { column: string; direction: 'ASC' | 'DESC'; }): void {
     this.headers.forEach(header => {
@@ -85,5 +119,98 @@ export class ProjectlistComponent implements OnInit {
   filterProjects(filterType?: FilterType): void {
     this.page = 1;
     this.loadProjects(filterType);
+  }
+
+  varyingModal(template: TemplateRef<any>, name: any) {
+    if (!this.validateSameRegion()) {
+      return;
+    }
+    this.getUsersByRegionId(this.markedProjects[0].office.region.id);
+    this.modalRef = this.modalService.show(template, this.config);
+
+  }
+  staticModal(StaticDataModal: any) {
+    if (!this.selectedUser) {
+      this.toastService.warning('Debe seleccionar un ejecutivo para continuar.', 'Información', {
+        closeButton: true,
+        progressBar: true,
+        newestOnTop: true,
+        positionClass: 'toast-top-right'
+      });
+      return;
+    }
+
+    this.modalRef?.hide();
+    this.modalRef = this.modalService.show(StaticDataModal);
+  }
+  onCheckboxChange(project: Project) {
+    if (project.checked) {
+      // Si el proyecto está marcado, añádelo al arreglo
+      this.markedProjects.push(project);
+    } else {
+      // Si el proyecto no está marcado, remuévelo del arreglo
+      const index = this.markedProjects.indexOf(project);
+      if (index > -1) {
+        this.markedProjects.splice(index, 1);
+      }
+    }
+  }
+  closeSecondModal() {
+    this.modalRef?.hide();
+    this.varyingModal(this.varying, 'Modal');
+  }
+  validateSameRegion(): boolean {
+    if (this.markedProjects.length > 0) {
+      const regionId = this.markedProjects[0].office.region.id;
+      for (let project of this.markedProjects) {
+        if (project.office.region.id !== regionId) {
+          this.toastService.error('Debe seleccionar proyectos de una misma región.', 'Información', {
+            closeButton: true,
+            progressBar: true,
+            newestOnTop: true,
+            positionClass: 'toast-top-right'
+          });
+          return false;
+        }
+      }
+      return true;
+    } else {
+      this.toastService.warning('No hay ningún proyecto seleccionado.', 'Información', {
+        closeButton: true,
+        //disableTimeOut:true,
+        progressBar: true,
+        newestOnTop: true,
+        positionClass: 'toast-top-right'
+      });
+      return false;
+    }
+  }
+
+  saveProjectAssignments() {
+    let projectAssignments: ProjectAssignmentRequest[] = [];
+    this.markedProjects.forEach(project => {
+      projectAssignments.push({
+        userId: this.selectedUser.id,
+        projectId: project.id
+      })
+    })
+    this.projectAssignmentService
+      .save(projectAssignments)
+      .subscribe({
+        next: res => {
+          this.toastService.success('El proyecto se asignó correctamente.', 'Éxito', {
+            closeButton: true,
+            //disableTimeOut:true,
+            progressBar: true,
+            newestOnTop: true,
+            positionClass: 'toast-top-right'
+          });
+
+          this.modalRef.hide();
+        },
+        error: error => {
+          throw error;
+        },
+      });
   }
 }

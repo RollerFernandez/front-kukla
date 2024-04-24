@@ -51,4 +51,5 @@ export interface Project {
   currency: {
     isoCode: string;
   };
+  checked: boolean;
 }

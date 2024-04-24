@@ -1,0 +1,9 @@
+.custom-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  ::ng-deep .toast-warning {
+    background-image: none !important; /* Sobrescribe la imagen de fondo con 'none' */
+}

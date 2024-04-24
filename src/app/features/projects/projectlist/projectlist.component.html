@@ -1,9 +1,18 @@
 <app-loader></app-loader>
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
       <app-projectfilters (filter)="filterProjects($event)" (reset)="filterProjects($event)"></app-projectfilters>
+    </div>
+    <div class="row d-flex align-items-center">
+      <div></div>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-primary"
+         data-bs-toggle="modal" data-bs-target="#exampleModal" 
+         data-bs-whatever="@mdo" (click)="varyingModal(varying,'Modal')">Asignar / Reasignar</button>
+         
+      </div>
+      
     </div>
     <div class="col-lg-12">
       <ng-container *ngIf="!empty; else emptyTemplate">
@@ -13,10 +22,12 @@
               <div class="table-responsive">
                 <table
                   class="table align-middle nowrap w-100"
-                  id="projectList-table"
-                >
+                  id="projectList-table">
                   <thead class="table-light">
                     <tr>
+                      <th style="width: 20px;">
+                        
+                      </th>
                       <th
                         scope="col"
                         sortable="project.uniqueInvestmentCode"
@@ -86,6 +97,15 @@
                   <tbody>
                     <tr *ngFor="let project of projects; let i = index">
                       <td>
+                        <div class="form-check font-size-16">
+                          <!-- Añade un modelo [(ngModel)] y un evento (change) al checkbox -->
+                          <input class="form-check-input" type="checkbox" id="transactionCheck{{project.id}}" 
+                          [(ngModel)]="project.checked" 
+                          (change)="onCheckboxChange(project)">
+                          <label class="form-check-label" for="transactionCheck{{project.id}}"></label>
+                        </div>
+                      </td>
+                      <td>
                         <span class="text-nowrap">{{
                           project.uniqueInvestmentCode
                         }}</span>
@@ -101,12 +121,12 @@
                       <td>
                         <span class="text-nowrap">{{
                           project.office.region.name
-                        }}</span>
+                        }} </span>
                       </td>
                       <td>
                         <span class="text-nowrap">{{
-                          project.district.province.department.name
-                        }}</span>
+                          project.district.province.department.name 
+                        }} </span>
                       </td>
                       <td>
                         <span class="text-nowrap">{{
@@ -162,3 +182,56 @@
     </div>
   </div>
 </div>
+
+
+
+<div>
+  <ng-template #varying role="document" let-modal>
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Asignar / Reasignar proyectos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef?.hide()"></button>
+      </div>
+      <div class="modal-body">
+        <h6  id="exampleModalLabel">Seleccione un ejecutivo para asociarlo a tu(s) proyecto(s)</h6>
+
+          <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Ejecutivo:</label>
+              <div class="dropdown" style="width: 100%;" dropdown>
+                <button style="width: 100%;"  class="btn btn-outline-secondary dropdown-toggle custom-button" type="button" id="*dropdownMenuButton"
+                  dropdownToggle>
+                  {{selectedUser ? (selectedUser.name + ' '+selectedUser.firstSurname + ' ' + selectedUser.lastSurname) : 'Seleccionar'}}  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" style="width: 100%;"  *dropdownMenu>
+                  <a class="dropdown-item" 
+                  *ngFor="let assignment of projectAssignments" 
+                  (click)="selectedUser = assignment.user"
+                  href="javascript: void(0);">
+                  {{assignment.user.name}} {{assignment.user.firstSurname}} {{assignment.user.lastSurname}}
+                  </a>
+                </div>
+              </div>
+          </div>
+         
+      </div>
+      <div class="modal-footer d-flex justify-content-end">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" (click)="modalRef?.hide()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="staticModal(StaticDataModal)">Guardar</button>
+      
+        </div>
+  </ng-template>
+</div> <!-- end preview-->
+
+<!-- Static Backdrop Modal -->
+<ng-template #StaticDataModal let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Aviso de Confirmación</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef?.hide()"></button>
+  </div>
+  <div class="modal-body">
+      <p>¿Está seguro que deseas asignar este proyecto a este ejecutivo?</p>
+  </div>
+  <div class="modal-footer d-flex justify-content-end">
+      <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="closeSecondModal()">No</button>
+      <button type="button" class="btn btn-primary"  (click)="saveProjectAssignments()">Si</button>
+  </div>
+</ng-template>
