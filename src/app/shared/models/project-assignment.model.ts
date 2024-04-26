@@ -6,10 +6,27 @@ export interface ProjectAssignment {
   deletedAt: null;
   userId: number;
   regionId: number;
-  user: User;
+  user: UserResponse;
 }
 
 export interface ProjectAssignmentRequest {
   userId: number;
   projectId: number;
+}
+
+export class UserResponse {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: null;
+  id: number;
+  name: string;
+  firstSurname: string;
+  lastSurname: string;
+  email: string;
+  phone: string;
+  isicomCode: string;
+  password: string;
+  status: string;
+  fullName: string;
+
 }

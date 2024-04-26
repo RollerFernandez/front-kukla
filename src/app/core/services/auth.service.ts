@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { getFirebaseBackend } from '../../authUtils';
 
 import { User } from '../models/auth.models';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthenticationService {
 
     user: User;
-
+    
+    jwtService: JwtHelperService = new JwtHelperService();
     constructor() {
     }
 
@@ -61,6 +63,17 @@ export class AuthenticationService {
     logout() {
         // logout the user
         getFirebaseBackend().logout();
+    }
+
+    getRol():any{
+        const token = localStorage.getItem('_t');
+      if(token){
+        const user = this.jwtService.decodeToken(token).user;
+        console.log(user);
+        return user.userRoles;
+
+      }
+
     }
 }
 

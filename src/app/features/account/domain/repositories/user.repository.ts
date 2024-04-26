@@ -28,6 +28,7 @@ export class UserRepository {
                 map(user => {
                     if (user.accessToken) {
                         localStorage.setItem('currentUser', JSON.stringify(user));
+                        localStorage.setItem('_t', user.accessToken);
                         this.currentUserSubject.next(user);
                         return user;
                     }

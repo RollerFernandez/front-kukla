@@ -8,6 +8,7 @@
       <div></div>
       <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-outline-primary"
+        [disabled]="this.markedProjects.length==0"
          data-bs-toggle="modal" data-bs-target="#exampleModal" 
          data-bs-whatever="@mdo" (click)="varyingModal(varying,'Modal')">Asignar / Reasignar</button>
          
@@ -196,20 +197,15 @@
 
           <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Ejecutivo:</label>
-              <div class="dropdown" style="width: 100%;" dropdown>
-                <button style="width: 100%;"  class="btn btn-outline-secondary dropdown-toggle custom-button" type="button" id="*dropdownMenuButton"
-                  dropdownToggle>
-                  {{selectedUser ? (selectedUser.name + ' '+selectedUser.firstSurname + ' ' + selectedUser.lastSurname) : 'Seleccionar'}}  <i class="mdi mdi-chevron-down"></i>
-                </button>
-                <div class="dropdown-menu" style="width: 100%;"  *dropdownMenu>
-                  <a class="dropdown-item" 
-                  *ngFor="let assignment of projectAssignments" 
-                  (click)="selectedUser = assignment.user"
-                  href="javascript: void(0);">
-                  {{assignment.user.name}} {{assignment.user.firstSurname}} {{assignment.user.lastSurname}}
-                  </a>
-                </div>
+              <div class="col-md-10" style="width: 100%;">
+                <ng-select [items]="projectAssignments" 
+                           bindLabel="user.fullName" 
+                           bindValue="user" 
+                          placeholder="Seleccionar"
+                           [(ngModel)]="selectedUser">
+                </ng-select>
               </div>
+            
           </div>
          
       </div>

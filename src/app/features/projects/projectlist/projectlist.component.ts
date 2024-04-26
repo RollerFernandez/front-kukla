@@ -11,6 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ProjectAssignmentService } from '../services/project-assignment.service';
 import { User } from 'src/app/core/models/auth.models';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-projectlist',
@@ -51,7 +52,9 @@ export class ProjectlistComponent implements OnInit {
   constructor(private readonly projectsService: ProjectsService,
     private modalService: BsModalService,
     private readonly projectAssignmentService: ProjectAssignmentService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private authService: AuthenticationService,
+
   ) { }
 
   ngOnInit(): void {
@@ -96,6 +99,10 @@ export class ProjectlistComponent implements OnInit {
       .subscribe({
         next: res => {
           this.projectAssignments = res;
+          this.projectAssignments.forEach(pa => {
+            pa.user.fullName = `${pa.user.name} ${pa.user.firstSurname} ${pa.user.lastSurname}`;
+          });
+
           console.log(res)
           console.log(res[0].user)
         },
@@ -159,9 +166,13 @@ export class ProjectlistComponent implements OnInit {
     this.modalRef?.hide();
     this.varyingModal(this.varying, 'Modal');
   }
+
   validateSameRegion(): boolean {
     if (this.markedProjects.length > 0) {
       const regionId = this.markedProjects[0].office.region.id;
+      let unassignedCount = 0;
+      let inProgressOrAssignedCount = 0;
+
       for (let project of this.markedProjects) {
         if (project.office.region.id !== regionId) {
           this.toastService.error('Debe seleccionar proyectos de una misma región.', 'Información', {
@@ -172,12 +183,40 @@ export class ProjectlistComponent implements OnInit {
           });
           return false;
         }
+
+        if ([ProjectStatusCode.Unassigned, ProjectStatusCode.InProgress,
+        ProjectStatusCode.Assigned].includes(project.status.code)
+          || project.status.code == ProjectStatusCode.Observed && this.isAdmin(this.authService.getRol())) {
+          if (project.status.code === ProjectStatusCode.Unassigned) {
+            unassignedCount++;
+          } else {
+            inProgressOrAssignedCount++;
+          }
+        } else {
+          this.toastService.warning('Uno de los estados seleccionados no se puede Asignar/Reasignar.', 'Información', {
+            closeButton: true,
+            progressBar: true,
+            newestOnTop: true,
+            positionClass: 'toast-top-right'
+          });
+          return false;
+        }
       }
+
+      if (unassignedCount > 0 && inProgressOrAssignedCount > 0) {
+        this.toastService.warning('Uno de los estados seleccionados no se puede Asignar/Reasignar.', 'Información', {
+          closeButton: true,
+          progressBar: true,
+          newestOnTop: true,
+          positionClass: 'toast-top-right'
+        });
+        return false;
+      }
+
       return true;
     } else {
       this.toastService.warning('No hay ningún proyecto seleccionado.', 'Información', {
         closeButton: true,
-        //disableTimeOut:true,
         progressBar: true,
         newestOnTop: true,
         positionClass: 'toast-top-right'
@@ -185,6 +224,8 @@ export class ProjectlistComponent implements OnInit {
       return false;
     }
   }
+
+
 
   saveProjectAssignments() {
     let projectAssignments: ProjectAssignmentRequest[] = [];
@@ -194,23 +235,58 @@ export class ProjectlistComponent implements OnInit {
         projectId: project.id
       })
     })
-    this.projectAssignmentService
-      .save(projectAssignments)
-      .subscribe({
-        next: res => {
-          this.toastService.success('El proyecto se asignó correctamente.', 'Éxito', {
-            closeButton: true,
-            //disableTimeOut:true,
-            progressBar: true,
-            newestOnTop: true,
-            positionClass: 'toast-top-right'
-          });
+    if (this.markedProjects[0].status.code === ProjectStatusCode.Unassigned) {
+      this.projectAssignmentService
+        .save(projectAssignments)
+        .subscribe({
+          next: res => {
+            this.toastService.success('El proyecto se asignó correctamente.', 'Éxito', {
+              closeButton: true,
+              //disableTimeOut:true,
+              progressBar: true,
+              newestOnTop: true,
+              positionClass: 'toast-top-right'
+            });
 
-          this.modalRef.hide();
-        },
-        error: error => {
-          throw error;
-        },
-      });
+            this.modalRef.hide();
+
+          },
+          error: error => {
+            throw error;
+          },
+        });
+    } else {
+      this.projectAssignmentService
+        .update(projectAssignments)
+        .subscribe({
+          next: res => {
+            this.toastService.success('El proyecto se reasignó correctamente.', 'Éxito', {
+              closeButton: true,
+              //disableTimeOut:true,
+              progressBar: true,
+              newestOnTop: true,
+              positionClass: 'toast-top-right'
+            });
+
+            this.modalRef.hide();
+          },
+          error: error => {
+            throw error;
+          },
+        });
+    }
+    this.markedWithAssigned(this.markedProjects);
+    this.markedProjects=[];
+  }
+  markedWithAssigned(projectAssignments: Project[]) {
+    projectAssignments.forEach(project => {
+      project.status.code = ProjectStatusCode.Assigned;
+      project.status.description = 'Asignado';
+      project.checked=false;
+    });
+    
+  }
+  isAdmin(roles: any): boolean {
+    return roles.some(role => role.role.code === 'administrator');
   }
 }

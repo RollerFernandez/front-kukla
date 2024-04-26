@@ -22,4 +22,12 @@ export class ProjectAssignmentService {
 
     );
   }
+
+  update(projectAssignmentList: ProjectAssignmentRequest[]): Observable<ProjectAssignment> {
+    return this.http.put<ProjectAssignment>(
+      `${environment.apiUrl}/project-assignments`,
+      projectAssignmentList
+
+    );
+  }
 }
